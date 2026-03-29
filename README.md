@@ -1,35 +1,12 @@
-# Minimal Node CLI with TypeScript
+# mental-auto
 
-最小構成の Node CLI プロジェクトです。TypeScript、Vitest、基本的な npm scripts を含みます。
+メンタルログを自動生成するCLIツール
 
-## セットアップ
+## 🚀 Quick Start
 
 ```bash
+git clone https://github.com/YOUR_USERNAME/mental-auto.git
+cd mental-auto
 npm install
-```
-
-## 使い方
-
-開発実行:
-
-```bash
-npm run dev
-```
-
-ビルド:
-
-```bash
 npm run build
-```
-
-テスト:
-
-```bash
-npm run test
-```
-
-名前を渡して実行:
-
-```bash
-npm run dev -- Codex
-```
+node dist/index.js 今日は少し疲れた
