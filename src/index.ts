@@ -1,57 +1,40 @@
-import { mkdir, writeFile } from "node:fs/promises";
-import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
-const JST_TIME_ZONE = "Asia/Tokyo";
-
-export function getJstDateString(now = new Date()): string {
-  const parts = new Intl.DateTimeFormat("en", {
-    timeZone: JST_TIME_ZONE,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(now);
-
-  const year = parts.find((part) => part.type === "year")?.value ?? "";
-  const month = parts.find((part) => part.type === "month")?.value ?? "";
-  const day = parts.find((part) => part.type === "day")?.value ?? "";
-
-  return `${year}-${month}-${day}`;
-}
-
-export function renderLog(memo = "", date: string): string {
-  return `# ${date}\n\n${memo}\n`;
-}
-
-export async function writeLogFile(
-  date: string,
-  content: string,
-  baseDir = process.cwd(),
-): Promise<string> {
-  const logsDir = join(baseDir, "logs");
-  const filePath = join(logsDir, `${date}.md`);
-
-  await mkdir(logsDir, { recursive: true });
-  await writeFile(filePath, content, "utf8");
-
-  return filePath;
-}
-
-export async function runCli(args = process.argv.slice(2)): Promise<string> {
-  const memo = args.join(" ");
-  const date = getJstDateString(new Date());
-  const content = renderLog(memo, date);
-
-  return writeLogFile(date, content);
-}
+export { runCli, determineExitCode, parseCliArgs } from "./cli.js";
+export { loadConfig } from "./config.js";
+export { getGitRoot, listStagedFiles, listTrackedFiles } from "./git.js";
+export { inspectGitignore } from "./gitignore-checker.js";
+export { readLinesFromStream } from "./line-reader.js";
+export {
+  buildJsonReport,
+  buildMarkdownReport,
+  buildTerminalOutput,
+  writeRequestedReports,
+} from "./reporter.js";
+export { scanProject } from "./scanner.js";
+export type {
+  AdditionalBlockPattern,
+  AllowlistConfig,
+  AllowlistMatchType,
+  AllowlistPathEntry,
+  CliOptions,
+  CompiledPatternRule,
+  CompiledRules,
+  Finding,
+  PathPatternCombination,
+  ScanProjectOptions,
+  ScanReport,
+  ScanSummary,
+  SecurityRulesConfig,
+  Severity,
+} from "./types.js";
 
 const isDirectExecution =
   process.argv[1] !== undefined &&
   import.meta.url === pathToFileURL(process.argv[1]).href;
 
 if (isDirectExecution) {
-  void runCli().catch((error: unknown) => {
-    console.error(error);
-    process.exitCode = 1;
-  });
+  const { runCli } = await import("./cli.js");
+
+  process.exitCode = await runCli();
 }

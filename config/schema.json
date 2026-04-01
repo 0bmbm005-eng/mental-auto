@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "security-rules.json",
+  "description": "Design-time schema for the security checker configuration. This file is documentation only; runtime validation is implemented in src/config.ts.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "additionalBlockPatterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "pattern": { "type": "string", "minLength": 1 }
+        },
+        "required": ["name", "pattern"]
+      }
+    },
+    "allowlist": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "pattern": { "type": "string", "minLength": 1 },
+              "matchType": {
+                "type": "string",
+                "enum": ["glob", "regex"]
+              }
+            },
+            "required": ["pattern", "matchType"]
+          }
+        },
+        "pathPatternCombination": {
+          "type": "string",
+          "enum": ["OR", "AND"]
+        },
+        "patterns": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "maxFileSizeBytes": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "reportPrefix": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

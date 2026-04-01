@@ -2,18 +2,27 @@
   "name": "playground",
   "private": true,
   "version": "1.0.0",
+  "description": "Local pre-publication security check CLI for repositories, logs, and docs.",
   "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
   "bin": {
-    "playground": "./dist/index.js"
+    "security-checker": "./dist/index.js"
   },
   "scripts": {
     "dev": "tsx src/index.ts",
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.build.json",
     "test": "vitest run",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "sec:check": "node dist/index.js --path . --report",
+    "sec:check:json": "node dist/index.js --path . --report --json",
+    "sec:check:staged": "node dist/index.js --staged --report",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
+    "husky": "^9.1.7",
     "tsx": "^4.20.0",
     "typescript": "^5.9.0",
     "vitest": "^3.2.0"

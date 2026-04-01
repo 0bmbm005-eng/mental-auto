@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "1.0",
+  "allowlist": {
+    "paths": [
+      { "pattern": "README.md", "matchType": "glob" },
+      { "pattern": "docs/*", "matchType": "glob" },
+      { "pattern": "test/*", "matchType": "glob" },
+      { "pattern": "src/masker.ts", "matchType": "glob" },
+      { "pattern": "src/rules.ts", "matchType": "glob" }
+    ],
+    "pathPatternCombination": "OR",
+    "patterns": []
+  }
+}
