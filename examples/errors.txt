@@ -1,0 +1,5 @@
+mental-auto failed: Invalid value for --date: 2026-13-01
+mental-auto failed: Missing value for --date
+mental-auto failed: Missing value for --memo
+mental-auto failed: Missing value for --output-dir
+mental-auto failed: Unknown option: --stats
