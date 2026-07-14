@@ -1,10 +1,27 @@
 # mental-auto
 
-JST 基準で日次メモを Markdown に保存する、最小構成の CLI です。
+短いメモや生活記録を、JST 基準の日付別 Markdown ログとしてローカルに保存する CLI ツールです。
 
-この README は 2026-05-19 時点の実装に合わせた運用ドキュメントです。未実装の項目は未実装として明記し、未来の自分や別 AI が誤解なく触れることを優先します。
+入力したメモを `logs/YYYY-MM-DD.md` に保存し、日ごとの記録を手元のファイルとして残せます。外出先で作った Markdown メモをあとで日次ログへ取り込む用途にも使えます。
 
-## 1分セットアップ
+## こんな人向け
+
+- 日々の短いメモを、サービスに依存せずローカルに残したい人
+- メンタル、睡眠、行動、読書などの日々の記録を、日付単位の Markdown にまとめたい人
+- 外出先で書いた Markdown メモを、あとで日次ログに集約したい人
+
+## できること
+
+- JST で当日の日付を決めて `logs/YYYY-MM-DD.md` を生成する
+- `--date` で対象日を明示指定する
+- `--memo` で本文を 1 引数として渡す
+- `--output-dir` で出力先のベースディレクトリを切り替える
+- `--import-mobile` で `mobile-inbox` の Markdown を対応日ログへ取り込む
+- `--dry-run` で `--import-mobile` の予定だけを表示する
+- `--safe-share` で共有前の最低限マスクを stdout へ出す
+- `--help` / `-h` を表示する
+
+## Quick Start
 
 前提:
 
@@ -16,10 +33,10 @@ git clone https://github.com/YOUR_USERNAME/mental-auto.git
 cd mental-auto
 npm install
 npm run build
-npm test
-npm run doctor
 node dist/index.js "今日は少し疲れた"
 ```
+
+実行すると、その日の JST 日付に対応する `logs/YYYY-MM-DD.md` が作成され、渡したメモが保存されます。
 
 初回確認:
 
@@ -27,14 +44,12 @@ node dist/index.js "今日は少し疲れた"
 cat logs/$(TZ=Asia/Tokyo date +%F).md
 ```
 
-## できること
+動作を詳しく確認する場合:
 
-- JST で当日の日付を決めて `logs/YYYY-MM-DD.md` を生成する
-- `--date` で対象日を明示指定する
-- `--memo` で本文を 1 引数として渡す
-- `--output-dir` で出力先のベースディレクトリを切り替える
-- `--safe-share` で共有前の最低限マスクを stdout へ出す
-- `--help` / `-h` を表示する
+```bash
+npm test
+npm run doctor
+```
 
 ## できないこと
 
