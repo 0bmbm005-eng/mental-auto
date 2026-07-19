@@ -1,3 +1,3 @@
 mail=test@example.com
 key=sk-abcdef1234567890
-path=/Users/kei/Documents/test
+path=/Users/example/Documents/test

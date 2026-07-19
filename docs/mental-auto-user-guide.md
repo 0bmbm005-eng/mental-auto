@@ -8,7 +8,7 @@
 
 - その日のメモを `logs/YYYY-MM-DD.md` に保存する
 
-名前から多機能に見えますが、2026-05-19 時点の実装では `stats`、`advice`、`mirror` などはまだ使えません。まずは「日次メモを揃った形式で残すツール」と考えると分かりやすいです。
+名前から多機能に見えますが、2026-06-25 時点の実装では `stats`、`advice`、`mirror` などはまだ使えません。まずは「日次メモを揃った形式で残し、mobile inbox を後から取り込めるツール」と考えると分かりやすいです。
 
 ## 何ができるか
 
@@ -16,6 +16,7 @@
 - 日付を指定して過去日のログも作れる
 - 保存先ディレクトリを変えられる
 - メモを通常引数でも `--memo` でも渡せる
+- `mobile-inbox` の Markdown を対応日ログへ取り込める
 - AI 共有前に最低限マスク済みテキストへ整形できる
 
 ## インストール方法
@@ -28,7 +29,7 @@
 ### セットアップ
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/mental-auto.git
+git clone https://github.com/0bmbm005-eng/mental-auto.git
 cd mental-auto
 npm install
 ```
@@ -84,11 +85,28 @@ node dist/index.js --memo "今日は気分が重い"
 ### `--safe-share` を使う
 
 ```bash
-node dist/index.js --safe-share "mail=user@example.com path=/Users/kei/projects/mental-auto/logs/2026-03-26.md"
+node dist/index.js --safe-share "mail=user@example.com path=/Users/example/mental-auto/logs/2026-03-26.md"
 node dist/index.js --safe-share logs/2026-03-26.md
 ```
 
 `--safe-share` は共有用の stdout 出力です。メールアドレス、API key らしき文字列、ローカルパスを最低限マスクし、長すぎる行や不要空白も整理します。
+
+### `--import-mobile` を使う
+
+```bash
+node dist/index.js --import-mobile mobile-inbox/2026-06-25.md
+node dist/index.js --import-mobile mobile-inbox
+```
+
+`YYYY-MM-DD.md` という名前の Markdown を対応する `logs/YYYY-MM-DD.md` に取り込みます。ログ内では `## Mobile notes` の下へ追加され、元ファイルは `archive/` へ移動します。
+
+### `--dry-run` を使う
+
+```bash
+node dist/index.js --import-mobile mobile-inbox --dry-run
+```
+
+読み取り予定、追記予定、archive 移動予定だけを確認できます。書き換えはしません。
 
 ## 毎日の使い方
 

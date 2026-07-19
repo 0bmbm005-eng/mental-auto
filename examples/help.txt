@@ -4,11 +4,13 @@ JST-based daily memo CLI. Current implementation writes one Markdown log per day
 
 Usage:
   mental-auto [options] [memo...]
+  mental-auto --safe-share INPUT
 
 Options:
   --date YYYY-MM-DD   Specify the log date in JST
   --memo TEXT         Pass the memo body as a single argument
   --output-dir PATH   Write logs under PATH/logs
+  --safe-share INPUT  Print AI-share-safe text to stdout
   --help, -h          Show this help
 
 Examples:
@@ -16,12 +18,15 @@ Examples:
   mental-auto --date 2026-03-26 "今日は少し疲れた"
   mental-auto --memo "今日は気分が重い"
   mental-auto --output-dir ./tmp "退避メモ"
+  mental-auto --safe-share "contact me at foo@example.com"
+  mental-auto --safe-share logs/2026-03-26.md
   mental-auto --help
 
 Behavior:
   - Default output: ./logs/YYYY-MM-DD.md
   - --output-dir PATH writes to PATH/logs/YYYY-MM-DD.md
   - The date is determined in JST unless --date is specified
+  - --safe-share reads text or a local file and prints sanitized text to stdout
   - same-day append is not implemented
   - Re-running on the same date overwrites logs/YYYY-MM-DD.md
   - Empty memo writes "_No memo provided_"

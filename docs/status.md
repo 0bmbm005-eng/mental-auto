@@ -2,7 +2,7 @@
 
 `mental-auto` の現状を、実装・未実装・構想の境界が混ざらないように整理するためのステータス一覧です。
 
-この文書は 2026-05-19 時点の `README.md`、`AGENTS.md`、`--help`、`src/index.ts`、既存 docs に合わせています。未実装のものは未実装として明記します。
+この文書は 2026-06-25 時点の `README.md`、`AGENTS.md`、`--help`、`src/index.ts`、既存 docs に合わせています。未実装のものは未実装として明記します。
 
 ## 1. 現在実装済み機能
 
@@ -12,6 +12,8 @@
 - `--date YYYY-MM-DD` で対象日を指定する
 - `--memo TEXT` で本文を 1 引数として渡す
 - `--output-dir PATH` で出力先ベースディレクトリを切り替える
+- `--import-mobile FILE_OR_DIR` で mobile inbox Markdown を対応日ログへ取り込む
+- `--dry-run` で import 予定だけを表示する
 - `--help`, `-h` でヘルプを表示する
 - 空メモ時に `_No memo provided_` を書く
 - `npm run doctor` でローカル実行状態を点検する
@@ -50,8 +52,9 @@
 ## 5. 技術負債
 
 - `src/index.ts` 1 ファイルに CLI パース、日付処理、整形、書き込みが集まっている
-- `logs` 読み出しの共通関数がまだない
+- `logs` 読み出しと mobile import が `src/index.ts` に集まっている
 - same-day append を採用するか上書き維持で固定するかが未確定
+- mobile import の重複取り込み検知がない
 - `mirror-logs` の責務が未定義
 - `--stats` / `--advice` 系の責務が未定義
 - README のセットアップ例を CI 相当で定期確認する仕組みがない

@@ -4,7 +4,7 @@
 
 `mental-auto` は、日次メモを Markdown のログファイルとして保存する TypeScript 製 CLI ツールです。現行コードベースでは、1 回の実行で 1 日分のログファイルを `logs/YYYY-MM-DD.md` に書き出す機能が中心です。
 
-この文書は 2026-05-19 時点のワークツリーを対象に、実装・README・テストから確認できた事実だけを整理したものです。不明な点や未実装の機能は、そのまま「不明」「未実装」と記載します。
+この文書は 2026-06-25 時点のワークツリーを対象に、実装・README・テストから確認できた事実だけを整理したものです。不明な点や未実装の機能は、そのまま「不明」「未実装」と記載します。
 
 ## 目的
 
@@ -19,6 +19,8 @@
 - `--date` で対象日を明示指定する
 - `--output-dir` で出力先のベースディレクトリを切り替える
 - `--memo` でメモ本文を 1 引数として指定する
+- `--import-mobile` で mobile inbox Markdown を対応日ログへ取り込む
+- `--dry-run` で import 予定だけを表示する
 - `--safe-share` で共有向けの最低限マスク済みテキストを stdout に出す
 - `--help` / `-h` でヘルプを表示する
 - `logs/` ディレクトリを自動作成してログを書き込む
@@ -77,6 +79,22 @@ node dist/index.js 今日は少し疲れた
 - `INPUT` が既存ファイルならその内容を読みます
 - 既存ファイルでなければ文字列として扱います
 - 元ファイルは変更しません
+
+### `--import-mobile FILE_OR_DIR`
+
+- ファイル指定時はその 1 件を取り込みます
+- ディレクトリ指定時は直下の `*.md` をファイル名順で処理します
+- 採用するファイル名は `YYYY-MM-DD.md` のみです
+- 本文から日付は読みません
+- 対象ログは `logs/YYYY-MM-DD.md` です
+- `## Mobile notes` セクションへ本文を追記します
+- 取り込み後は同じディレクトリの `archive/` へ移動します
+
+### `--dry-run`
+
+- `--import-mobile` と一緒に使います
+- 読み取り予定、追記予定、archive 移動予定のみ表示します
+- ファイルの書き換えや移動は行いません
 
 ### `--help`, `-h`
 
@@ -175,6 +193,14 @@ mental-auto/
 - 本文が空文字なら `_No memo provided_`
 - 末尾に改行 1 つが入る
 
+mobile import を行うと、同じログ内に次のセクションが追加または更新されます。
+
+```md
+## Mobile notes
+
+<imported markdown body>
+```
+
 ## ログ生成先
 
 - デフォルト: `process.cwd()/logs/YYYY-MM-DD.md`
@@ -269,13 +295,13 @@ append は未実装です。
 - TypeScript を `dist/` にコンパイルします
 - `rootDir` は `src`
 - `outDir` は `dist`
-- 2026-05-18 時点で実行成功を確認
+- 2026-06-01 時点で実行成功を確認
 
 ### `npm test`
 
 - `vitest run` を使う最小構成です
 - Vitest 設定ファイルはなく、デフォルト設定で実行されています
-- 2026-05-18 時点で 1 ファイル 9 テスト成功を確認
+- 2026-06-01 時点で 2 ファイル 15 テスト成功を確認
 
 ## テスト構成
 
@@ -291,8 +317,12 @@ append は未実装です。
 - `runCli`
   - `--help` 時の戻り値
   - `--date` + `--memo` + `--output-dir` の書き込み
-  - `--memo` 指定時に通常引数を無視すること
-  - 無効日付を拒否すること
+- `--memo` 指定時に通常引数を無視すること
+- 無効日付を拒否すること
+- mobile inbox 取り込み
+- dry-run
+- directory 指定
+- invalid filename 拒否
 - `writeLogFile`
   - `logs/` 自動作成とファイル書き込み
 
@@ -306,6 +336,9 @@ append は未実装です。
 - カスタム出力先への書き込み
 - `--memo` 優先仕様
 - 不正な `--date` の拒否
+- mobile import の正常系
+- mobile import の dry-run
+- invalid mobile inbox filename の拒否
 
 現行テストで未カバーの範囲:
 
@@ -334,7 +367,7 @@ append は未実装です。
 - advice 機能なし
 - interactive モードなし
 - exercise / sauna 判定なし
-- README が最小限で実装全体を説明していない
+- README は現行 CLI オプションと未実装境界を説明している
 
 ## セキュリティ上の注意
 
@@ -346,16 +379,15 @@ append は未実装です。
 ## 運用上の注意
 
 - 同じ日付で再実行すると既存ログを上書きする
-- `README.md` は現行 CLI オプション全体を説明していない
+- `README.md` は現行 CLI オプション全体を説明している
 - `dist/index.js` を実行する前に `npm run build` が必要
 - `logs/` と `dist/` は Git 上で追跡済みファイルがあるため、運用ルールを決めないと差分が散らばる
 
 ## READMEと実装の差異
 
-- README は `--memo` を説明していない
-- README は `--help`、エラー、上書き仕様を説明していない
-- README には `--stats` 等の記述はないが、依頼文にある高度機能も現行実装には存在しない
-- README のコードブロックは現状閉じられていない
+- README は `--memo`、`--output-dir`、`--safe-share`、`--help`、エラー、上書き仕様を説明している
+- README は `--stats` などの未実装機能を「できないこと」として明記している
+- README のコードブロックは閉じられている
 
 ## 変更理由
 

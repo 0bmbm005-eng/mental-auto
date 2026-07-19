@@ -1,18 +1,25 @@
 # mental-auto
-mental-auto は、日々の記録を蓄積し、将来的に AI の知識・視点を活用しながら、
-利用者自身が感情との向き合い方を学び、感情に振り回されず、自ら受け止め方を選べるよう支援するプロジェクトです。
+mental-auto は、日々の記録と AI の知識・視点を活用し、利用者自身が感情との向き合い方を学び、感情に振り回されず、自ら受け止め方を選べるよう支援するプロジェクトです。
 
 本リポジトリでは、その基盤となる CLI ツールを開発しています。
+
+短いメモや生活記録を、JST（日本標準時）基準の日付別 Markdown ログとしてローカルに保存できます。
+
+入力したメモは `logs/YYYY-MM-DD.md` に保存され、日ごとの記録をシンプルな Markdown ファイルとして残せます。外出先で作成した Markdown メモを、あとから日次ログへ取りき込むこともできます。
+
+記録は、将来的な AI 分析を見据えた形式で保存・蓄積します。将来的には、AI が記録から心理状態や行動の傾向を分析し、その時の状態に応じた知識や視点を提示します。利用者は、それらを参考にしながら、自分で感情の受け止め方を選べるようになることを目指しています。
 
 > **現在の開発状況**
 >
 > 現在は、日次ログを安全かつ継続的に蓄積する基盤の構築を中心に開発しています。AI による分析・知識提示機能は、今後追加予定です。
 
+
+
 ## こんな人向け
 
 - 自分なりの感情の受け止め方を身につけたい人
 - 日々の短いメモを、サービスに依存せずローカルに残したい人
-- メンタル、睡眠、行動、読書などの日々の記録を日付単位の Markdown に残したい人
+- メンタル、睡眠、行動、読書などの日々の記録を、日付ごとの Markdown として残したい人
 - 外出先で書いた Markdown メモを、あとで日次ログに集約したい人
 
 ## できること
@@ -93,10 +100,28 @@ node dist/index.js --date 2026-03-26 --output-dir ./tmp "今日は少し疲れ�
 node dist/index.js --memo "今日は気分が重い"
 ```
 
+`mobile-inbox` の 1 ファイルを取り込む:
+
+```bash
+node dist/index.js --import-mobile mobile-inbox/2026-06-25.md
+```
+
+`mobile-inbox` ディレクトリ内の未取り込み Markdown を順番に処理する:
+
+```bash
+node dist/index.js --import-mobile mobile-inbox
+```
+
+書き込みなしで予定だけ確認する:
+
+```bash
+node dist/index.js --import-mobile mobile-inbox --dry-run
+```
+
 共有前にテキストを安全化:
 
 ```bash
-node dist/index.js --safe-share "contact me at foo@example.com path=/Users/kei/projects/mental-auto/logs/2026-03-26.md"
+node dist/index.js --safe-share "contact me at foo@example.com path=/Users/example/mental-auto/logs/2026-03-26.md"
 ```
 
 既存ログを共有前に安全化:
@@ -122,6 +147,7 @@ npm run doctor
 npm test
 npm run dev -- "今日は少し疲れた"
 npm start -- --date 2026-03-26 "今日は少し疲れた"
+npm start -- --import-mobile mobile-inbox --dry-run
 ```
 
 意味:
@@ -176,19 +202,6 @@ npx tsx src/index.ts "今日は少し疲れた"
 
 ## CLI オプション仕様
 
-### `--import-mobile FILE_OR_DIR`
-
-- ファイルまたはディレクトリを指定して mobile-inbox の Markdown を取り込みます
-- `logs/YYYY-MM-DD.md` の `## Mobile notes` へ追記します
-- `--dry-run` と組み合わせると予定のみ表示します
-
-例:
-
-```bash
-node dist/index.js --import-mobile mobile-inbox
-node dist/index.js --import-mobile mobile-inbox --dry-run
-```
-
 ### `--date YYYY-MM-DD`
 
 - JST 基準の日付文字列を指定します
@@ -223,6 +236,37 @@ node dist/index.js --memo "専用メモ"
 node dist/index.js --output-dir ./tmp "退避メモ"
 ```
 
+### `--import-mobile FILE_OR_DIR`
+
+- ファイル指定時はその 1 件を取り込みます
+- ディレクトリ指定時は直下の `*.md` をファイル名順で処理します
+- 採用するファイル名は `YYYY-MM-DD.md` のみです
+- 本文から日付は読みません
+- 取り込み先は `PATH/logs/YYYY-MM-DD.md` です
+- `## Mobile notes` セクションへ Markdown 本文を追記します
+- セクションが無ければログ末尾へ作成します
+- ログが無ければ `# YYYY-MM-DD` を持つ新規ログを作成します
+- 取り込み後は入力元ディレクトリの `archive/` へ移動します
+
+例:
+
+```bash
+node dist/index.js --import-mobile mobile-inbox/2026-06-25.md
+node dist/index.js --import-mobile mobile-inbox
+```
+
+### `--dry-run`
+
+- `--import-mobile` と一緒に使います
+- 読み取り予定ファイル、追記予定ログ、archive 移動予定のみ表示します
+- ファイルの書き換えや移動は一切行いません
+
+例:
+
+```bash
+node dist/index.js --import-mobile mobile-inbox --dry-run
+```
+
 ### `--help`, `-h`
 
 - ヘルプを表示して終了します
@@ -246,7 +290,7 @@ node dist/index.js --output-dir ./tmp "退避メモ"
 例:
 
 ```bash
-node dist/index.js --safe-share "mail=user@example.com token=sk-1234567890abcdef1234567890 path=/Users/kei/projects/mental-auto/logs/2026-03-26.md"
+node dist/index.js --safe-share "mail=user@example.com token=sk-1234567890abcdef1234567890 path=/Users/example/mental-auto/logs/2026-03-26.md"
 node dist/index.js --safe-share logs/2026-03-26.md
 ```
 
@@ -255,6 +299,38 @@ node dist/index.js --safe-share logs/2026-03-26.md
 - 過剰な匿名化はしません
 - 共有向け整形なので、元ファイルは変更しません
 - 出力先は常に stdout です
+
+## mobile-inbox 仕様
+
+想定構成:
+
+```text
+mobile-inbox/
+├─ 2026-06-25.md
+├─ 2026-06-26.md
+└─ archive/
+```
+
+取り込み後の `logs/2026-06-25.md` 例:
+
+```md
+# 2026-06-25
+
+PCで先に書いたメモ
+
+## Mobile notes
+
+外出先メモ
+
+- 駅で気分が落ちた
+- コーヒーで少し戻った
+```
+
+補足:
+
+- directory 指定時は archive 配下を再処理しません
+- 通常ログ保存の same-day append は未実装のままです
+- `mobile-inbox` 取り込みは `## Mobile notes` セクションへの追記です
 
 ## ログ仕様
 
@@ -361,12 +437,24 @@ node dist/index.js --memo
 node dist/index.js --output-dir
 ```
 
+mobile inbox の日付形式不正:
+
+```bash
+node dist/index.js --import-mobile mobile-inbox/2026-6-25.md
+```
+
+mobile inbox の read / log update / archive move 失敗:
+
+- `mental-auto failed: Failed to read Markdown: ...`
+- `mental-auto failed: Failed to create or update log: ...`
+- `mental-auto failed: Failed to archive mobile file: ...`
+
 ## リポジトリの見方
 
-- [src/index.ts](src/index.ts): CLI 本体
-- [test/index.test.ts](test/index.test.ts): 振る舞いの最小テスト
-- [docs/mental-auto-spec.md](docs/mental-auto-spec.md): 実装準拠の仕様メモ
-- [docs/mental-auto-user-guide.md](docs/mental-auto-user-guide.md): 利用者向け補足
-- [docs/design.md](docs/design.md): 設計意図と未実装境界
-- [docs/tasks.md](docs/tasks.md): 今後の TODO
-- [AGENTS.md](AGENTS.md): 将来の作業者向けガイド
+- [src/index.ts](/Users/kei/projects/mental-auto/src/index.ts): CLI 本体
+- [test/index.test.ts](/Users/kei/projects/mental-auto/test/index.test.ts): 振る舞いの最小テスト
+- [docs/mental-auto-spec.md](/Users/kei/projects/mental-auto/docs/mental-auto-spec.md): 実装準拠の仕様メモ
+- [docs/mental-auto-user-guide.md](/Users/kei/projects/mental-auto/docs/mental-auto-user-guide.md): 利用者向け補足
+- [docs/design.md](/Users/kei/projects/mental-auto/docs/design.md): 設計意図と未実装境界
+- [docs/tasks.md](/Users/kei/projects/mental-auto/docs/tasks.md): 今後の TODO
+- [AGENTS.md](/Users/kei/projects/mental-auto/AGENTS.md): 将来の作業者向けガイド

@@ -1,7 +1,7 @@
 {
   "name": "mental-auto",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.1.0",
   "type": "module",
   "bin": {
     "mental-auto": "./dist/index.js"

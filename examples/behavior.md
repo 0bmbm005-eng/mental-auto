@@ -67,6 +67,20 @@ node dist/index.js --memo ""
 _No memo provided_
 ```
 
+## `--safe-share`
+
+入力:
+
+```bash
+node dist/index.js --safe-share "mail=test@example.com key=sk-abcdef1234567890 path=/Users/example/Documents/test"
+```
+
+期待:
+
+- ファイルは書き込まない
+- stdout に共有向けのマスク済みテキストを出す
+- メールアドレス、API key らしき文字列、ローカルパスがマスクされる
+
 ## Same-day rerun
 
 入力:

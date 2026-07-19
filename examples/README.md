@@ -14,3 +14,4 @@
 - `errors.txt`: 実装済みエラー系の出力例
 - `help.txt`: `node dist/index.js --help` の出力例
 - `behavior.md`: 実装済み機能の期待動作例
+- `safe-share-check.txt`: `--safe-share` のマスク確認用入力例

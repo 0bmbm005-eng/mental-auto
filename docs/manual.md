@@ -1,161 +1,91 @@
-# mental-auto 使い方
+# mental-auto manual
 
-## 概要
-
-mental-auto は、自由入力したメモをもとに日次ログを生成・蓄積する CLI ツールです。
-
-目的：
-- 日々の状態を記録する
-- 継続しやすい形式で残す
-- 集計や振り返りを行う
-- 必要に応じて安全に共有する
-
----
+この manual は v0.1 時点の実装済み機能だけを扱います。詳しい背景は [README.md](../README.md) と [docs/status.md](status.md) を参照してください。
 
 ## セットアップ
 
-依存関係をインストール。
-
 ```bash
 npm install
-```
-
-ビルド。
-
-```bash
 npm run build
-```
-
-テスト。
-
-```bash
 npm test
+npm run doctor
 ```
-
----
 
 ## 基本実行
 
-通常実行。
+```bash
+node dist/index.js "今日は少し疲れた"
+```
+
+JST 基準の日付で `logs/YYYY-MM-DD.md` を作成します。同じ日付で再実行すると追記ではなく上書きします。
+
+## 実装済みオプション
+
+### `--date YYYY-MM-DD`
 
 ```bash
-node dist/index.js
+node dist/index.js --date 2026-03-26 "今日は少し疲れた"
 ```
 
-入力内容をもとにログを生成する。
+対象日を明示します。不正な日付は `Invalid value for --date: ...` で失敗します。
 
-出力先：
-
-```txt
-logs/YYYY-MM-DD.md
-```
-
----
-
-## コマンド一覧
-
-### 通常実行
+### `--memo TEXT`
 
 ```bash
-node dist/index.js
+node dist/index.js --memo "今日は気分が重い"
 ```
 
-日次ログを生成する。
+本文を 1 引数で渡します。`--memo` を使った場合、通常引数は本文に追加されません。
 
----
-
-### 統計表示
+### `--output-dir PATH`
 
 ```bash
-node dist/index.js --stats
+node dist/index.js --output-dir ./tmp "退避メモ"
 ```
 
-直近データを集計して表示する。
+実際の出力先は `PATH/logs/YYYY-MM-DD.md` です。
 
----
-
-### 行動提案
+### `--import-mobile FILE_OR_DIR`
 
 ```bash
-node dist/index.js --advice
+node dist/index.js --import-mobile mobile-inbox/2026-06-25.md
+node dist/index.js --import-mobile mobile-inbox
 ```
 
-記録内容を参考に短い提案を返す。
+`YYYY-MM-DD.md` の Markdown を対応する `logs/YYYY-MM-DD.md` へ取り込みます。本文は `## Mobile notes` セクションへ追記され、取り込み後は `archive/` へ移動します。
 
----
-
-### 対話入力
+### `--dry-run`
 
 ```bash
-node dist/index.js --interactive
+node dist/index.js --import-mobile mobile-inbox --dry-run
 ```
 
-CLI 上で対話形式入力を行う。
+`--import-mobile` の予定だけを表示します。ファイルの書き換えや移動は行いません。
 
----
-
-### mirror統計
+### `--safe-share INPUT`
 
 ```bash
-node dist/index.js --mirror-stats
+node dist/index.js --safe-share "mail=user@example.com path=/Users/example/mental-auto/logs/2026-03-26.md"
+node dist/index.js --safe-share logs/2026-03-26.md
 ```
 
-mirror-logs の集計を表示する。
+共有前の最低限マスク済みテキストを stdout に出します。入力が既存ファイルなら内容を読み、そうでなければ文字列として扱います。元ファイルは変更しません。
 
-対象例：
-- stress
-- fatigue
-- focus
-- exercise率
-
----
-
-### mirror提案
+### `--help`, `-h`
 
 ```bash
-node dist/index.js --mirror-advice
+node dist/index.js --help
 ```
 
-直近集計結果から今日の行動提案を1つ返す。
+ヘルプを表示して終了します。ファイルは書き込みません。
 
----
+## 未実装
 
-### 安全共有
+以下は v0.1 では使えません。指定すると未知オプションとして失敗します。
 
-```bash
-node dist/index.js --safe-share
-```
-
-共有向けにテキストを整形する。
-
-例：
-- メールアドレス伏せ
-- APIキーらしき文字列伏せ
-- ローカルパス伏せ
-- 長文整理
-
-元データは変更しない。
-
----
-
-## 出力先
-
-ログ：
-
-```txt
-logs/
-```
-
-mirror：
-
-```txt
-mirror-logs/
-```
-
----
-
-## 注意事項
-
-- 時刻基準は Asia/Tokyo
-- 重要データは別保存推奨
-- AI生成内容は最終確認する
+- `--stats`
+- `--advice`
+- `--mirror-stats`
+- `--mirror-advice`
+- `mirror-logs/` 生成
+- same-day append

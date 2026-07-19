@@ -20,6 +20,15 @@
 3. Markdown 本文を `# YYYY-MM-DD` 形式で作る
 4. `logs/YYYY-MM-DD.md` へ書き込む
 
+`mobile-inbox` import の処理:
+
+1. `--import-mobile FILE_OR_DIR` を受ける
+2. ファイル名 `YYYY-MM-DD.md` から日付を読む
+3. 対応する `logs/YYYY-MM-DD.md` を開くか新規作成する
+4. `## Mobile notes` セクションへ Markdown 本文を追記する
+5. 取り込み元を `archive/` へ移動する
+6. `--dry-run` では予定だけ表示し、書き込みと移動を行わない
+
 `safe-share` の処理:
 
 1. 入力を文字列または既存ファイルとして受ける
@@ -46,6 +55,18 @@
 - ファイル名だけで日付が分かる
 - Git 差分や手動編集と相性がよい
 - 集計や変換をあとから足しやすい
+
+### mobile-inbox を別導線にする
+
+- iPhone 由来の Markdown を PC 側の正本ログへ後から寄せたい
+- 本文解析よりファイル名ベースの方が MVP として壊れにくい
+- 取り込み後に archive へ移すことで再取り込みを避けやすい
+
+### `## Mobile notes` セクションに寄せる
+
+- 既存 PC メモと mobile 由来メモを見分けやすい
+- same-day append を通常ログ保存へ導入せずに済む
+- 既存ログ形式を大きく崩さず拡張できる
 
 ### same-day append を未採用
 
