@@ -106,7 +106,7 @@ node dist/index.js --memo "今日は気分が重い"
 共有前にテキストを安全化:
 
 ```bash
-node dist/index.js --safe-share "contact me at foo@example.com path=/Users/kei/projects/mental-auto/logs/2026-03-26.md"
+node dist/index.js --safe-share "contact me at foo@example.com path=/Users/example/projects/mental-auto/logs/2026-03-26.md"
 ```
 
 既存ログを共有前に安全化:
@@ -256,7 +256,7 @@ node dist/index.js --output-dir ./tmp "退避メモ"
 例:
 
 ```bash
-node dist/index.js --safe-share "mail=user@example.com token=sk-1234567890abcdef1234567890 path=/Users/kei/projects/mental-auto/logs/2026-03-26.md"
+node dist/index.js --safe-share "mail=user@example.com token=sk-1234567890abcdef1234567890 path=/Users/example/projects/mental-auto/logs/2026-03-26.md"
 node dist/index.js --safe-share logs/2026-03-26.md
 ```
 

@@ -8,10 +8,10 @@
 
 構成:
 
-- CLI 本体: [src/index.ts](/Users/kei/projects/mental-auto/src/index.ts)
-- 運用診断: [src/doctor.ts](/Users/kei/projects/mental-auto/src/doctor.ts)
-- 共有前整形: [src/safe-share.ts](/Users/kei/projects/mental-auto/src/safe-share.ts)
-- テスト: [test/index.test.ts](/Users/kei/projects/mental-auto/test/index.test.ts)
+- CLI 本体: [src/index.ts](src/index.ts)
+- 運用診断: [src/doctor.ts](src/doctor.ts)
+- 共有前整形: [src/safe-share.ts](src/safe-share.ts)
+- テスト: [test/index.test.ts](test/index.test.ts)
 
 処理の流れ:
 

@@ -96,9 +96,9 @@
 
 ## 参照先
 
-- [README.md](/Users/kei/projects/mental-auto/README.md)
-- [AGENTS.md](/Users/kei/projects/mental-auto/AGENTS.md)
-- [src/index.ts](/Users/kei/projects/mental-auto/src/index.ts)
-- [docs/design.md](/Users/kei/projects/mental-auto/docs/design.md)
-- [docs/tasks.md](/Users/kei/projects/mental-auto/docs/tasks.md)
-- [docs/mental-auto-spec.md](/Users/kei/projects/mental-auto/docs/mental-auto-spec.md)
+- [README.md](README.md)
+- [AGENTS.md](AGENTS.md)
+- [src/index.ts](src/index.ts)
+- [docs/design.md](docs/design.md)
+- [docs/tasks.md](docs/tasks.md)
+- [docs/mental-auto-spec.md](docs/mental-auto-spec.md)

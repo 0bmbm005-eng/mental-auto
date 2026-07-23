@@ -1,7 +1,7 @@
 # Execution Report
 
 Date: 2026-03-25 22:59:55 JST
-Location: `/Users/kei/Documents/Playground`
+Location: `/path/to/Playground`
 
 ## Purpose
 
@@ -38,9 +38,9 @@ Verify that Codex is operating normally on this Mac for basic local development 
 
 ## File Operations Performed
 
-- Created [`hello.js`](/Users/kei/Documents/Playground/hello.js)
-- Created [`package.json`](/Users/kei/Documents/Playground/package.json)
-- Created [`DEV_CHECKLIST.md`](/Users/kei/Documents/Playground/DEV_CHECKLIST.md)
+- Created [`hello.js`](hello.js)
+- Created [`package.json`](package.json)
+- Created [`DEV_CHECKLIST.md`](DEV_CHECKLIST.md)
 
 ## Runtime Verification
 

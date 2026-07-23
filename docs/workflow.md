@@ -10,11 +10,11 @@
 
 前提:
 
-- 現在の中心実装は [src/index.ts](/Users/kei/projects/mental-auto/src/index.ts)
-- 振る舞い確認の正本は [test/index.test.ts](/Users/kei/projects/mental-auto/test/index.test.ts)
-- 利用者向け入口は [README.md](/Users/kei/projects/mental-auto/README.md)
-- 状態整理は [docs/status.md](/Users/kei/projects/mental-auto/docs/status.md)
-- 作業ガイドは [AGENTS.md](/Users/kei/projects/mental-auto/AGENTS.md)
+- 現在の中心実装は [src/index.ts](src/index.ts)
+- 振る舞い確認の正本は [test/index.test.ts](test/index.test.ts)
+- 利用者向け入口は [README.md](README.md)
+- 状態整理は [docs/status.md](docs/status.md)
+- 作業ガイドは [AGENTS.md](AGENTS.md)
 
 ## 1. ChatGPT の役割
 
@@ -82,11 +82,11 @@ Codex に期待すること:
 ## 6. docs 更新ルール
 
 - 利用者向け入口は `README.md`
-- 設計意図や未実装境界は [docs/design.md](/Users/kei/projects/mental-auto/docs/design.md)
-- 今後の作業候補は [docs/tasks.md](/Users/kei/projects/mental-auto/docs/tasks.md)
-- 現在状態の整理は [docs/status.md](/Users/kei/projects/mental-auto/docs/status.md)
-- 変更履歴は [CHANGELOG.md](/Users/kei/projects/mental-auto/CHANGELOG.md)
-- コピペ用の期待例は [examples/README.md](/Users/kei/projects/mental-auto/examples/README.md) 以下
+- 設計意図や未実装境界は [docs/design.md](docs/design.md)
+- 今後の作業候補は [docs/tasks.md](docs/tasks.md)
+- 現在状態の整理は [docs/status.md](docs/status.md)
+- 変更履歴は [CHANGELOG.md](CHANGELOG.md)
+- コピペ用の期待例は [examples/README.md](examples/README.md) 以下
 
 更新原則:
 
@@ -98,14 +98,14 @@ Codex に期待すること:
 
 変更前に最低限見る順番:
 
-1. [README.md](/Users/kei/projects/mental-auto/README.md)
-2. [src/index.ts](/Users/kei/projects/mental-auto/src/index.ts)
-3. [test/index.test.ts](/Users/kei/projects/mental-auto/test/index.test.ts)
-4. [docs/design.md](/Users/kei/projects/mental-auto/docs/design.md)
-5. [docs/tasks.md](/Users/kei/projects/mental-auto/docs/tasks.md)
-6. [docs/status.md](/Users/kei/projects/mental-auto/docs/status.md)
-7. [CHANGELOG.md](/Users/kei/projects/mental-auto/CHANGELOG.md)
-8. [examples/README.md](/Users/kei/projects/mental-auto/examples/README.md)
+1. [README.md](README.md)
+2. [src/index.ts](src/index.ts)
+3. [test/index.test.ts](test/index.test.ts)
+4. [docs/design.md](docs/design.md)
+5. [docs/tasks.md](docs/tasks.md)
+6. [docs/status.md](docs/status.md)
+7. [CHANGELOG.md](CHANGELOG.md)
+8. [examples/README.md](examples/README.md)
 
 そのうえで確認すること:
 

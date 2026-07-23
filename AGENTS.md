@@ -5,8 +5,8 @@
 ## このリポジトリの現在地
 
 - 2026-05-19 時点では、JST 日付の Markdown ログを書き出す最小 CLI
-- 実装の中心は [src/index.ts](/Users/kei/projects/mental-auto/src/index.ts) 1 ファイル
-- テストは [test/index.test.ts](/Users/kei/projects/mental-auto/test/index.test.ts) が正
+- 実装の中心は [src/index.ts](src/index.ts) 1 ファイル
+- テストは [test/index.test.ts](test/index.test.ts) が正
 - `stats` / `advice` / `mirror-*` / same-day append は未実装
 - `npm run doctor` は実装済みで、ローカル基本状態の確認に使える
 - `--safe-share` は実装済みで、AI 共有前の最低限マスクに使える
@@ -24,16 +24,16 @@
 
 ## 変更前に見る場所
 
-1. [README.md](/Users/kei/projects/mental-auto/README.md)
-2. [src/index.ts](/Users/kei/projects/mental-auto/src/index.ts)
-3. [test/index.test.ts](/Users/kei/projects/mental-auto/test/index.test.ts)
-4. [docs/design.md](/Users/kei/projects/mental-auto/docs/design.md)
-5. [docs/tasks.md](/Users/kei/projects/mental-auto/docs/tasks.md)
+1. [README.md](README.md)
+2. [src/index.ts](src/index.ts)
+3. [test/index.test.ts](test/index.test.ts)
+4. [docs/design.md](docs/design.md)
+5. [docs/tasks.md](docs/tasks.md)
 
 ## セットアップ
 
 ```bash
-cd /Users/kei/projects/mental-auto
+cd mental-auto
 npm install
 npm run build
 npm run doctor
@@ -123,4 +123,4 @@ npm test
 
 ## 次に広げるなら
 
-優先度の高い候補は [docs/tasks.md](/Users/kei/projects/mental-auto/docs/tasks.md) を参照してください。
+優先度の高い候補は [docs/tasks.md](docs/tasks.md) を参照してください。

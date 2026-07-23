@@ -451,10 +451,10 @@ mobile inbox の read / log update / archive move 失敗:
 
 ## リポジトリの見方
 
-- [src/index.ts](/Users/kei/projects/mental-auto/src/index.ts): CLI 本体
-- [test/index.test.ts](/Users/kei/projects/mental-auto/test/index.test.ts): 振る舞いの最小テスト
-- [docs/mental-auto-spec.md](/Users/kei/projects/mental-auto/docs/mental-auto-spec.md): 実装準拠の仕様メモ
-- [docs/mental-auto-user-guide.md](/Users/kei/projects/mental-auto/docs/mental-auto-user-guide.md): 利用者向け補足
-- [docs/design.md](/Users/kei/projects/mental-auto/docs/design.md): 設計意図と未実装境界
-- [docs/tasks.md](/Users/kei/projects/mental-auto/docs/tasks.md): 今後の TODO
-- [AGENTS.md](/Users/kei/projects/mental-auto/AGENTS.md): 将来の作業者向けガイド
+- [src/index.ts](src/index.ts): CLI 本体
+- [test/index.test.ts](test/index.test.ts): 振る舞いの最小テスト
+- [docs/mental-auto-spec.md](docs/mental-auto-spec.md): 実装準拠の仕様メモ
+- [docs/mental-auto-user-guide.md](docs/mental-auto-user-guide.md): 利用者向け補足
+- [docs/design.md](docs/design.md): 設計意図と未実装境界
+- [docs/tasks.md](docs/tasks.md): 今後の TODO
+- [AGENTS.md](AGENTS.md): 将来の作業者向けガイド
