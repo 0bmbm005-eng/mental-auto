@@ -75,7 +75,6 @@ npm run doctor
 - `--mirror-stats`
 - `--mirror-advice`
 - `mirror-logs` 生成
-- same-day append
 
 ## 最短運用
 
@@ -301,26 +300,31 @@ _No memo provided_
 
 ## same-day append 仕様
 
-現行実装には same-day append はありません。
+同じ日付のログがすでに存在する場合、新しいメモは既存ファイルの末尾に追記されます。
 
-- 同じ日付で再実行すると既存 `logs/YYYY-MM-DD.md` を上書きします
-- 追記ではありません
-- 既存内容を保持しながら足す処理はありません
-- 実装上は `writeFile(...)` で毎回ファイル全体を書き換えます
+- 同じ日付で再実行しても既存 `logs/YYYY-MM-DD.md` は上書きしません
+- 既存内容を保持したまま、新しいエントリを末尾に追加します
+- 追記エントリには `## Entry YYYY-MM-DD HH:mm:ss JST` 形式のタイムスタンプ見出しが付きます
+- `--date YYYY-MM-DD` を指定した場合も、その日付のファイルに同じルールで追記します
 
-運用上の注意:
+例:
 
 ```bash
 node dist/index.js "朝のメモ"
 node dist/index.js "夜のメモ"
 ```
 
-この 2 回目の実行後、残るのは `夜のメモ` だけです。
+出力例:
 
-1 日に複数回書きたい場合は、今は次のどちらかで運用してください。
+```md
+# 2026-03-26
 
-- その日の全文を毎回まとめて渡す
-- 生成後の Markdown をエディタで手動追記する
+朝のメモ
+
+## Entry 2026-03-26 21:15:30 JST
+
+夜のメモ
+```
 
 ## `--stats` / `--advice` / `--mirror-stats` / `--mirror-advice`
 

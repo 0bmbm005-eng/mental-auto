@@ -1,4 +1,5 @@
 import {
+  appendFile,
   mkdir,
   readFile,
   readdir,
@@ -46,12 +47,11 @@ Behavior:
   - Default output: ./logs/YYYY-MM-DD.md
   - --output-dir PATH writes to PATH/logs/YYYY-MM-DD.md
   - The date is determined in JST unless --date is specified
+  - Re-running on the same date appends a timestamped entry
   - --import-mobile reads YYYY-MM-DD.md and appends it under "## Mobile notes"
   - Imported files are moved to mobile-inbox/archive/
   - --dry-run only reports planned import-mobile actions
   - --safe-share reads text or a local file and prints sanitized text to stdout
-  - same-day append is not implemented
-  - Re-running on the same date overwrites logs/YYYY-MM-DD.md
   - Empty memo writes "_No memo provided_"
 
 logs / mirror-logs:
@@ -97,6 +97,35 @@ export function renderLog(memo = "", date: string): string {
   return [`# ${date}`, "", body === "" ? "_No memo provided_" : body, ""].join("\n");
 }
 
+function getJstTimestampString(now = new Date()): string {
+  const parts = new Intl.DateTimeFormat("en", {
+    timeZone: JST_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  }).formatToParts(now);
+
+  const value = (type: string) => parts.find((part) => part.type === type)?.value ?? "";
+
+  return `${value("year")}-${value("month")}-${value("day")} ${value("hour")}:${value(
+    "minute",
+  )}:${value("second")} JST`;
+}
+
+export function renderAppendEntry(date: string, content: string, timestamp: string): string {
+  const normalizedContent = content.replace(/\r\n/g, "\n").trim();
+  const heading = `# ${date}`;
+  const body = normalizedContent.startsWith(heading)
+    ? normalizedContent.slice(heading.length).trim()
+    : normalizedContent;
+
+  return [`## Entry ${timestamp}`, "", body === "" ? "_No memo provided_" : body, ""].join("\n");
+}
+
 export async function writeLogFile(
   date: string,
   content: string,
@@ -106,6 +135,28 @@ export async function writeLogFile(
   const filePath = join(logsDir, `${date}.md`);
 
   await mkdir(logsDir, { recursive: true });
+
+  try {
+    const existingContent = await readFile(filePath, "utf8");
+
+    if (existingContent.trim() !== "") {
+      const separator = existingContent.endsWith("\n") ? "\n" : "\n\n";
+      await appendFile(
+        filePath,
+        `${separator}${renderAppendEntry(date, content, getJstTimestampString())}`,
+        "utf8",
+      );
+
+      return filePath;
+    }
+  } catch (error: unknown) {
+    const nodeError = error as NodeJS.ErrnoException;
+    if (nodeError.code !== "ENOENT") {
+      const message = error instanceof Error ? error.message : String(error);
+      throw new Error(`Failed to read existing log: ${filePath}: ${message}`);
+    }
+  }
+
   await writeFile(filePath, content, "utf8");
 
   return filePath;

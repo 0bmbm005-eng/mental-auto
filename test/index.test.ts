@@ -7,6 +7,7 @@ import { describe, expect, it } from "vitest";
 import {
   formatHelp,
   getJstDateString,
+  renderAppendEntry,
   renderLog,
   runCli,
   writeLogFile,
@@ -34,6 +35,18 @@ describe("renderLog", () => {
   });
 });
 
+describe("renderAppendEntry", () => {
+  it("renders an appended entry with an injected timestamp", () => {
+    expect(
+      renderAppendEntry(
+        "2026-03-26",
+        renderLog("夜のメモ", "2026-03-26"),
+        "2026-03-26 21:15:30 JST",
+      ),
+    ).toBe("## Entry 2026-03-26 21:15:30 JST\n\n夜のメモ\n");
+  });
+});
+
 describe("formatHelp", () => {
   it("shows usage, examples, and unimplemented options", () => {
     expect(formatHelp()).toContain("Usage:");
@@ -43,7 +56,7 @@ describe("formatHelp", () => {
     expect(formatHelp()).toContain("--dry-run");
     expect(formatHelp()).toContain("--safe-share INPUT");
     expect(formatHelp()).toContain("Examples:");
-    expect(formatHelp()).toContain("same-day append is not implemented");
+    expect(formatHelp()).toContain("Re-running on the same date appends a timestamped entry");
     expect(formatHelp()).toContain("mirror-logs/: not implemented");
     expect(formatHelp()).toContain("--mirror-advice");
   });
@@ -66,6 +79,39 @@ describe("writeLogFile", () => {
     const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-"));
     const content = renderLog("テスト", "2026-03-26");
     const filePath = await writeLogFile("2026-03-26", content, baseDir);
+
+    await expect(readFile(filePath, "utf8")).resolves.toBe(content);
+  });
+
+  it("appends a timestamped entry without overwriting existing content", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-append-"));
+    const logsDir = join(baseDir, "logs");
+    const filePath = join(logsDir, "2026-03-26.md");
+    const existingContent = "# 2026-03-26\n\n朝のメモ\n";
+
+    await mkdir(logsDir, { recursive: true });
+    await writeFile(filePath, existingContent, "utf8");
+    await writeLogFile("2026-03-26", renderLog("夜のメモ", "2026-03-26"), baseDir);
+
+    const nextContent = await readFile(filePath, "utf8");
+
+    expect(nextContent.startsWith(existingContent)).toBe(true);
+    expect(nextContent).toContain("\n\n## Entry ");
+    expect(nextContent).toContain("JST\n\n夜のメモ\n");
+    expect(nextContent).toMatch(
+      /^# 2026-03-26\n\n朝のメモ\n\n## Entry \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} JST\n\n夜のメモ\n$/u,
+    );
+  });
+
+  it("treats whitespace-only files as empty logs", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-empty-log-"));
+    const logsDir = join(baseDir, "logs");
+    const filePath = join(logsDir, "2026-03-26.md");
+    const content = renderLog("最初のメモ", "2026-03-26");
+
+    await mkdir(logsDir, { recursive: true });
+    await writeFile(filePath, " \n\n\t", "utf8");
+    await writeLogFile("2026-03-26", content, baseDir);
 
     await expect(readFile(filePath, "utf8")).resolves.toBe(content);
   });
@@ -121,6 +167,26 @@ describe("runCli", () => {
 
     await expect(readFile(result.filePath, "utf8")).resolves.toContain("専用メモ");
     await expect(readFile(result.filePath, "utf8")).resolves.not.toContain("ignored");
+  });
+
+  it("appends new entries to an existing --date log", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-cli-append-"));
+    const args = ["--date", "2026-03-26", "--output-dir", baseDir];
+
+    await runCli([...args, "朝のメモ"]);
+    const result = await runCli([...args, "夜のメモ"]);
+
+    expect(result.filePath).toBe(join(baseDir, "logs", "2026-03-26.md"));
+
+    if (result.filePath === null) {
+      throw new Error("Expected a file path");
+    }
+
+    const nextContent = await readFile(result.filePath, "utf8");
+
+    expect(nextContent).toContain("# 2026-03-26\n\n朝のメモ\n");
+    expect(nextContent).toContain("JST\n\n夜のメモ\n");
+    expect(nextContent).not.toBe("# 2026-03-26\n\n夜のメモ\n");
   });
 
   it("rejects an invalid date", async () => {
