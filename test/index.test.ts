@@ -9,8 +9,10 @@ import {
   getJstDateString,
   renderAppendEntry,
   renderLog,
+  renderMonthlySummary,
   runCli,
   writeLogFile,
+  writeMonthlySummary,
 } from "../src/index.js";
 
 describe("getJstDateString", () => {
@@ -44,6 +46,25 @@ describe("renderAppendEntry", () => {
         "2026-03-26 21:15:30 JST",
       ),
     ).toBe("## Entry 2026-03-26 21:15:30 JST\n\n夜のメモ\n");
+  });
+});
+
+describe("renderMonthlySummary", () => {
+  it("renders logs in the supplied order", () => {
+    expect(
+      renderMonthlySummary("2026-07", [
+        { date: "2026-07-01", content: "# 2026-07-01\n\nFirst\n" },
+        { date: "2026-07-03", content: "# 2026-07-03\n\nThird\n" },
+      ]),
+    ).toBe(
+      "# Monthly Summary: 2026-07\n\n## 2026-07-01\n\n# 2026-07-01\n\nFirst\n\n## 2026-07-03\n\n# 2026-07-03\n\nThird\n",
+    );
+  });
+
+  it("renders the required empty-month message", () => {
+    expect(renderMonthlySummary("2026-08", [])).toBe(
+      "# Monthly Summary: 2026-08\n\n対象月のログはありません。\n",
+    );
   });
 });
 
@@ -193,6 +214,48 @@ describe("runCli", () => {
     await expect(runCli(["--date", "2026-13-01"])).rejects.toThrow(
       "Invalid value for --date: 2026-13-01",
     );
+  });
+
+  it("creates a monthly summary in ascending date order", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-monthly-summary-"));
+    const logsDir = join(baseDir, "logs");
+    await mkdir(logsDir, { recursive: true });
+    await writeFile(join(logsDir, "2026-07-03.md"), "# 2026-07-03\n\nThird\n", "utf8");
+    await writeFile(join(logsDir, "2026-07-01.md"), "# 2026-07-01\n\nFirst\n", "utf8");
+    await writeFile(join(logsDir, "2026-07-02.md"), "# 2026-07-02\n\nSecond\n", "utf8");
+    await writeFile(join(logsDir, "2026-08-01.md"), "outside month\n", "utf8");
+
+    const result = await runCli(["--monthly-summary", "2026-07", "--output-dir", baseDir]);
+    const summaryPath = join(baseDir, "monthly-summary", "2026-07.md");
+
+    expect(result.filePath).toBe(summaryPath);
+    await expect(readFile(summaryPath, "utf8")).resolves.toBe(
+      "# Monthly Summary: 2026-07\n\n## 2026-07-01\n\n# 2026-07-01\n\nFirst\n\n## 2026-07-02\n\n# 2026-07-02\n\nSecond\n\n## 2026-07-03\n\n# 2026-07-03\n\nThird\n",
+    );
+    await expect(readFile(join(logsDir, "2026-07-01.md"), "utf8")).resolves.toBe(
+      "# 2026-07-01\n\nFirst\n",
+    );
+  });
+
+  it("overwrites an existing summary and creates an empty-month summary", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-monthly-empty-"));
+    const summaryPath = await writeMonthlySummary("2026-09", baseDir);
+    await writeFile(summaryPath, "old summary\n", "utf8");
+
+    await runCli(["--monthly-summary", "2026-09", "--output-dir", baseDir]);
+
+    await expect(readFile(summaryPath, "utf8")).resolves.toBe(
+      "# Monthly Summary: 2026-09\n\n対象月のログはありません。\n",
+    );
+  });
+
+  it("uses the current JST month when no month is supplied", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-monthly-current-"));
+    const currentMonth = getJstDateString().slice(0, 7);
+
+    const result = await runCli(["--monthly-summary", "--output-dir", baseDir]);
+
+    expect(result.filePath).toBe(join(baseDir, "monthly-summary", `${currentMonth}.md`));
   });
 
   it("prints sanitized safe-share text from a direct string", async () => {

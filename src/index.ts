@@ -21,6 +21,7 @@ JST-based daily memo CLI. Current implementation writes one Markdown log per day
 Usage:
   mental-auto [options] [memo...]
   mental-auto --safe-share INPUT
+  mental-auto --monthly-summary [YYYY-MM]
   mental-auto --import-mobile FILE_OR_DIR [--dry-run]
 
 Options:
@@ -30,6 +31,8 @@ Options:
   --import-mobile X   Import mobile inbox Markdown file(s)
   --dry-run           Show import-mobile actions without changing files
   --safe-share INPUT  Print AI-share-safe text to stdout
+  --monthly-summary [YYYY-MM]
+                      Combine the month's daily logs into monthly-summary/YYYY-MM.md
   --help, -h          Show this help
 
 Examples:
@@ -41,6 +44,8 @@ Examples:
   mental-auto --import-mobile mobile-inbox --dry-run
   mental-auto --safe-share "contact me at foo@example.com"
   mental-auto --safe-share logs/2026-03-26.md
+  mental-auto --monthly-summary
+  mental-auto --monthly-summary 2026-07
   mental-auto --help
 
 Behavior:
@@ -52,6 +57,7 @@ Behavior:
   - Imported files are moved to mobile-inbox/archive/
   - --dry-run only reports planned import-mobile actions
   - --safe-share reads text or a local file and prints sanitized text to stdout
+  - --monthly-summary reads logs in ascending date order and overwrites the monthly summary
   - Empty memo writes "_No memo provided_"
 
 logs / mirror-logs:
@@ -66,6 +72,7 @@ Unimplemented options:
   These currently fail with: mental-auto failed: Unknown option: --stats
 `;
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+const MONTH_PATTERN = /^(\d{4})-(\d{2})$/;
 const MOBILE_IMPORT_PATTERN = /^(\d{4}-\d{2}-\d{2})\.md$/;
 const MOBILE_NOTES_HEADING = "## Mobile notes";
 
@@ -162,6 +169,68 @@ export async function writeLogFile(
   return filePath;
 }
 
+function getJstMonthString(now = new Date()): string {
+  return getJstDateString(now).slice(0, 7);
+}
+
+function validateMonth(month: string): void {
+  const match = MONTH_PATTERN.exec(month);
+  if (match === null) {
+    throw new Error(`Invalid value for --monthly-summary: ${month}`);
+  }
+
+  const year = Number(match[1]);
+  const monthNumber = Number(match[2]);
+  if (monthNumber < 1 || monthNumber > 12 || !Number.isInteger(year)) {
+    throw new Error(`Invalid value for --monthly-summary: ${month}`);
+  }
+}
+
+export function renderMonthlySummary(month: string, logs: Array<{ date: string; content: string }>): string {
+  const sections = logs.map(({ date, content }) => {
+    const normalizedContent = normalizeLineEndings(content).trim();
+    return `## ${date}\n\n${normalizedContent}`;
+  });
+
+  if (sections.length === 0) {
+    return `# Monthly Summary: ${month}\n\n対象月のログはありません。\n`;
+  }
+
+  return [`# Monthly Summary: ${month}`, ...sections].join("\n\n") + "\n";
+}
+
+export async function writeMonthlySummary(
+  month: string,
+  baseDir = process.cwd(),
+): Promise<string> {
+  validateMonth(month);
+
+  const [year, monthNumber] = month.split("-").map(Number);
+  const daysInMonth = new Date(Date.UTC(year, monthNumber, 0)).getUTCDate();
+  const logs: Array<{ date: string; content: string }> = [];
+
+  for (let day = 1; day <= daysInMonth; day += 1) {
+    const date = `${month}-${String(day).padStart(2, "0")}`;
+    const filePath = join(baseDir, DEFAULT_LOG_DIR, `${date}.md`);
+
+    try {
+      logs.push({ date, content: await readFile(filePath, "utf8") });
+    } catch (error: unknown) {
+      const nodeError = error as NodeJS.ErrnoException;
+      if (nodeError.code !== "ENOENT") {
+        const message = error instanceof Error ? error.message : String(error);
+        throw new Error(`Failed to read log: ${filePath}: ${message}`);
+      }
+    }
+  }
+
+  const summaryPath = join(baseDir, "monthly-summary", `${month}.md`);
+  await mkdir(dirname(summaryPath), { recursive: true });
+  await writeFile(summaryPath, renderMonthlySummary(month, logs), "utf8");
+
+  return summaryPath;
+}
+
 function validateDate(date: string): void {
   if (!DATE_PATTERN.test(date)) {
     throw new Error(`Invalid value for --date: ${date}`);
@@ -183,6 +252,7 @@ function parseArgs(
   safeShareInput: string | null;
   importMobilePath: string | null;
   dryRun: boolean;
+  monthlySummaryMonth: string | null;
 } {
   const memoParts: string[] = [];
   let date = getJstDateString(new Date());
@@ -192,6 +262,7 @@ function parseArgs(
   let safeShareInput: string | null = null;
   let importMobilePath: string | null = null;
   let dryRun = false;
+  let monthlySummaryMonth: string | null = null;
 
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
@@ -244,6 +315,18 @@ function parseArgs(
       continue;
     }
 
+    if (arg === "--monthly-summary") {
+      const value = args[index + 1];
+      if (value !== undefined && !value.startsWith("--")) {
+        validateMonth(value);
+        monthlySummaryMonth = value;
+        index += 1;
+      } else {
+        monthlySummaryMonth = getJstMonthString(new Date());
+      }
+      continue;
+    }
+
     if (arg === "--import-mobile") {
       const value = args[index + 1];
       if (value === undefined) {
@@ -280,6 +363,7 @@ function parseArgs(
     safeShareInput,
     importMobilePath,
     dryRun,
+    monthlySummaryMonth,
   };
 }
 
@@ -481,6 +565,16 @@ export async function runCli(
     };
   }
 
+  if (parsed.monthlySummaryMonth !== null) {
+    return {
+      filePath: await writeMonthlySummary(parsed.monthlySummaryMonth, parsed.outputDir),
+      help: false,
+      safeShareText: null,
+      mobileImportPlans: null,
+      dryRun: false,
+    };
+  }
+
   if (parsed.safeShareInput !== null) {
     const sourceText = await resolveSafeShareInput(parsed.safeShareInput);
 
@@ -545,8 +639,13 @@ if (isDirectExecution) {
       }
 
       if (result.filePath !== null) {
-        const date = result.filePath.match(/(\d{4}-\d{2}-\d{2})\.md$/)?.[1] ?? "";
-        console.log(`Saved log: ${result.filePath} (${date})`);
+        if (result.filePath.includes("/monthly-summary/")) {
+          const month = result.filePath.match(/(\d{4}-\d{2})\.md$/)?.[1] ?? "";
+          console.log(`Saved monthly summary: ${result.filePath} (${month})`);
+        } else {
+          const date = result.filePath.match(/(\d{4}-\d{2}-\d{2})\.md$/)?.[1] ?? "";
+          console.log(`Saved log: ${result.filePath} (${date})`);
+        }
       }
     })
     .catch((error: unknown) => {

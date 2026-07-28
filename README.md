@@ -35,6 +35,7 @@ mental-auto は、日々の短いメモを JST（日本標準時）基準の日�
 - 過去の日付の出来事も記録できる
 - 外出先のメモをあとから取り込める
 - 共有前に個人情報を簡単にマスクできる
+- 指定した月の日次ログを1つの月次サマリーにまとめられる
 
 ## Quick Start
 
@@ -119,6 +120,18 @@ node dist/index.js --safe-share logs/2026-03-26.md
 ```bash
 node dist/index.js --help
 ```
+
+月次サマリーを作成:
+
+```bash
+npm start -- --monthly-summary
+npm start -- --monthly-summary 2026-07
+```
+
+`--monthly-summary` は、指定月の `logs/YYYY-MM-DD.md` を日付順に読み込み、
+`monthly-summary/YYYY-MM.md` を生成します。月を省略した場合は JST 基準の現在月を使います。
+既存のサマリーは上書きされ、`monthly-summary/` がない場合は自動作成されます。
+対象月にログがない場合も、空月用のサマリーを生成します。元の日次ログは変更しません。
 
 ## CLI コマンド一覧
 
@@ -257,6 +270,21 @@ node dist/index.js --output-dir ./tmp "退避メモ"
 ```bash
 node dist/index.js --safe-share "mail=user@example.com token=sk-1234567890abcdef1234567890 path=/Users/example/projects/mental-auto/logs/2026-03-26.md"
 node dist/index.js --safe-share logs/2026-03-26.md
+```
+
+### `--monthly-summary [YYYY-MM]`
+
+- 指定月の `logs/YYYY-MM-DD.md` を日付の昇順でまとめます
+- 出力先は `monthly-summary/YYYY-MM.md` です
+- 月を省略すると JST 基準の現在月を使います
+- 既存の月次サマリーは上書きします
+- 対象月にログがなくても正常終了し、空月用のファイルを生成します
+
+例:
+
+```bash
+npm start -- --monthly-summary
+npm start -- --monthly-summary 2026-07
 ```
 
 補足:
