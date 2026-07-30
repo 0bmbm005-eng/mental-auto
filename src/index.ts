@@ -1,7 +1,6 @@
 import {
   appendFile,
   mkdir,
-  readFile,
   readdir,
   rename,
   stat,
@@ -105,10 +104,26 @@ export function getJstDateString(now = new Date()): string {
   return `${year}-${month}-${day}`;
 }
 
-export function renderLog(memo = "", date: string): string {
+function getJstTimeString(now = new Date()): string {
+  return new Intl.DateTimeFormat("en-GB", {
+    timeZone: JST_TIME_ZONE,
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).format(now);
+}
+
+export function renderLog(memo = "", date: string, timestamp: string): string {
   const body = memo.trim();
 
-  return [`# ${date}`, "", body === "" ? "_No memo provided_" : body, ""].join("\n");
+  return [
+    `# ${date}`,
+    "",
+    `## ${timestamp}`,
+    "",
+    body === "" ? "_No memo provided_" : body,
+    "",
+  ].join("\n");
 }
 
 function getJstTimestampString(now = new Date()): string {
@@ -717,7 +732,7 @@ export async function runCli(
     };
   }
 
-  const content = renderLog(parsed.memo, parsed.date);
+  const content = renderLog(parsed.memo, parsed.date, getJstTimeString());
 
   return {
     filePath: await writeLogFile(parsed.date, content, parsed.outputDir),
