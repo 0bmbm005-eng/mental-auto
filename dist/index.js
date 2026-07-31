@@ -12,6 +12,7 @@ Usage:
   mental-auto [options] [memo...]
   mental-auto --safe-share INPUT
   mental-auto --monthly-summary [YYYY-MM]
+  mental-auto --weekly-summary [YYYY-Www]
   mental-auto --import-mobile FILE_OR_DIR [--dry-run]
 
 Options:
@@ -23,6 +24,8 @@ Options:
   --safe-share INPUT  Print AI-share-safe text to stdout
   --monthly-summary [YYYY-MM]
                       Combine the month's daily logs into monthly-summary/YYYY-MM.md
+  --weekly-summary [YYYY-Www]
+                      Combine the week's daily logs into weekly-summary/YYYY-Www.md
   --help, -h          Show this help
 
 Examples:
@@ -36,6 +39,8 @@ Examples:
   mental-auto --safe-share logs/2026-03-26.md
   mental-auto --monthly-summary
   mental-auto --monthly-summary 2026-07
+  mental-auto --weekly-summary
+  mental-auto --weekly-summary 2026-W13
   mental-auto --help
 
 Behavior:
@@ -48,6 +53,7 @@ Behavior:
   - --dry-run only reports planned import-mobile actions
   - --safe-share reads text or a local file and prints sanitized text to stdout
   - --monthly-summary reads logs in ascending date order and overwrites the monthly summary
+  - --weekly-summary reads logs in ascending date order and overwrites the weekly summary
   - Empty memo writes "_No memo provided_"
 
 logs / mirror-logs:
@@ -63,6 +69,7 @@ Unimplemented options:
 `;
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 const MONTH_PATTERN = /^(\d{4})-(\d{2})$/;
+const WEEK_PATTERN = /^(\d{4})-W(\d{2})$/;
 const MOBILE_IMPORT_PATTERN = /^(\d{4}-\d{2}-\d{2})\.md$/;
 const MOBILE_NOTES_HEADING = "## Mobile notes";
 export function getJstDateString(now = new Date()) {
@@ -139,6 +146,69 @@ function validateMonth(month) {
         throw new Error(`Invalid value for --monthly-summary: ${month}`);
     }
 }
+function getIsoWeekString(date) {
+    const value = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+    const dayOfWeek = value.getUTCDay() || 7;
+    value.setUTCDate(value.getUTCDate() + 4 - dayOfWeek);
+    const yearStart = new Date(Date.UTC(value.getUTCFullYear(), 0, 1));
+    const week = Math.ceil(((value.getTime() - yearStart.getTime()) / 86_400_000 + 1) / 7);
+    return `${value.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
+}
+export function getJstWeekString(now = new Date()) {
+    const jstDate = getJstDateString(now);
+    const [year, month, day] = jstDate.split("-").map(Number);
+    return getIsoWeekString(new Date(Date.UTC(year, month - 1, day)));
+}
+function getWeekStartDate(week) {
+    const match = WEEK_PATTERN.exec(week);
+    if (match === null) {
+        throw new Error(`Invalid value for --weekly-summary: ${week}`);
+    }
+    const year = Number(match[1]);
+    const weekNumber = Number(match[2]);
+    const januaryFourth = new Date(Date.UTC(year, 0, 4));
+    const dayOfWeek = januaryFourth.getUTCDay() || 7;
+    const monday = new Date(januaryFourth);
+    monday.setUTCDate(januaryFourth.getUTCDate() - dayOfWeek + 1 + (weekNumber - 1) * 7);
+    if (weekNumber < 1 || weekNumber > 53 || getIsoWeekString(monday) !== week) {
+        throw new Error(`Invalid value for --weekly-summary: ${week}`);
+    }
+    return monday;
+}
+export function renderWeeklySummary(week, logs) {
+    const sections = logs.map(({ date, content }) => {
+        const normalizedContent = normalizeLineEndings(content).trim();
+        return `## ${date}\n\n${normalizedContent}`;
+    });
+    if (sections.length === 0) {
+        return `# Weekly Summary: ${week}\n\n対象週のログはありません。\n`;
+    }
+    return [`# Weekly Summary: ${week}`, ...sections].join("\n\n") + "\n";
+}
+export async function writeWeeklySummary(week, baseDir = process.cwd()) {
+    const weekStart = getWeekStartDate(week);
+    const logs = [];
+    for (let offset = 0; offset < 7; offset += 1) {
+        const dateValue = new Date(weekStart);
+        dateValue.setUTCDate(weekStart.getUTCDate() + offset);
+        const date = dateValue.toISOString().slice(0, 10);
+        const filePath = join(baseDir, DEFAULT_LOG_DIR, `${date}.md`);
+        try {
+            logs.push({ date, content: await readFile(filePath, "utf8") });
+        }
+        catch (error) {
+            const nodeError = error;
+            if (nodeError.code !== "ENOENT") {
+                const message = error instanceof Error ? error.message : String(error);
+                throw new Error(`Failed to read log: ${filePath}: ${message}`);
+            }
+        }
+    }
+    const summaryPath = join(baseDir, "weekly-summary", `${week}.md`);
+    await mkdir(dirname(summaryPath), { recursive: true });
+    await writeFile(summaryPath, renderWeeklySummary(week, logs), "utf8");
+    return summaryPath;
+}
 export function renderMonthlySummary(month, logs) {
     const sections = logs.map(({ date, content }) => {
         const normalizedContent = normalizeLineEndings(content).trim();
@@ -192,6 +262,7 @@ function parseArgs(args) {
     let importMobilePath = null;
     let dryRun = false;
     let monthlySummaryMonth = null;
+    let weeklySummaryWeek = null;
     for (let index = 0; index < args.length; index += 1) {
         const arg = args[index];
         if (arg === "--help" || arg === "-h") {
@@ -249,6 +320,18 @@ function parseArgs(args) {
             }
             continue;
         }
+        if (arg === "--weekly-summary") {
+            const value = args[index + 1];
+            if (value !== undefined && !value.startsWith("--")) {
+                getWeekStartDate(value);
+                weeklySummaryWeek = value;
+                index += 1;
+            }
+            else {
+                weeklySummaryWeek = getJstWeekString(new Date());
+            }
+            continue;
+        }
         if (arg === "--import-mobile") {
             const value = args[index + 1];
             if (value === undefined) {
@@ -281,6 +364,7 @@ function parseArgs(args) {
         importMobilePath,
         dryRun,
         monthlySummaryMonth,
+        weeklySummaryWeek,
     };
 }
 function getMobileImportDateFromFilename(filePath) {
@@ -438,6 +522,15 @@ export async function runCli(args = process.argv.slice(2)) {
             dryRun: false,
         };
     }
+    if (parsed.weeklySummaryWeek !== null) {
+        return {
+            filePath: await writeWeeklySummary(parsed.weeklySummaryWeek, parsed.outputDir),
+            help: false,
+            safeShareText: null,
+            mobileImportPlans: null,
+            dryRun: false,
+        };
+    }
     if (parsed.safeShareInput !== null) {
         const sourceText = await resolveSafeShareInput(parsed.safeShareInput);
         return {
@@ -491,6 +584,10 @@ if (isDirectExecution) {
             if (result.filePath.includes("/monthly-summary/")) {
                 const month = result.filePath.match(/(\d{4}-\d{2})\.md$/)?.[1] ?? "";
                 console.log(`Saved monthly summary: ${result.filePath} (${month})`);
+            }
+            else if (result.filePath.includes("/weekly-summary/")) {
+                const week = result.filePath.match(/(\d{4}-W\d{2})\.md$/)?.[1] ?? "";
+                console.log(`Saved weekly summary: ${result.filePath} (${week})`);
             }
             else {
                 const date = result.filePath.match(/(\d{4}-\d{2}-\d{2})\.md$/)?.[1] ?? "";

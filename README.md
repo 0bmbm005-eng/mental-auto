@@ -133,6 +133,19 @@ npm start -- --monthly-summary 2026-07
 既存のサマリーは上書きされ、`monthly-summary/` がない場合は自動作成されます。
 対象月にログがない場合も、空月用のサマリーを生成します。元の日次ログは変更しません。
 
+週次サマリーを作成:
+
+```bash
+npm start -- --weekly-summary
+npm start -- --weekly-summary 2026-W13
+```
+
+`--weekly-summary` は、指定週（ISO 8601 の `YYYY-Www`、月曜始まり）の
+`logs/YYYY-MM-DD.md` を日付順に読み込み、`weekly-summary/YYYY-Www.md` を生成します。
+週を省略した場合は JST 基準の現在週を使います。既存のサマリーは上書きされ、
+`weekly-summary/` がない場合は自動作成されます。対象週にログがない場合も、
+空週用のサマリーを生成します。元の日次ログは変更しません。
+
 ## CLI コマンド一覧
 
 ### npm scripts
@@ -285,6 +298,21 @@ node dist/index.js --safe-share logs/2026-03-26.md
 ```bash
 npm start -- --monthly-summary
 npm start -- --monthly-summary 2026-07
+```
+
+### `--weekly-summary [YYYY-Www]`
+
+- 指定週の `logs/YYYY-MM-DD.md` を日付の昇順でまとめます
+- 出力先は `weekly-summary/YYYY-Www.md` です
+- 週を省略すると JST 基準の現在週（ISO 8601、月曜始まり）を使います
+- 既存の週次サマリーは上書きします
+- 対象週にログがなくても正常終了し、空週用のファイルを生成します
+
+例:
+
+```bash
+npm start -- --weekly-summary
+npm start -- --weekly-summary 2026-W13
 ```
 
 補足:

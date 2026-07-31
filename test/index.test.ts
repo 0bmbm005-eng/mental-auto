@@ -7,12 +7,15 @@ import { describe, expect, it } from "vitest";
 import {
   formatHelp,
   getJstDateString,
+  getJstWeekString,
   renderAppendEntry,
   renderLog,
   renderMonthlySummary,
+  renderWeeklySummary,
   runCli,
   writeLogFile,
   writeMonthlySummary,
+  writeWeeklySummary,
 } from "../src/index.js";
 
 describe("getJstDateString", () => {
@@ -20,6 +23,17 @@ describe("getJstDateString", () => {
     const utc = new Date("2026-03-25T18:30:00.000Z");
 
     expect(getJstDateString(utc)).toBe("2026-03-26");
+  });
+});
+
+describe("getJstWeekString", () => {
+  it("formats a date as an ISO week in JST", () => {
+    expect(getJstWeekString(new Date("2026-03-25T18:30:00.000Z"))).toBe("2026-W13");
+  });
+
+  it("handles ISO weeks at a year boundary", () => {
+    expect(getJstWeekString(new Date("2021-01-01T00:00:00.000Z"))).toBe("2020-W53");
+    expect(getJstWeekString(new Date("2021-01-04T00:00:00.000Z"))).toBe("2021-W01");
   });
 });
 
@@ -68,6 +82,25 @@ describe("renderMonthlySummary", () => {
   });
 });
 
+describe("renderWeeklySummary", () => {
+  it("renders logs in ascending date order supplied by the caller", () => {
+    expect(
+      renderWeeklySummary("2026-W13", [
+        { date: "2026-03-23", content: "# 2026-03-23\n\nMonday\n" },
+        { date: "2026-03-25", content: "# 2026-03-25\n\nWednesday\n" },
+      ]),
+    ).toBe(
+      "# Weekly Summary: 2026-W13\n\n## 2026-03-23\n\n# 2026-03-23\n\nMonday\n\n## 2026-03-25\n\n# 2026-03-25\n\nWednesday\n",
+    );
+  });
+
+  it("renders the required empty-week message", () => {
+    expect(renderWeeklySummary("2026-W14", [])).toBe(
+      "# Weekly Summary: 2026-W14\n\n対象週のログはありません。\n",
+    );
+  });
+});
+
 describe("formatHelp", () => {
   it("shows usage, examples, and unimplemented options", () => {
     expect(formatHelp()).toContain("Usage:");
@@ -76,6 +109,7 @@ describe("formatHelp", () => {
     expect(formatHelp()).toContain("--import-mobile X");
     expect(formatHelp()).toContain("--dry-run");
     expect(formatHelp()).toContain("--safe-share INPUT");
+    expect(formatHelp()).toContain("--weekly-summary [YYYY-Www]");
     expect(formatHelp()).toContain("Examples:");
     expect(formatHelp()).toContain("Re-running on the same date appends a timestamped entry");
     expect(formatHelp()).toContain("mirror-logs/: not implemented");
@@ -256,6 +290,58 @@ describe("runCli", () => {
     const result = await runCli(["--monthly-summary", "--output-dir", baseDir]);
 
     expect(result.filePath).toBe(join(baseDir, "monthly-summary", `${currentMonth}.md`));
+  });
+
+  it("creates and overwrites a weekly summary from daily logs", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-weekly-summary-"));
+    const logsDir = join(baseDir, "logs");
+    await mkdir(logsDir, { recursive: true });
+    await writeFile(join(logsDir, "2026-03-25.md"), "# 2026-03-25\n\nWednesday\n", "utf8");
+    await writeFile(join(logsDir, "2026-03-23.md"), "# 2026-03-23\n\nMonday\n", "utf8");
+
+    const summaryPath = await writeWeeklySummary("2026-W13", baseDir);
+    expect(summaryPath).toBe(join(baseDir, "weekly-summary", "2026-W13.md"));
+    await expect(readFile(summaryPath, "utf8")).resolves.toBe(
+      "# Weekly Summary: 2026-W13\n\n## 2026-03-23\n\n# 2026-03-23\n\nMonday\n\n## 2026-03-25\n\n# 2026-03-25\n\nWednesday\n",
+    );
+
+    await writeFile(summaryPath, "old summary\n", "utf8");
+    await writeWeeklySummary("2026-W13", baseDir);
+    await expect(readFile(summaryPath, "utf8")).resolves.toBe(
+      "# Weekly Summary: 2026-W13\n\n## 2026-03-23\n\n# 2026-03-23\n\nMonday\n\n## 2026-03-25\n\n# 2026-03-25\n\nWednesday\n",
+    );
+  });
+
+  it("supports the current JST week and an explicit week through the CLI", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-weekly-cli-"));
+    const explicit = await runCli(["--weekly-summary", "2026-W13", "--output-dir", baseDir]);
+    expect(explicit.filePath).toBe(join(baseDir, "weekly-summary", "2026-W13.md"));
+
+    const current = await runCli(["--weekly-summary", "--output-dir", baseDir]);
+    expect(current.filePath).toBe(join(baseDir, "weekly-summary", `${getJstWeekString()}.md`));
+  });
+
+  it("rejects malformed and nonexistent ISO weeks", async () => {
+    await expect(runCli(["--weekly-summary", "2026-13"])).rejects.toThrow(
+      "Invalid value for --weekly-summary: 2026-13",
+    );
+    await expect(runCli(["--weekly-summary", "2021-W53"])).rejects.toThrow(
+      "Invalid value for --weekly-summary: 2021-W53",
+    );
+  });
+
+  it("includes logs when the week crosses a month boundary", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-weekly-boundary-"));
+    const logsDir = join(baseDir, "logs");
+    await mkdir(logsDir, { recursive: true });
+    await writeFile(join(logsDir, "2026-03-30.md"), "# 2026-03-30\n\nMarch\n", "utf8");
+    await writeFile(join(logsDir, "2026-04-01.md"), "# 2026-04-01\n\nApril\n", "utf8");
+
+    const summaryPath = await writeWeeklySummary("2026-W14", baseDir);
+
+    await expect(readFile(summaryPath, "utf8")).resolves.toBe(
+      "# Weekly Summary: 2026-W14\n\n## 2026-03-30\n\n# 2026-03-30\n\nMarch\n\n## 2026-04-01\n\n# 2026-04-01\n\nApril\n",
+    );
   });
 
   it("prints sanitized safe-share text from a direct string", async () => {
