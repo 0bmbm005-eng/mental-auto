@@ -84,9 +84,22 @@ export function getJstDateString(now = new Date()) {
     const day = parts.find((part) => part.type === "day")?.value ?? "";
     return `${year}-${month}-${day}`;
 }
-export function renderLog(memo = "", date) {
+function getJstTimeString(now = new Date()) {
+    return new Intl.DateTimeFormat("en-GB", {
+        timeZone: JST_TIME_ZONE,
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h23",
+    }).format(now);
+}
+export function renderLog(memo = "", date, timestamp) {
     const body = memo.trim();
-    return [`# ${date}`, "", body === "" ? "_No memo provided_" : body, ""].join("\n");
+    const lines = [`# ${date}`, ""];
+    if (timestamp) {
+        lines.push(`## ${timestamp}`, "");
+    }
+    lines.push(body === "" ? "_No memo provided_" : body, "");
+    return lines.join("\n");
 }
 function getJstTimestampString(now = new Date()) {
     const parts = new Intl.DateTimeFormat("en", {

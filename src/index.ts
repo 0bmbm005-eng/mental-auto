@@ -1,6 +1,7 @@
 import {
   appendFile,
   mkdir,
+  readFile,
   readdir,
   rename,
   stat,
@@ -113,17 +114,22 @@ function getJstTimeString(now = new Date()): string {
   }).format(now);
 }
 
-export function renderLog(memo = "", date: string, timestamp: string): string {
+export function renderLog(
+  memo = "",
+  date: string,
+  timestamp?: string,
+): string {
   const body = memo.trim();
 
-  return [
-    `# ${date}`,
-    "",
-    `## ${timestamp}`,
-    "",
-    body === "" ? "_No memo provided_" : body,
-    "",
-  ].join("\n");
+  const lines = [`# ${date}`, ""];
+
+  if (timestamp) {
+    lines.push(`## ${timestamp}`, "");
+  }
+
+  lines.push(body === "" ? "_No memo provided_" : body, "");
+
+  return lines.join("\n");
 }
 
 function getJstTimestampString(now = new Date()): string {
@@ -732,7 +738,7 @@ export async function runCli(
     };
   }
 
-  const content = renderLog(parsed.memo, parsed.date, getJstTimeString());
+  const content = renderLog(parsed.memo, parsed.date);
 
   return {
     filePath: await writeLogFile(parsed.date, content, parsed.outputDir),
@@ -787,4 +793,4 @@ if (isDirectExecution) {
       console.error(`mental-auto failed: ${message}`);
       process.exitCode = 1;
     });
-}
+      }
