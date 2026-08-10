@@ -132,6 +132,11 @@ export async function getLogStats(baseDir = process.cwd()) {
     const entries = await readdir(logsDir, { withFileTypes: true });
     const logFiles = entries.filter((entry) => entry.isFile() && entry.name.endsWith(".md"));
     const totalFiles = logFiles.length;
+    const sortedFileNames = logFiles
+        .map((entry) => entry.name)
+        .sort();
+    const latestFileName = sortedFileNames.at(-1);
+    const latestLog = latestFileName?.replace(/\.md$/, "") ?? null;
     let totalEntries = 0;
     for (const logFile of logFiles) {
         const filePath = join(logsDir, logFile.name);
@@ -141,6 +146,7 @@ export async function getLogStats(baseDir = process.cwd()) {
     return {
         totalFiles,
         totalEntries,
+        latestLog,
     };
 }
 export async function writeLogFile(date, content, baseDir = process.cwd()) {
@@ -626,6 +632,7 @@ if (isDirectExecution) {
         if (result.stats !== null) {
             console.log(`Log files: ${result.stats.totalFiles}`);
             console.log(`Log entries: ${result.stats.totalEntries}`);
+            console.log(`Latest log: ${result.stats.latestLog ?? "none"}`);
             return;
         }
         if (result.safeShareText !== null) {

@@ -84,10 +84,15 @@ describe("getLogStats", () => {
   join(baseDir, "logs", "2026-03-26.md"),
   "# 2026-03-26\n\n最初の記録\n\n## Entry 12:00\n\n2回目\n\n## Entry 20:00\n\n3回目\n",
 );
+    await writeFile(
+  join(baseDir, "logs", "2026-03-20.md"),
+  "# 2026-03-20\n\n古い記録\n",
+);
     const result = await getLogStats(baseDir);
  expect(result).toEqual({
-  totalFiles: 1,
-  totalEntries: 3,
+  totalFiles: 2,
+  totalEntries: 4,
+  latestLog: "2026-03-26",
 });
 });
 });
