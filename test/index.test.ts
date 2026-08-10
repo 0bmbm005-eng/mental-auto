@@ -81,14 +81,16 @@ describe("getLogStats", () => {
     const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-"));
     await mkdir(join(baseDir, "logs"));
     await writeFile(
-      join(baseDir, "logs", "2026-03-26.md"),
-      "# 2026-03-26\n",
+  join(baseDir, "logs", "2026-03-26.md"),
+  "# 2026-03-26\n\n最初の記録\n\n## Entry 12:00\n\n2回目\n\n## Entry 20:00\n\n3回目\n",
 );
     const result = await getLogStats(baseDir);
-  expect(result).toBe(1);
+ expect(result).toEqual({
+  totalFiles: 1,
+  totalEntries: 3,
 });
 });
-
+});
 describe("renderMonthlySummary", () => {
   it("renders logs in the supplied order", () => {
     expect(

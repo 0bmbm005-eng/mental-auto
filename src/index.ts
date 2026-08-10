@@ -172,7 +172,17 @@ export async function getLogStats(baseDir = process.cwd()) {
     (entry) => entry.isFile() && entry.name.endsWith(".md"),
   );
   const totalFiles = logFiles.length;
-  return totalFiles;
+  let totalEntries = 0;
+
+   for (const logFile of logFiles) {
+    const filePath = join(logsDir, logFile.name);
+    const content = await readFile(filePath, "utf8");
+    totalEntries += countLogEntries(content);
+}
+   return {
+  totalFiles,
+  totalEntries,
+};
 }
 export async function writeLogFile(
   date: string,
@@ -799,7 +809,8 @@ if (isDirectExecution) {
         return;
       }
       if (result.stats !== null) {
-      console.log(`Log files: ${result.stats}`);
+       console.log(`Log files: ${result.stats.totalFiles}`);
+       console.log(`Log entries: ${result.stats.totalEntries}`);
        return;
      }
       if (result.safeShareText !== null) {
