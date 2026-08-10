@@ -5,6 +5,8 @@ import { isAbsolute, join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import {
+  countLogEntries,
+  getLogStats,
   formatHelp,
   getJstDateString,
   getJstWeekString,
@@ -61,6 +63,30 @@ describe("renderAppendEntry", () => {
       ),
     ).toBe("## Entry 2026-03-26 21:15:30 JST\n\n夜のメモ\n");
   });
+});
+
+describe("countLogEntries", () => {
+  it("counts the initial log and appended entries", () => {
+    const content =
+      "# 2026-03-26\n\n最初のメモ\n\n" +
+      "## Entry 2026-03-26 12:00:00 JST\n\n2回目\n\n" +
+      "## Entry 2026-03-26 18:00:00 JST\n\n3回目\n";
+
+    expect(countLogEntries(content)).toBe(3);
+  });
+});
+
+describe("getLogStats", () => {
+  it("counts markdown log files", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-"));
+    await mkdir(join(baseDir, "logs"));
+    await writeFile(
+      join(baseDir, "logs", "2026-03-26.md"),
+      "# 2026-03-26\n",
+);
+    const result = await getLogStats(baseDir);
+  expect(result).toBe(1);
+});
 });
 
 describe("renderMonthlySummary", () => {
@@ -122,6 +148,7 @@ describe("runCli help", () => {
     await expect(runCli(["--help"])).resolves.toEqual({
       filePath: null,
       help: true,
+      stats: null,
       safeShareText: null,
       mobileImportPlans: null,
       dryRun: false,
@@ -132,6 +159,7 @@ describe("runCli help", () => {
 describe("writeLogFile", () => {
   it("creates the logs directory and writes the file", async () => {
     const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-"));
+    await mkdir(join(baseDir, "logs"));
     const content = renderLog("テスト", "2026-03-26");
     const filePath = await writeLogFile("2026-03-26", content, baseDir);
 
@@ -189,6 +217,7 @@ describe("runCli", () => {
     expect(result).toEqual({
       filePath: join(baseDir, "logs", "2026-03-26.md"),
       help: false,
+      stats: null,
       safeShareText: null,
       mobileImportPlans: null,
       dryRun: false,
@@ -353,6 +382,7 @@ describe("runCli", () => {
     expect(result).toEqual({
       filePath: null,
       help: false,
+      stats: null,
       safeShareText: "[masked-email]  [masked-api-key] [masked-path]",
       mobileImportPlans: null,
       dryRun: false,
@@ -374,6 +404,7 @@ describe("runCli", () => {
     expect(result).toEqual({
       filePath: null,
       help: false,
+      stats: null,
       safeShareText: "contact: [masked-email]\npath: [masked-path]",
       mobileImportPlans: null,
       dryRun: false,

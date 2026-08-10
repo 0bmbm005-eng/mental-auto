@@ -123,6 +123,17 @@ export function renderAppendEntry(date, content, timestamp) {
         : normalizedContent;
     return [`## Entry ${timestamp}`, "", body === "" ? "_No memo provided_" : body, ""].join("\n");
 }
+export function countLogEntries(content) {
+    const appendEntries = content.match(/^## Entry /gm)?.length ?? 0;
+    return 1 + appendEntries;
+}
+export async function getLogStats(baseDir = process.cwd()) {
+    const logsDir = join(baseDir, DEFAULT_LOG_DIR);
+    const entries = await readdir(logsDir, { withFileTypes: true });
+    const logFiles = entries.filter((entry) => entry.isFile() && entry.name.endsWith(".md"));
+    const totalFiles = logFiles.length;
+    return totalFiles;
+}
 export async function writeLogFile(date, content, baseDir = process.cwd()) {
     const logsDir = join(baseDir, DEFAULT_LOG_DIR);
     const filePath = join(logsDir, `${date}.md`);
@@ -270,6 +281,7 @@ function parseArgs(args) {
     let date = getJstDateString(new Date());
     let outputDir = resolve(process.cwd());
     let help = false;
+    let stats = false;
     let memoSpecified = false;
     let safeShareInput = null;
     let importMobilePath = null;
@@ -280,6 +292,10 @@ function parseArgs(args) {
         const arg = args[index];
         if (arg === "--help" || arg === "-h") {
             help = true;
+            continue;
+        }
+        if (arg === "--stats") {
+            stats = true;
             continue;
         }
         if (arg === "--date") {
@@ -373,6 +389,7 @@ function parseArgs(args) {
         date,
         outputDir,
         help,
+        stats,
         safeShareInput,
         importMobilePath,
         dryRun,
@@ -521,6 +538,7 @@ export async function runCli(args = process.argv.slice(2)) {
         return {
             filePath: null,
             help: true,
+            stats: null,
             safeShareText: null,
             mobileImportPlans: null,
             dryRun: false,
@@ -530,6 +548,7 @@ export async function runCli(args = process.argv.slice(2)) {
         return {
             filePath: await writeMonthlySummary(parsed.monthlySummaryMonth, parsed.outputDir),
             help: false,
+            stats: null,
             safeShareText: null,
             mobileImportPlans: null,
             dryRun: false,
@@ -539,6 +558,17 @@ export async function runCli(args = process.argv.slice(2)) {
         return {
             filePath: await writeWeeklySummary(parsed.weeklySummaryWeek, parsed.outputDir),
             help: false,
+            stats: null,
+            safeShareText: null,
+            mobileImportPlans: null,
+            dryRun: false,
+        };
+    }
+    if (parsed.stats) {
+        return {
+            filePath: null,
+            help: false,
+            stats: await getLogStats(parsed.outputDir),
             safeShareText: null,
             mobileImportPlans: null,
             dryRun: false,
@@ -549,6 +579,7 @@ export async function runCli(args = process.argv.slice(2)) {
         return {
             filePath: null,
             help: false,
+            stats: null,
             safeShareText: sanitizeForSafeShare(sourceText),
             mobileImportPlans: null,
             dryRun: false,
@@ -558,6 +589,7 @@ export async function runCli(args = process.argv.slice(2)) {
         return {
             filePath: null,
             help: false,
+            stats: null,
             safeShareText: null,
             mobileImportPlans: await importMobileFiles(parsed.importMobilePath, parsed.outputDir, parsed.dryRun),
             dryRun: parsed.dryRun,
@@ -567,6 +599,7 @@ export async function runCli(args = process.argv.slice(2)) {
     return {
         filePath: await writeLogFile(parsed.date, content, parsed.outputDir),
         help: false,
+        stats: null,
         safeShareText: null,
         mobileImportPlans: null,
         dryRun: false,
@@ -579,6 +612,10 @@ if (isDirectExecution) {
         .then((result) => {
         if (result.help) {
             console.log(formatHelp());
+            return;
+        }
+        if (result.stats !== null) {
+            console.log(`Log files: ${result.stats}`);
             return;
         }
         if (result.safeShareText !== null) {
