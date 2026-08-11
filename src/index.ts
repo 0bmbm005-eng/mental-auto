@@ -177,7 +177,9 @@ export async function getLogStats(baseDir = process.cwd()) {
       .sort();
 
   const latestFileName = sortedFileNames.at(-1);
+  const oldestFileName = sortedFileNames.at(0);
   const latestLog = latestFileName?.replace(/\.md$/, "") ?? null;
+  const oldestLog = oldestFileName?.replace(/\.md$/, "") ?? null;
 
   let totalEntries = 0;
 
@@ -190,6 +192,7 @@ export async function getLogStats(baseDir = process.cwd()) {
   totalFiles,
   totalEntries,
   latestLog,
+  oldestLog,
 };
 }
 export async function writeLogFile(
@@ -820,6 +823,7 @@ if (isDirectExecution) {
        console.log(`Log files: ${result.stats.totalFiles}`);
        console.log(`Log entries: ${result.stats.totalEntries}`);
        console.log(`Latest log: ${result.stats.latestLog ?? "none"}`);
+       console.log(`Oldest log: ${result.stats.oldestLog ?? "none"}`);
        return;
      }
       if (result.safeShareText !== null) {

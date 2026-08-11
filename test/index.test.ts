@@ -93,6 +93,7 @@ describe("getLogStats", () => {
   totalFiles: 2,
   totalEntries: 4,
   latestLog: "2026-03-26",
+  oldestLog: "2026-03-20",
 });
 });
 });
