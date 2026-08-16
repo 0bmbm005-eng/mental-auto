@@ -127,6 +127,11 @@ export function countLogEntries(content) {
     const appendEntries = content.match(/^## Entry /gm)?.length ?? 0;
     return 1 + appendEntries;
 }
+function getPreviousDate(date) {
+    const currentDate = new Date(date);
+    currentDate.setDate(currentDate.getDate() - 1);
+    return currentDate.toISOString().split("T")[0];
+}
 export async function getLogStats(baseDir = process.cwd()) {
     const logsDir = join(baseDir, DEFAULT_LOG_DIR);
     const entries = await readdir(logsDir, { withFileTypes: true });
@@ -139,6 +144,15 @@ export async function getLogStats(baseDir = process.cwd()) {
     const oldestFileName = sortedFileNames.at(0);
     const latestLog = latestFileName?.replace(/\.md$/, "") ?? null;
     const oldestLog = oldestFileName?.replace(/\.md$/, "") ?? null;
+    let currentStreak = 0;
+    if (latestLog !== null) {
+        currentStreak = 1;
+        let checkDate = getPreviousDate(latestLog);
+        while (sortedFileNames.includes(`${checkDate}.md`)) {
+            currentStreak += 1;
+            checkDate = getPreviousDate(checkDate);
+        }
+    }
     let totalEntries = 0;
     for (const logFile of logFiles) {
         const filePath = join(logsDir, logFile.name);
@@ -150,6 +164,7 @@ export async function getLogStats(baseDir = process.cwd()) {
         totalEntries,
         latestLog,
         oldestLog,
+        currentStreak,
     };
 }
 export async function writeLogFile(date, content, baseDir = process.cwd()) {
@@ -637,6 +652,7 @@ if (isDirectExecution) {
             console.log(`Log entries: ${result.stats.totalEntries}`);
             console.log(`Latest log: ${result.stats.latestLog ?? "none"}`);
             console.log(`Oldest log: ${result.stats.oldestLog ?? "none"}`);
+            console.log(`Current streak: ${result.stats.currentStreak}`);
             return;
         }
         if (result.safeShareText !== null) {

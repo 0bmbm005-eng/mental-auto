@@ -94,8 +94,24 @@ describe("getLogStats", () => {
   totalEntries: 4,
   latestLog: "2026-03-26",
   oldestLog: "2026-03-20",
+  currentStreak: 1,
 });
 });
+it("counts consecutive log days from the latest log", async () => {
+  const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-streak-"));
+  const logsDir = join(baseDir, "logs");
+
+  await mkdir(logsDir);
+
+  await writeFile(join(logsDir, "2026-03-24.md"), "# 2026-03-24\n");
+  await writeFile(join(logsDir, "2026-03-25.md"), "# 2026-03-25\n");
+  await writeFile(join(logsDir, "2026-03-26.md"), "# 2026-03-26\n");
+
+  const result = await getLogStats(baseDir);
+
+  expect(result.currentStreak).toBe(3);
+});
+
 });
 describe("renderMonthlySummary", () => {
   it("renders logs in the supplied order", () => {
@@ -112,7 +128,10 @@ describe("renderMonthlySummary", () => {
   it("renders the required empty-month message", () => {
     expect(renderMonthlySummary("2026-08", [])).toBe(
       "# Monthly Summary: 2026-08\n\n対象月のログはありません。\n",
+
+ 
     );
+    
   });
 });
 
