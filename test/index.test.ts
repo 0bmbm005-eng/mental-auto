@@ -95,6 +95,7 @@ describe("getLogStats", () => {
   latestLog: "2026-03-26",
   oldestLog: "2026-03-20",
   currentStreak: 1,
+  longestStreak: 1,
 });
 });
 it("counts consecutive log days from the latest log", async () => {
@@ -111,9 +112,22 @@ it("counts consecutive log days from the latest log", async () => {
 
   expect(result.currentStreak).toBe(3);
 });
+it("tracks the longest streak", async () => {
+  const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-longest-streak-"));
+  const logsDir = join(baseDir, "logs");
+  await mkdir(logsDir);
+  await writeFile(join(logsDir, "2026-03-20.md"), "# 2026-03-20\n");
+  await writeFile(join(logsDir, "2026-03-21.md"), "# 2026-03-21\n");
+  await writeFile(join(logsDir, "2026-03-22.md"), "# 2026-03-22\n");
+  await writeFile(join(logsDir, "2026-03-25.md"), "# 2026-03-25\n");
+  const result = await getLogStats(baseDir);
+  expect(result.longestStreak).toBe(3);
+  expect(result.currentStreak).toBe(1);
+});
 
 });
 describe("renderMonthlySummary", () => {
+  
   it("renders logs in the supplied order", () => {
     expect(
       renderMonthlySummary("2026-07", [
