@@ -145,6 +145,21 @@ export async function getLogStats(baseDir = process.cwd()) {
     const latestLog = latestFileName?.replace(/\.md$/, "") ?? null;
     const oldestLog = oldestFileName?.replace(/\.md$/, "") ?? null;
     let currentStreak = 0;
+    let longestStreak = 0;
+    let previousDate = null;
+    for (const fileName of sortedFileNames) {
+        const date = fileName.replace(/\.md$/, "");
+        if (previousDate === getPreviousDate(date)) {
+            currentStreak += 1;
+        }
+        else {
+            currentStreak = 1;
+        }
+        if (currentStreak > longestStreak) {
+            longestStreak = currentStreak;
+        }
+        previousDate = date;
+    }
     if (latestLog !== null) {
         currentStreak = 1;
         let checkDate = getPreviousDate(latestLog);
@@ -165,6 +180,7 @@ export async function getLogStats(baseDir = process.cwd()) {
         latestLog,
         oldestLog,
         currentStreak,
+        longestStreak,
     };
 }
 export async function writeLogFile(date, content, baseDir = process.cwd()) {
@@ -653,6 +669,7 @@ if (isDirectExecution) {
             console.log(`Latest log: ${result.stats.latestLog ?? "none"}`);
             console.log(`Oldest log: ${result.stats.oldestLog ?? "none"}`);
             console.log(`Current streak: ${result.stats.currentStreak}`);
+            console.log(`Longest streak: ${result.stats.longestStreak}`);
             return;
         }
         if (result.safeShareText !== null) {
