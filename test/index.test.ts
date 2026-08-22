@@ -2,7 +2,7 @@ import { mkdtemp, mkdir, readFile, readdir, stat, writeFile } from "node:fs/prom
 import { tmpdir } from "node:os";
 import { isAbsolute, join } from "node:path";
 
-import { describe, expect, it } from "vitest";
+import { describe, expect, it , vi } from "vitest";
 
 import {
   countLogEntries,
@@ -78,6 +78,8 @@ describe("countLogEntries", () => {
 
 describe("getLogStats", () => {
   it("counts markdown log files", async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-08-22T00:00:00+09:00"));
     const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-"));
     await mkdir(join(baseDir, "logs"));
     await writeFile(
@@ -94,9 +96,11 @@ describe("getLogStats", () => {
   totalEntries: 4,
   latestLog: "2026-03-26",
   oldestLog: "2026-03-20",
+  daysSinceLastLog: 149,
   currentStreak: 1,
   longestStreak: 1,
 });
+vi.useRealTimers();
 });
 it("counts consecutive log days from the latest log", async () => {
   const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-streak-"));

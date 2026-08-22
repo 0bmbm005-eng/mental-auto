@@ -185,8 +185,10 @@ export async function getLogStats(baseDir = process.cwd()) {
   const oldestFileName = sortedFileNames.at(0);
   const latestLog = latestFileName?.replace(/\.md$/, "") ?? null;
   const oldestLog = oldestFileName?.replace(/\.md$/, "") ?? null;
+  const today = getJstDateString();
   let currentStreak = 0;
   let longestStreak = 0;
+  let daysSinceLastLog = 0;
   let previousDate: string | null = null;
 
   for (const fileName of sortedFileNames) {
@@ -204,6 +206,10 @@ export async function getLogStats(baseDir = process.cwd()) {
 }
 
 if (latestLog !== null) {
+   const todayDate = new Date(today);
+   const latestDate = new Date(latestLog);
+   const differenceMs = todayDate.getTime() - latestDate.getTime();
+   daysSinceLastLog = differenceMs / 86400000;
   currentStreak = 1;
   let checkDate = getPreviousDate(latestLog);
 
@@ -224,6 +230,7 @@ while (sortedFileNames.includes(`${checkDate}.md`)) {
   totalEntries,
   latestLog,
   oldestLog,
+  daysSinceLastLog,
   currentStreak,
   longestStreak,
 };
@@ -857,6 +864,7 @@ if (isDirectExecution) {
        console.log(`Log entries: ${result.stats.totalEntries}`);
        console.log(`Latest log: ${result.stats.latestLog ?? "none"}`);
        console.log(`Oldest log: ${result.stats.oldestLog ?? "none"}`);
+       console.log(`Days since last log: ${result.stats.daysSinceLastLog}`);
        console.log(`Current streak: ${result.stats.currentStreak}`);
        console.log(`Longest streak: ${result.stats.longestStreak}`);
        return;
