@@ -220,6 +220,7 @@ while (sortedFileNames.includes(`${checkDate}.md`)) {
 }
   let totalEntries = 0;
   let maxEntriesPerDay = 0;
+  let mostActiveDay: string | null = null;
 
    for (const logFile of logFiles) {
     const filePath = join(logsDir, logFile.name);
@@ -228,7 +229,8 @@ while (sortedFileNames.includes(`${checkDate}.md`)) {
     totalEntries += entryCount;
     if (entryCount > maxEntriesPerDay) {
       maxEntriesPerDay = entryCount;
-    }
+      mostActiveDay = logFile.name.replace(/\.md$/, "");
+  }
   }
   const averageEntriesPerLogDay =
     totalFiles === 0 ? 0 : totalEntries / totalFiles;
@@ -237,6 +239,7 @@ while (sortedFileNames.includes(`${checkDate}.md`)) {
   totalEntries,
   averageEntriesPerLogDay,
   maxEntriesPerDay, 
+  mostActiveDay,
   latestLog,
   oldestLog,
   daysSinceLastLog,
@@ -873,6 +876,7 @@ if (isDirectExecution) {
        console.log(`Log entries: ${result.stats.totalEntries}`);
        console.log(`Average entries per log day: ${result.stats.averageEntriesPerLogDay.toFixed(1)}`);
        console.log(  `Most entries in a day: ${result.stats.maxEntriesPerDay}`,);
+       console.log(`Most active day: ${result.stats.mostActiveDay ?? "none"}`);
        console.log(`Latest log: ${result.stats.latestLog ?? "none"}`);
        console.log(`Oldest log: ${result.stats.oldestLog ?? "none"}`);
        console.log(`Days since last log: ${result.stats.daysSinceLastLog}`);

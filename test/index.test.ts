@@ -96,6 +96,7 @@ describe("getLogStats", () => {
   totalEntries: 4,
   averageEntriesPerLogDay: 2,
   maxEntriesPerDay: 3,
+  mostActiveDay: "2026-03-26",
   latestLog: "2026-03-26",
   oldestLog: "2026-03-20",
   daysSinceLastLog: 149,
