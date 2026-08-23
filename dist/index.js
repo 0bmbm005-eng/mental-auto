@@ -175,16 +175,22 @@ export async function getLogStats(baseDir = process.cwd()) {
         }
     }
     let totalEntries = 0;
+    let maxEntriesPerDay = 0;
     for (const logFile of logFiles) {
         const filePath = join(logsDir, logFile.name);
         const content = await readFile(filePath, "utf8");
-        totalEntries += countLogEntries(content);
+        const entryCount = countLogEntries(content);
+        totalEntries += entryCount;
+        if (entryCount > maxEntriesPerDay) {
+            maxEntriesPerDay = entryCount;
+        }
     }
     const averageEntriesPerLogDay = totalFiles === 0 ? 0 : totalEntries / totalFiles;
     return {
         totalFiles,
         totalEntries,
         averageEntriesPerLogDay,
+        maxEntriesPerDay,
         latestLog,
         oldestLog,
         daysSinceLastLog,
@@ -676,6 +682,7 @@ if (isDirectExecution) {
             console.log(`Log files: ${result.stats.totalFiles}`);
             console.log(`Log entries: ${result.stats.totalEntries}`);
             console.log(`Average entries per log day: ${result.stats.averageEntriesPerLogDay.toFixed(1)}`);
+            console.log(`Most entries in a day: ${result.stats.maxEntriesPerDay}`);
             console.log(`Latest log: ${result.stats.latestLog ?? "none"}`);
             console.log(`Oldest log: ${result.stats.oldestLog ?? "none"}`);
             console.log(`Days since last log: ${result.stats.daysSinceLastLog}`);
