@@ -124,6 +124,22 @@ it("formats positive monthly log day change with plus sign", async () => {
  vi.useRealTimers();
 
 });
+it("formats negative monthly log day change", async () => {
+vi.useFakeTimers();
+vi.setSystemTime(new Date("2026-08-22T00:00:00+09:00"));
+const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-negative-change-"));
+const logsDir = join(baseDir, "logs");
+
+await mkdir(logsDir);
+await writeFile(join(logsDir, "2026-07-01.md"), "# 2026-07-01\n");
+await writeFile(join(logsDir, "2026-07-02.md"), "# 2026-07-02\n");
+await writeFile(join(logsDir, "2026-08-01.md"), "# 2026-08-01\n");
+const result = await getLogStats(baseDir);
+
+expect(result.logDaysChangeText).toBe("-1");
+
+vi.useRealTimers();
+});
 
 it("counts consecutive log days from the latest log", async () => {
   const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-streak-"));
