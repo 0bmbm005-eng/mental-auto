@@ -865,8 +865,7 @@ if (isDirectExecution) {
       if (result.stats !== null) {
        console.log(`Log files: ${result.stats.totalFiles}`);
        console.log(`Log entries: ${result.stats.totalEntries}`);
-       console.log( `Average entries per log day: ${result.stats.averageEntriesPerLogDay}`,
-       );
+       console.log(`Average entries per log day: ${result.stats.averageEntriesPerLogDay.toFixed(1)}`);
        console.log(`Latest log: ${result.stats.latestLog ?? "none"}`);
        console.log(`Oldest log: ${result.stats.oldestLog ?? "none"}`);
        console.log(`Days since last log: ${result.stats.daysSinceLastLog}`);
