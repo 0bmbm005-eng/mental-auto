@@ -104,6 +104,7 @@ describe("getLogStats", () => {
   longestStreak: 1,
   logDaysThisMonth: 0,
   logDaysLastMonth: 0,
+  logDaysChange: 0,
 });
 vi.useRealTimers();
 });
