@@ -94,6 +94,7 @@ describe("getLogStats", () => {
  expect(result).toEqual({
   totalFiles: 2,
   totalEntries: 4,
+  averageEntriesPerLogDay: 2,
   latestLog: "2026-03-26",
   oldestLog: "2026-03-20",
   daysSinceLastLog: 149,

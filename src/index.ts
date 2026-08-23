@@ -225,9 +225,12 @@ while (sortedFileNames.includes(`${checkDate}.md`)) {
     const content = await readFile(filePath, "utf8");
     totalEntries += countLogEntries(content);
 }
+    const averageEntriesPerLogDay =
+  totalFiles === 0 ? 0 : totalEntries / totalFiles;
    return {
   totalFiles,
   totalEntries,
+  averageEntriesPerLogDay,
   latestLog,
   oldestLog,
   daysSinceLastLog,
@@ -862,6 +865,8 @@ if (isDirectExecution) {
       if (result.stats !== null) {
        console.log(`Log files: ${result.stats.totalFiles}`);
        console.log(`Log entries: ${result.stats.totalEntries}`);
+       console.log( `Average entries per log day: ${result.stats.averageEntriesPerLogDay}`,
+       );
        console.log(`Latest log: ${result.stats.latestLog ?? "none"}`);
        console.log(`Oldest log: ${result.stats.oldestLog ?? "none"}`);
        console.log(`Days since last log: ${result.stats.daysSinceLastLog}`);
