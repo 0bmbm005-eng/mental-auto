@@ -199,6 +199,8 @@ export async function getLogStats(baseDir = process.cwd()) {
   (fileName) => fileName.startsWith(previousMonth),
   ).length;
   const logDaysChange = logDaysThisMonth - logDaysLastMonth;
+  const logDaysChangeText =
+  logDaysChange > 0 ? `+${logDaysChange}` : `${logDaysChange}`;
   let daysSinceLastLog = 0;
   let previousDate: string | null = null;
 
@@ -259,6 +261,7 @@ while (sortedFileNames.includes(`${checkDate}.md`)) {
   logDaysThisMonth,
   logDaysLastMonth,
   logDaysChange,
+  logDaysChangeText,
 };
 }
 export async function writeLogFile(
@@ -898,7 +901,7 @@ if (isDirectExecution) {
        console.log(`Longest streak: ${result.stats.longestStreak}`);
        console.log(`Log days this month: ${result.stats.logDaysThisMonth}`);
        console.log(`Log days last month: ${result.stats.logDaysLastMonth}`);
-       console.log(`Log days change: ${result.stats.logDaysChange}`);
+       console.log(`Log days change: ${result.stats.logDaysChangeText}`);
        return;
      }
       if (result.safeShareText !== null) {
