@@ -141,6 +141,25 @@ expect(result.logDaysChangeText).toBe("-1");
 
 vi.useRealTimers();
 });
+it("calculates the monthly log rate", async () => {
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date("2026-08-24T00:00:00+09:00"));
+
+  const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-log-rate-"));
+  const logsDir = join(baseDir, "logs");
+
+  await mkdir(logsDir);
+
+  await writeFile(
+    join(logsDir, "2026-08-01.md"),
+    "# 2026-08-01\n",
+  );
+
+  const result = await getLogStats(baseDir);
+  expect(result.logRateThisMonth).toBeCloseTo(4.1667, 3);
+  vi.useRealTimers();
+
+});
 
 it("counts consecutive log days from the latest log", async () => {
   const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-streak-"));
@@ -515,10 +534,10 @@ describe("runCli", () => {
     await mkdir(inboxDir, { recursive: true });
     await mkdir(join(baseDir, "logs"), { recursive: true });
     await writeFile(
-      join(baseDir, "logs", "2026-06-25.md"),
-      "# 2026-06-25\n\nMorning log\n\n## Mobile notes\n\nExisting mobile note\n",
-      "utf8",
-    );
+     join(baseDir, "logs", "2026-06-25.md"),
+     "# 2026-06-25\n\nMorning log\n\n## Mobile notes\n\nExisting mobile note\n",
+     "utf8",
+);
     await writeFile(sourcePath, "- bought coffee\n- felt better\n", "utf8");
 
     const result = await runCli(["--import-mobile", sourcePath, "--output-dir", baseDir]);
