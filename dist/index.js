@@ -146,6 +146,7 @@ export async function getLogStats(baseDir = process.cwd()) {
     const oldestLog = oldestFileName?.replace(/\.md$/, "") ?? null;
     const today = getJstDateString();
     const currentMonth = today.slice(0, 7);
+    const daysElapsedThisMonth = Number(today.slice(8, 10));
     const previousMonthDate = new Date(`${today}T00:00:00Z`);
     previousMonthDate.setUTCMonth(previousMonthDate.getUTCMonth() - 1);
     const previousMonth = previousMonthDate.toISOString().slice(0, 7);
@@ -154,6 +155,9 @@ export async function getLogStats(baseDir = process.cwd()) {
     let longestStreak = 0;
     const logDaysLastMonth = sortedFileNames.filter((fileName) => fileName.startsWith(previousMonth)).length;
     const logDaysChange = logDaysThisMonth - logDaysLastMonth;
+    const logRateThisMonth = daysElapsedThisMonth === 0
+        ? 0
+        : (logDaysThisMonth / daysElapsedThisMonth) * 100;
     const logDaysChangeText = logDaysChange > 0 ? `+${logDaysChange}` : `${logDaysChange}`;
     let daysSinceLastLog = 0;
     let previousDate = null;
@@ -210,6 +214,7 @@ export async function getLogStats(baseDir = process.cwd()) {
         logDaysThisMonth,
         logDaysLastMonth,
         logDaysChange,
+        logRateThisMonth,
         logDaysChangeText,
     };
 }
@@ -705,6 +710,7 @@ if (isDirectExecution) {
             console.log(`Current streak: ${result.stats.currentStreak}`);
             console.log(`Longest streak: ${result.stats.longestStreak}`);
             console.log(`Log days this month: ${result.stats.logDaysThisMonth}`);
+            console.log(`Log rate this month: ${result.stats.logRateThisMonth.toFixed(1)}%`);
             console.log(`Log days last month: ${result.stats.logDaysLastMonth}`);
             console.log(`Log days change: ${result.stats.logDaysChangeText}`);
             return;
