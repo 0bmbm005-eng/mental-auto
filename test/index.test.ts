@@ -106,6 +106,7 @@ describe("getLogStats", () => {
   logDaysLastMonth: 0,
   logDaysChange: 0,
   logRateThisMonth: 0,
+  logRateLastMonth: 0,
   logDaysChangeText: "0",
 });
 vi.useRealTimers();
