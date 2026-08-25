@@ -215,6 +215,11 @@ export async function getLogStats(baseDir = process.cwd()) {
   daysElapsedThisMonth === 0
     ? 0
     : (logDaysThisMonth / daysElapsedThisMonth) * 100;
+  const logRateChange = logRateThisMonth - logRateLastMonth; 
+  const logRateChangeText =
+  logRateChange > 0
+    ? `+${logRateChange.toFixed(1)}`
+    : logRateChange.toFixed(1);
   const logDaysChangeText =
   logDaysChange > 0 ? `+${logDaysChange}` : `${logDaysChange}`;
   let daysSinceLastLog = 0;
@@ -279,6 +284,8 @@ while (sortedFileNames.includes(`${checkDate}.md`)) {
   logDaysChange,
   logRateThisMonth,
   logRateLastMonth,
+  logRateChange,
+  logRateChangeText,
   logDaysChangeText,
 };
 }
@@ -921,6 +928,7 @@ if (isDirectExecution) {
        console.log(`Log rate this month: ${result.stats.logRateThisMonth.toFixed(1)}%`);
        console.log(`Log days last month: ${result.stats.logDaysLastMonth}`);
        console.log(`Log rate last month: ${result.stats.logRateLastMonth.toFixed(1)}%`);
+       console.log(`Log rate change: ${result.stats.logRateChangeText}%`);
        console.log(`Log days change: ${result.stats.logDaysChangeText}`);
        return;
      }
