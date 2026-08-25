@@ -166,6 +166,11 @@ export async function getLogStats(baseDir = process.cwd()) {
     const logRateChangeText = logRateChange > 0
         ? `+${logRateChange.toFixed(1)}`
         : logRateChange.toFixed(1);
+    const monthlyTrend = logRateChange > 0
+        ? "improving"
+        : logRateChange < 0
+            ? "declining"
+            : "steady";
     const logDaysChangeText = logDaysChange > 0 ? `+${logDaysChange}` : `${logDaysChange}`;
     let daysSinceLastLog = 0;
     let previousDate = null;
@@ -226,6 +231,7 @@ export async function getLogStats(baseDir = process.cwd()) {
         logRateLastMonth,
         logRateChange,
         logRateChangeText,
+        monthlyTrend,
         logDaysChangeText,
     };
 }
@@ -725,6 +731,7 @@ if (isDirectExecution) {
             console.log(`Log days last month: ${result.stats.logDaysLastMonth}`);
             console.log(`Log rate last month: ${result.stats.logRateLastMonth.toFixed(1)}%`);
             console.log(`Log rate change: ${result.stats.logRateChangeText}%`);
+            console.log(`Monthly trend: ${result.stats.monthlyTrend}`);
             console.log(`Log days change: ${result.stats.logDaysChangeText}`);
             return;
         }
