@@ -117,6 +117,7 @@ vi.useRealTimers();
 it("formats positive monthly log day change with plus sign", async () => {
   vi.useFakeTimers();
   vi.setSystemTime(new Date("2026-08-22T00:00:00+09:00"));
+  
  const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-positive-change-"));
  const logsDir = join(baseDir, "logs");
  await mkdir(logsDir);
@@ -129,6 +130,59 @@ it("formats positive monthly log day change with plus sign", async () => {
  vi.useRealTimers();
 
 });
+it("reports improving monthly trend", async () => {
+  
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date("2026-08-22T00:00:00+09:00"));
+
+
+const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-improving-trend-"));
+const logsDir = join(baseDir, "logs");
+
+await mkdir(logsDir);
+await writeFile(join(logsDir, "2026-07-01.md"), "# 2026-07-01\n");
+await writeFile(join(logsDir, "2026-08-01.md"), "# 2026-08-01\n");
+await writeFile(join(logsDir, "2026-08-02.md"), "# 2026-08-02\n");
+
+const result = await getLogStats(baseDir);
+
+expect(result.monthlyTrend).toBe("improving");
+
+vi.useRealTimers();
+});
+it("reports declining monthly trend", async () => {
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date("2026-08-22T00:00:00+09:00"));
+
+const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-declining-trend-"));
+const logsDir = join(baseDir, "logs");
+
+await mkdir(logsDir);
+await writeFile(join(logsDir, "2026-07-01.md"), "# 2026-07-01\n");
+await writeFile(join(logsDir, "2026-07-02.md"), "# 2026-07-02\n");
+await writeFile(join(logsDir, "2026-08-01.md"), "# 2026-08-01\n");
+const result = await getLogStats(baseDir);
+
+expect(result.monthlyTrend).toBe("declining");
+
+vi.useRealTimers();
+});
+
+it("reports steady monthly trend", async () => {
+vi.useFakeTimers();
+vi.setSystemTime(new Date("2026-08-22T00:00:00+09:00"));
+
+const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-steady-trend-"));
+const logsDir = join(baseDir, "logs");
+
+await mkdir(logsDir);
+
+const result = await getLogStats(baseDir);
+expect(result.monthlyTrend).toBe("steady");
+vi.useRealTimers();
+});
+
+
 it("formats negative monthly log day change", async () => {
 vi.useFakeTimers();
 vi.setSystemTime(new Date("2026-08-22T00:00:00+09:00"));
