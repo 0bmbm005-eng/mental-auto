@@ -8,6 +8,7 @@ import {
   countLogEntries,
   getLogStats,
   formatHelp,
+  formatStats,
   getJstDateString,
   getJstWeekString,
   renderAppendEntry,
@@ -286,6 +287,42 @@ describe("renderWeeklySummary", () => {
     expect(renderWeeklySummary("2026-W14", [])).toBe(
       "# Weekly Summary: 2026-W14\n\n対象週のログはありません。\n",
     );
+  });
+});
+
+describe("formatStats", () => {
+  it("renders all stats fields", async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-08-22T00:00:00+09:00"));
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-format-stats-"));
+    const logsDir = join(baseDir, "logs");
+
+    await mkdir(logsDir);
+
+    await writeFile(join(logsDir, "2026-07-01.md"), "# 2026-07-01\n");
+    await writeFile(join(logsDir, "2026-08-01.md"), "# 2026-08-01\n");
+    await writeFile(join(logsDir, "2026-08-02.md"), "# 2026-08-02\n");
+    const stats = await getLogStats(baseDir);
+    const output = formatStats(stats);
+    expect(output).toContain("Log files:");
+    expect(output).toContain("Log entries:");
+    expect(output).toContain("Average entries per log day:");
+    expect(output).toContain("Most entries in a day:");
+    expect(output).toContain("Most active day:");
+    expect(output).toContain("Latest log:");
+    expect(output).toContain("Oldest log:");
+    expect(output).toContain("Days since last log:");
+    expect(output).toContain("Current streak:");
+    expect(output).toContain("Longest streak:");
+    expect(output).toContain("Log days this month:");
+    expect(output).toContain("Log rate this month:");
+    expect(output).toContain("Log days last month:");
+    expect(output).toContain("Log rate last month:");
+    expect(output).toContain("Log rate change:");
+    expect(output).toContain("Monthly trend:");
+    expect(output).toContain("Log days change:");
+
+    vi.useRealTimers();
   });
 });
 

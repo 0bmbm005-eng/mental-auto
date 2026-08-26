@@ -813,6 +813,30 @@ export function formatHelp(): string {
   return HELP_TEXT;
 }
 
+export function formatStats(
+  stats: Awaited<ReturnType<typeof getLogStats>>,
+): string {
+  return [
+    `Log files: ${stats.totalFiles}`,
+    `Log entries: ${stats.totalEntries}`,
+    `Average entries per log day: ${stats.averageEntriesPerLogDay.toFixed(1)}`,
+    `Most entries in a day: ${stats.maxEntriesPerDay}`,
+    `Most active day: ${stats.mostActiveDay ?? "none"}`,
+    `Latest log: ${stats.latestLog ?? "none"}`,
+    `Oldest log: ${stats.oldestLog ?? "none"}`,
+    `Days since last log: ${stats.daysSinceLastLog}`,
+    `Current streak: ${stats.currentStreak}`,
+    `Longest streak: ${stats.longestStreak}`,
+    `Log days this month: ${stats.logDaysThisMonth}`,
+    `Log rate this month: ${stats.logRateThisMonth.toFixed(1)}%`,
+    `Log days last month: ${stats.logDaysLastMonth}`,
+    `Log rate last month: ${stats.logRateLastMonth.toFixed(1)}%`,
+    `Log rate change: ${stats.logRateChangeText}%`,
+    `Monthly trend: ${stats.monthlyTrend}`,
+    `Log days change: ${stats.logDaysChangeText}`,
+  ].join("\n");
+}
+
 export async function runCli(
   args = process.argv.slice(2),
 ): Promise<{
@@ -921,25 +945,9 @@ if (isDirectExecution) {
         return;
       }
       if (result.stats !== null) {
-       console.log(`Log files: ${result.stats.totalFiles}`);
-       console.log(`Log entries: ${result.stats.totalEntries}`);
-       console.log(`Average entries per log day: ${result.stats.averageEntriesPerLogDay.toFixed(1)}`);
-       console.log(  `Most entries in a day: ${result.stats.maxEntriesPerDay}`,);
-       console.log(`Most active day: ${result.stats.mostActiveDay ?? "none"}`);
-       console.log(`Latest log: ${result.stats.latestLog ?? "none"}`);
-       console.log(`Oldest log: ${result.stats.oldestLog ?? "none"}`);
-       console.log(`Days since last log: ${result.stats.daysSinceLastLog}`);
-       console.log(`Current streak: ${result.stats.currentStreak}`);
-       console.log(`Longest streak: ${result.stats.longestStreak}`);
-       console.log(`Log days this month: ${result.stats.logDaysThisMonth}`);
-       console.log(`Log rate this month: ${result.stats.logRateThisMonth.toFixed(1)}%`);
-       console.log(`Log days last month: ${result.stats.logDaysLastMonth}`);
-       console.log(`Log rate last month: ${result.stats.logRateLastMonth.toFixed(1)}%`);
-       console.log(`Log rate change: ${result.stats.logRateChangeText}%`);
-       console.log(`Monthly trend: ${result.stats.monthlyTrend}`);
-       console.log(`Log days change: ${result.stats.logDaysChangeText}`);
-       return;
-     }
+        console.log(formatStats(result.stats));
+        return;
+      }
       if (result.safeShareText !== null) {
         console.log(result.safeShareText);
         return;
