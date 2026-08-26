@@ -633,6 +633,15 @@ function formatMobileImportPlan(plan, dryRun) {
 export function formatHelp() {
     return HELP_TEXT;
 }
+export function formatMonthlyTrendSummary(monthlyTrend) {
+    if (monthlyTrend === "improving") {
+        return "Logging is improving this month.";
+    }
+    if (monthlyTrend === "declining") {
+        return "Logging is declining this month.";
+    }
+    return "Logging is steady this month.";
+}
 export function formatStats(stats) {
     return [
         `Log files: ${stats.totalFiles}`,
@@ -651,6 +660,7 @@ export function formatStats(stats) {
         `Log rate last month: ${stats.logRateLastMonth.toFixed(1)}%`,
         `Log rate change: ${stats.logRateChangeText}%`,
         `Monthly trend: ${stats.monthlyTrend}`,
+        `Summary: ${formatMonthlyTrendSummary(stats.monthlyTrend)}`,
         `Log days change: ${stats.logDaysChangeText}`,
     ].join("\n");
 }

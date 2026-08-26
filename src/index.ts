@@ -83,6 +83,8 @@ const WEEK_PATTERN = /^(\d{4})-W(\d{2})$/;
 const MOBILE_IMPORT_PATTERN = /^(\d{4}-\d{2}-\d{2})\.md$/;
 const MOBILE_NOTES_HEADING = "## Mobile notes";
 
+type MonthlyTrend = "improving" | "declining" | "steady";
+
 type MobileImportPlan = {
   sourcePath: string;
   targetLogPath: string;
@@ -220,7 +222,7 @@ export async function getLogStats(baseDir = process.cwd()) {
   logRateChange > 0
     ? `+${logRateChange.toFixed(1)}`
     : logRateChange.toFixed(1);
-  const monthlyTrend =
+  const monthlyTrend: MonthlyTrend =
   logRateChange > 0
     ? "improving"
     : logRateChange < 0
@@ -813,6 +815,20 @@ export function formatHelp(): string {
   return HELP_TEXT;
 }
 
+export function formatMonthlyTrendSummary(
+  monthlyTrend: MonthlyTrend,
+): string {
+  if (monthlyTrend === "improving") {
+    return "Logging is improving this month.";
+  }
+
+  if (monthlyTrend === "declining") {
+    return "Logging is declining this month.";
+  }
+
+  return "Logging is steady this month.";
+}
+
 export function formatStats(
   stats: Awaited<ReturnType<typeof getLogStats>>,
 ): string {
@@ -833,6 +849,7 @@ export function formatStats(
     `Log rate last month: ${stats.logRateLastMonth.toFixed(1)}%`,
     `Log rate change: ${stats.logRateChangeText}%`,
     `Monthly trend: ${stats.monthlyTrend}`,
+    `Summary: ${formatMonthlyTrendSummary(stats.monthlyTrend)}`,
     `Log days change: ${stats.logDaysChangeText}`,
   ].join("\n");
 }

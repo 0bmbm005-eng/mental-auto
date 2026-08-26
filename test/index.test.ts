@@ -8,6 +8,7 @@ import {
   countLogEntries,
   getLogStats,
   formatHelp,
+  formatMonthlyTrendSummary,
   formatStats,
   getJstDateString,
   getJstWeekString,
@@ -290,6 +291,26 @@ describe("renderWeeklySummary", () => {
   });
 });
 
+describe("formatMonthlyTrendSummary", () => {
+  it("formats improving trend", () => {
+    expect(formatMonthlyTrendSummary("improving")).toBe(
+      "Logging is improving this month.",
+    );
+  });
+
+  it("formats declining trend", () => {
+    expect(formatMonthlyTrendSummary("declining")).toBe(
+      "Logging is declining this month.",
+    );
+  });
+
+  it("formats steady trend", () => {
+    expect(formatMonthlyTrendSummary("steady")).toBe(
+      "Logging is steady this month.",
+    );
+  });
+});
+
 describe("formatStats", () => {
   it("renders all stats fields", async () => {
     vi.useFakeTimers();
@@ -320,6 +341,7 @@ describe("formatStats", () => {
     expect(output).toContain("Log rate last month:");
     expect(output).toContain("Log rate change:");
     expect(output).toContain("Monthly trend:");
+    expect(output).toContain("Summary:");
     expect(output).toContain("Log days change:");
 
     vi.useRealTimers();
