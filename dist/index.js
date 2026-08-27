@@ -22,6 +22,7 @@ Options:
   --import-mobile X   Import mobile inbox Markdown file(s)
   --dry-run           Show import-mobile actions without changing files
   --safe-share INPUT  Print AI-share-safe text to stdout
+  --stats             Show log statistics and monthly trend
   --monthly-summary [YYYY-MM]
                       Combine the month's daily logs into monthly-summary/YYYY-MM.md
   --weekly-summary [YYYY-Www]
@@ -37,6 +38,7 @@ Examples:
   mental-auto --import-mobile mobile-inbox --dry-run
   mental-auto --safe-share "contact me at foo@example.com"
   mental-auto --safe-share logs/2026-03-26.md
+  mental-auto --stats
   mental-auto --monthly-summary
   mental-auto --monthly-summary 2026-07
   mental-auto --weekly-summary
@@ -52,6 +54,7 @@ Behavior:
   - Imported files are moved to mobile-inbox/archive/
   - --dry-run only reports planned import-mobile actions
   - --safe-share reads text or a local file and prints sanitized text to stdout
+  - --stats shows log statistics, monthly trend, and a trend summary
   - --monthly-summary reads logs in ascending date order and overwrites the monthly summary
   - --weekly-summary reads logs in ascending date order and overwrites the weekly summary
   - Empty memo writes "_No memo provided_"
@@ -61,11 +64,10 @@ logs / mirror-logs:
   - mirror-logs/: not implemented; no files are generated
 
 Unimplemented options:
-  - --stats
   - --advice
   - --mirror-stats
   - --mirror-advice
-  These currently fail with: mental-auto failed: Unknown option: --stats
+  These currently fail with an unknown option error.
 `;
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 const MONTH_PATTERN = /^(\d{4})-(\d{2})$/;

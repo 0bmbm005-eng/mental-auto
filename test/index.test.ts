@@ -356,11 +356,13 @@ describe("formatHelp", () => {
     expect(formatHelp()).toContain("--import-mobile X");
     expect(formatHelp()).toContain("--dry-run");
     expect(formatHelp()).toContain("--safe-share INPUT");
+    expect(formatHelp()).toContain("--stats");
     expect(formatHelp()).toContain("--weekly-summary [YYYY-Www]");
     expect(formatHelp()).toContain("Examples:");
     expect(formatHelp()).toContain("Re-running on the same date appends a timestamped entry");
     expect(formatHelp()).toContain("mirror-logs/: not implemented");
     expect(formatHelp()).toContain("--mirror-advice");
+    expect(formatHelp()).not.toContain("Unknown option: --stats");
   });
 });
 
