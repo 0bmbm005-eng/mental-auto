@@ -4,14 +4,15 @@
 
 ## このリポジトリの現在地
 
-- 2026-05-19 時点では、JST 日付の Markdown ログを書き出す最小 CLI
+- JST 日付の Markdown ログを書き出す CLI
 - 実装の中心は [src/index.ts](src/index.ts) 1 ファイル
 - テストは [test/index.test.ts](test/index.test.ts) が正
-- `stats` / `advice` / `mirror-*` / same-day append は未実装
+- `--stats` は実装済み
+- `--advice` は最新の日次ログを読み込んで表示する第一段階まで実装済み
+- same-day append は実装済み
+- `--mirror-stats` / `--mirror-advice` / `mirror-logs` は未実装
 - `npm run doctor` は実装済みで、ローカル基本状態の確認に使える
 - `--safe-share` は実装済みで、AI 共有前の最低限マスクに使える
-
-「名前から想像される機能」と「実装済み機能」に差があります。必ずコードとテストを見てから説明・修正してください。
 
 ## 最優先ルール
 
@@ -61,19 +62,23 @@ node dist/index.js "確認メモ"
 
 ### 同日再実行
 
-- append ではなく上書き
-- ここを変えると運用仕様が変わるため、README と docs の更新を忘れないこと
+- same-day append は実装済み
+- 同じ日付のログが存在する場合、既存内容を保持したまま新しいエントリを末尾に追記する
+- 追記エントリには `## Entry YYYY-MM-DD HH:mm:ss JST` 形式のタイムスタンプ見出しが付く
+- この仕様を変える場合は、README と docs とテストを同時に更新する
 
-### 未実装オプション
+### CLI オプションの実装状況
 
-以下を README に「あるもの」として書かないこと。
+以下は現時点では未実装。
 
-- `--stats`
-- `--advice`
 - `--mirror-stats`
 - `--mirror-advice`
 
-将来実装する場合は、少なくとも次を一緒に作ること。
+`--stats` は実装済み。
+
+`--advice` は最新の日次ログを読み込んで表示する第一段階まで実装済みで、AI による助言生成はまだ行わない。
+
+将来、新しいオプションや機能を実装する場合は、少なくとも次を一緒に更新すること。
 
 - CLI パース
 - 単体テスト
@@ -117,9 +122,10 @@ npm test
 ## よくある誤解
 
 - `mental-auto` は現時点では高度な分析 CLI ではない
+- `--advice` は実装済みだが、現時点では AI による助言生成は行わない
 - `mirror-logs` はまだ存在しない
-- same-day append もまだ存在しない
-- `logs` は append-only ストレージではなく、同日再実行で上書きされる
+- same-day append は実装済み
+- 同日再実行では既存ログを上書きせず、新しいエントリを末尾に追記する
 
 ## 次に広げるなら
 

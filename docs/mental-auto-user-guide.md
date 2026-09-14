@@ -2,22 +2,25 @@
 
 ## mental-autoとは何か
 
-`mental-auto` は、日々の短いメモを 1 日 1 ファイルの Markdown ログとして保存する CLI ツールです。
+`mental-auto` は、日々の短いメモを 1 日 1 ファイルの Markdown ログとして記録し、蓄積したログを集計・振り返りに活用するための CLI ツールです。
 
-現時点で安定して使える中心機能は、次の 1 点です。
+現在は、日次ログの保存と同日追記を基本として、mobile inbox の取り込み、月次・週次サマリー、ログ統計、最新ログの読み出しなどが利用できます。
 
-- その日のメモを `logs/YYYY-MM-DD.md` に保存する
-
-名前から多機能に見えますが、2026-06-25 時点の実装では `stats`、`advice`、`mirror` などはまだ使えません。まずは「日次メモを揃った形式で残し、mobile inbox を後から取り込めるツール」と考えると分かりやすいです。
+`--advice` は第一段階まで実装されており、現在は最新の日次ログを読み込んで表示します。AI による助言生成はまだ実装されていません。`mirror` 関連機能も未実装です。
 
 ## 何ができるか
 
 - その日のメモを Markdown で保存できる
+- 同じ日に複数回実行すると、既存ログを残したまま新しいメモを追記できる
 - 日付を指定して過去日のログも作れる
 - 保存先ディレクトリを変えられる
 - メモを通常引数でも `--memo` でも渡せる
 - `mobile-inbox` の Markdown を対応日ログへ取り込める
 - AI 共有前に最低限マスク済みテキストへ整形できる
+- 月次・週次サマリーを生成できる
+- `--stats` でログの記録状況や月ごとの傾向を確認できる
+- `--advice` で最新の日次ログを読み込んで表示できる
+
 
 ## インストール方法
 
@@ -110,25 +113,40 @@ node dist/index.js --import-mobile mobile-inbox --dry-run
 
 ## 毎日の使い方
 
-1. 1 日の終わりに一言メモを書く
+1. その日のメモを書く
 2. `node dist/index.js 今日のメモ...` を実行する
 3. `logs/YYYY-MM-DD.md` ができたことを確認する
-4. 必要ならエディタで追記する
+4. 同じ日に追加でメモしたい場合は、もう一度 CLI を実行する
 
 注意:
 
-- 同じ日付で再実行すると、既存ファイルは追記ではなく上書きされます
-- 少しずつ足したい場合は、CLI を何度も打つよりエディタで既存ファイルを編集する運用の方が安全です
+- 同じ日付で再実行すると、既存ログを保持したまま新しいメモが追記されます
+- 追記されたメモには `## Entry YYYY-MM-DD HH:mm:ss JST` 形式の見出しが付きます
+- 1 日 1 ファイルの構成を維持したまま、同日に複数回メモを残せます
 
 ## よく使うコマンド
 
 ```bash
 npm run build
+
 npm test
+
 node dist/index.js 今日は少し疲れた
+
 node dist/index.js --date 2026-03-26 今日は少し疲れた
+
 node dist/index.js --memo "専用メモ"
+
 node dist/index.js --output-dir ./tmp 今日は少し疲れた
+
+node dist/index.js --monthly-summary
+
+node dist/index.js --weekly-summary
+
+node dist/index.js --stats
+
+node dist/index.js --advice
+
 node dist/index.js --help
 ```
 
@@ -160,19 +178,43 @@ node dist/index.js --help
 
 ## statsの見方
 
-現時点では `stats` 機能はありません。
+`--stats` を使うと、蓄積した日次ログの記録状況や継続状況を確認できます。
 
-- `--stats` は使えません
-- 実行すると `Unknown option: --stats` で失敗します
+```bash
+node dist/index.js --stats
+```
+
+主に次の情報が表示されます。
+
+- ログファイル数とエントリ数
+- 最新ログと最古ログ
+- 現在の連続記録日数と最長連続記録日数
+- 最新ログからの経過日数
+- 1ログ日あたりの平均エントリ数
+- 1日の最大エントリ数と最も活動的な日
+- 今月・先月のログ日数や月ごとの記録傾向
+
+`--stats` はログを読み取って集計する機能で、ログファイルそのものは変更しません。
 
 ## adviceの見方
 
-現時点では `advice` 機能はありません。
+`--advice` を使うと、最新の日次ログを読み込んで内容を確認できます。
 
-- `--advice` は使えません
-- advice 文章を生成する処理もありません
+```bash
+node dist/index.js --advice
+```
+
+現在の `--advice` は第一段階の機能です。
+
+- 最新の日次ログを特定する
+- そのログの Markdown 内容を読み込む
+- 読み込んだ内容を stdout に表示する
+- ログが存在しない場合は `No logs found for advice` エラーになる
+
+現在は AI による助言生成や、複数日のログを使った振り返りはまだ行いません。
 
 ## よくあるエラー
+
 
 ### `mental-auto failed: Invalid value for --date: ...`
 
@@ -196,7 +238,7 @@ node dist/index.js --date 2026-13-01
 例:
 
 ```bash
-node dist/index.js --stats
+node dist/index.js --mirror-stats
 ```
 
 ### `Missing value for --date`
@@ -235,29 +277,21 @@ node dist/index.js --stats
 - `--output-dir` を付けていないか
 - 実際の出力先が `logs/` 配下であること
 
-### 追記したつもりが内容が消えた
-
-原因:
-
-- この CLI は追記ではなく上書きで保存します
-
-対策:
-
-- 1 日に複数回更新したい場合は既存ログをエディタで編集する
-- あるいは別日付ファイルではなく既存ファイルへ手動追記する
 
 ## おすすめ運用方法
 
-- 毎日 1 回、短いメモを保存する用途に絞る
-- 既存ファイルへの追記は CLI ではなくエディタで行う
+- 毎日の短いメモを日次ログとして残す
+- 同じ日に追加で記録したい場合は、CLI を再実行して既存ログへ追記する
+- `--stats` を使って、記録状況や継続状況を振り返る
+- `--advice` を使って、最新の日次ログを読み返す
 - `logs/` に個人情報や強い機微情報を書きすぎない
 - Git にログを含めるかどうかを先に決める
-- `dist/` と `logs/` の扱いをチーム内で統一する
+- `dist/` と `logs/` の Git 管理方針を明確にする
 
 ## 現時点でまだできないこと
 
-- 統計表示
-- advice 生成
+- AI による advice 生成
+- 複数日のログを使った advice・振り返り
 - mirror JSON 生成
 - mirror advice
 

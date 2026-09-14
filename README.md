@@ -36,6 +36,7 @@ mental-auto は、日々の短いメモを JST（日本標準時）基準の日�
 - 外出先のメモをあとから取り込める
 - 共有前に個人情報を簡単にマスクできる
 - 指定した月の日次ログを1つの月次サマリーにまとめられる
+- `--advice` で最新のログ内容を確認できる
 
 ## Quick Start
 
@@ -71,8 +72,6 @@ npm run doctor
 
 現時点では以下は未実装です。指定すると失敗します。
 
-- `--stats`
-- `--advice`
 - `--mirror-stats`
 - `--mirror-advice`
 - `mirror-logs` 生成
@@ -107,6 +106,11 @@ node dist/index.js --memo "今日は気分が重い"
 
 ```bash
 node dist/index.js --safe-share "contact me at foo@example.com path=/Users/example/projects/mental-auto/logs/2026-03-26.md"
+```
+最新ログを表示:
+
+```bash
+node dist/index.js --advice
 ```
 
 既存ログを共有前に安全化:
@@ -381,34 +385,40 @@ node dist/index.js "夜のメモ"
 
 夜のメモ
 ```
+## `--advice`
 
-## `--stats` / `--advice` / `--mirror-stats` / `--mirror-advice`
+`--advice` は最新の日次ログを読み込み、その内容を表示します。
 
-すべて未実装です。
+例:
 
-現行コードの挙動:
+```bash
+node dist/index.js --advice
+```
 
-- これらのオプションは `parseArgs` で解釈されません
-- `--` で始まる未知オプションとして `Unknown option` エラーになります
-- 集計、助言生成、mirror 集計、mirror 助言生成のロジックも存在しません
+ログが存在しない場合は `No logs found for advice` で失敗します。
 
-確認例:
+現時点では、AI による助言生成は行いません。
+
+## `--stats`
+
+`--stats` は保存されているログを集計し、記録状況や月ごとの傾向を表示します。
+
+例:
 
 ```bash
 node dist/index.js --stats
-node dist/index.js --advice
+```
+
+## `--mirror-stats` / `--mirror-advice`
+
+現時点では未実装です。
+
+指定すると未知のオプションとして失敗します。
+
+```bash
 node dist/index.js --mirror-stats
 node dist/index.js --mirror-advice
 ```
-
-期待結果:
-
-```text
-mental-auto failed: Unknown option: --stats
-```
-
-他 3 つも同様です。
-
 ## 典型的なエラー
 代表的なエラーの例です。
 
@@ -421,7 +431,7 @@ node dist/index.js --date 2026-13-01
 ### 未知オプション
 
 ```bash
-node dist/index.js --stats
+node dist/index.js --mirror-stats
 ```
 
 ### 値不足

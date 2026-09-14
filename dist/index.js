@@ -14,6 +14,7 @@ Usage:
   mental-auto --monthly-summary [YYYY-MM]
   mental-auto --weekly-summary [YYYY-Www]
   mental-auto --import-mobile FILE_OR_DIR [--dry-run]
+  mental-auto --advice
 
 Options:
   --date YYYY-MM-DD   Specify the log date in JST
@@ -23,11 +24,13 @@ Options:
   --dry-run           Show import-mobile actions without changing files
   --safe-share INPUT  Print AI-share-safe text to stdout
   --stats             Show log statistics and monthly trend
+  --advice            Show the latest log content
   --monthly-summary [YYYY-MM]
                       Combine the month's daily logs into monthly-summary/YYYY-MM.md
   --weekly-summary [YYYY-Www]
                       Combine the week's daily logs into weekly-summary/YYYY-Www.md
   --help, -h          Show this help
+
 
 Examples:
   mental-auto "今日は少し疲れた"
@@ -44,6 +47,7 @@ Examples:
   mental-auto --weekly-summary
   mental-auto --weekly-summary 2026-W13
   mental-auto --help
+  mental-auto --advice
 
 Behavior:
   - Default output: ./logs/YYYY-MM-DD.md
@@ -58,13 +62,13 @@ Behavior:
   - --monthly-summary reads logs in ascending date order and overwrites the monthly summary
   - --weekly-summary reads logs in ascending date order and overwrites the weekly summary
   - Empty memo writes "_No memo provided_"
+  - --advice reads and prints the latest log
 
 logs / mirror-logs:
   - logs/: implemented primary output directory
   - mirror-logs/: not implemented; no files are generated
 
 Unimplemented options:
-  - --advice
   - --mirror-stats
   - --mirror-advice
   These currently fail with an unknown option error.
@@ -385,6 +389,7 @@ function parseArgs(args) {
     let outputDir = resolve(process.cwd());
     let help = false;
     let stats = false;
+    let advice = false;
     let memoSpecified = false;
     let safeShareInput = null;
     let importMobilePath = null;
@@ -399,6 +404,10 @@ function parseArgs(args) {
         }
         if (arg === "--stats") {
             stats = true;
+            continue;
+        }
+        if (arg === "--advice") {
+            advice = true;
             continue;
         }
         if (arg === "--date") {
@@ -493,6 +502,7 @@ function parseArgs(args) {
         outputDir,
         help,
         stats,
+        advice,
         safeShareInput,
         importMobilePath,
         dryRun,
@@ -676,6 +686,7 @@ export async function runCli(args = process.argv.slice(2)) {
             safeShareText: null,
             mobileImportPlans: null,
             dryRun: false,
+            adviceContent: null,
         };
     }
     if (parsed.monthlySummaryMonth !== null) {
@@ -686,6 +697,7 @@ export async function runCli(args = process.argv.slice(2)) {
             safeShareText: null,
             mobileImportPlans: null,
             dryRun: false,
+            adviceContent: null,
         };
     }
     if (parsed.weeklySummaryWeek !== null) {
@@ -696,6 +708,7 @@ export async function runCli(args = process.argv.slice(2)) {
             safeShareText: null,
             mobileImportPlans: null,
             dryRun: false,
+            adviceContent: null,
         };
     }
     if (parsed.stats) {
@@ -706,6 +719,24 @@ export async function runCli(args = process.argv.slice(2)) {
             safeShareText: null,
             mobileImportPlans: null,
             dryRun: false,
+            adviceContent: null,
+        };
+    }
+    if (parsed.advice) {
+        const stats = await getLogStats(parsed.outputDir);
+        if (stats.latestLog === null) {
+            throw new Error("No logs found for advice");
+        }
+        const latestLogPath = join(parsed.outputDir, DEFAULT_LOG_DIR, `${stats.latestLog}.md`);
+        const latestLogContent = await readFile(latestLogPath, "utf8");
+        return {
+            filePath: null,
+            help: false,
+            stats: null,
+            safeShareText: null,
+            mobileImportPlans: null,
+            dryRun: false,
+            adviceContent: latestLogContent,
         };
     }
     if (parsed.safeShareInput !== null) {
@@ -717,6 +748,7 @@ export async function runCli(args = process.argv.slice(2)) {
             safeShareText: sanitizeForSafeShare(sourceText),
             mobileImportPlans: null,
             dryRun: false,
+            adviceContent: null,
         };
     }
     if (parsed.importMobilePath !== null) {
@@ -727,6 +759,7 @@ export async function runCli(args = process.argv.slice(2)) {
             safeShareText: null,
             mobileImportPlans: await importMobileFiles(parsed.importMobilePath, parsed.outputDir, parsed.dryRun),
             dryRun: parsed.dryRun,
+            adviceContent: null,
         };
     }
     const content = renderLog(parsed.memo, parsed.date);
@@ -737,6 +770,7 @@ export async function runCli(args = process.argv.slice(2)) {
         safeShareText: null,
         mobileImportPlans: null,
         dryRun: false,
+        adviceContent: null,
     };
 }
 const isDirectExecution = process.argv[1] !== undefined &&
@@ -750,6 +784,10 @@ if (isDirectExecution) {
         }
         if (result.stats !== null) {
             console.log(formatStats(result.stats));
+            return;
+        }
+        if (result.adviceContent !== null) {
+            console.log(result.adviceContent);
             return;
         }
         if (result.safeShareText !== null) {

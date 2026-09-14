@@ -357,6 +357,7 @@ describe("formatHelp", () => {
     expect(formatHelp()).toContain("--dry-run");
     expect(formatHelp()).toContain("--safe-share INPUT");
     expect(formatHelp()).toContain("--stats");
+    expect(formatHelp()).toContain("--advice");
     expect(formatHelp()).toContain("--weekly-summary [YYYY-Www]");
     expect(formatHelp()).toContain("Examples:");
     expect(formatHelp()).toContain("Re-running on the same date appends a timestamped entry");
@@ -372,6 +373,7 @@ describe("runCli help", () => {
       filePath: null,
       help: true,
       stats: null,
+      adviceContent: null,
       safeShareText: null,
       mobileImportPlans: null,
       dryRun: false,
@@ -441,6 +443,7 @@ describe("runCli", () => {
       filePath: join(baseDir, "logs", "2026-03-26.md"),
       help: false,
       stats: null,
+      adviceContent: null,
       safeShareText: null,
       mobileImportPlans: null,
       dryRun: false,
@@ -451,6 +454,43 @@ describe("runCli", () => {
     }
 
     await expect(readFile(result.filePath, "utf8")).resolves.toContain("今日は");
+  });
+  it("returns latest log content for --advice", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-advice-"));
+    const logsDir = join(baseDir, "logs");
+
+    await mkdir(logsDir);
+
+    await writeFile(
+      join(logsDir, "2026-09-01.md"),
+      "# 2026-09-01\n\nold log\n",
+    );
+
+    await writeFile(
+      join(logsDir, "2026-09-03.md"),
+      "# 2026-09-03\n\nlatest log\n",
+    );
+
+    const result = await runCli([
+      "--advice",
+      "--output-dir",
+      baseDir,
+    ]);
+
+    expect(result.adviceContent).toBe(
+      "# 2026-09-03\n\nlatest log\n",
+    );
+  });
+
+  it("rejects --advice when no logs exist", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-advice-empty-"));
+    const logsDir = join(baseDir, "logs");
+
+    await mkdir(logsDir);
+
+    await expect(
+      runCli(["--advice", "--output-dir", baseDir]),
+    ).rejects.toThrow("No logs found for advice");
   });
 
   it("uses only --memo when it is specified", async () => {
@@ -606,6 +646,7 @@ describe("runCli", () => {
       filePath: null,
       help: false,
       stats: null,
+      adviceContent: null,
       safeShareText: "[masked-email]  [masked-api-key] [masked-path]",
       mobileImportPlans: null,
       dryRun: false,
@@ -628,6 +669,7 @@ describe("runCli", () => {
       filePath: null,
       help: false,
       stats: null,
+      adviceContent: null,
       safeShareText: "contact: [masked-email]\npath: [masked-path]",
       mobileImportPlans: null,
       dryRun: false,

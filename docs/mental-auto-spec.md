@@ -2,14 +2,16 @@
 
 ## プロジェクト概要
 
-`mental-auto` は、日次メモを Markdown のログファイルとして保存する TypeScript 製 CLI ツールです。現行コードベースでは、1 回の実行で 1 日分のログファイルを `logs/YYYY-MM-DD.md` に書き出す機能が中心です。
+`mental-auto` は、日次メモを Markdown のログファイルとして記録・振り返りするための TypeScript 製 CLI ツールです。日次ログの保存と同日追記を基本とし、mobile inbox の取り込み、月次・週次サマリー、ログ統計、最新ログの読み出しなどの機能を備えています。
 
-この文書は 2026-06-25 時点のワークツリーを対象に、実装・README・テストから確認できた事実だけを整理したものです。不明な点や未実装の機能は、そのまま「不明」「未実装」と記載します。
+この文書は、現行の実装・README・テストから確認できる仕様を整理したものです。不明な点や未実装の機能は、そのまま「不明」「未実装」と記載します。
 
 ## 目的
 
 - 日々のメモを一定形式の Markdown ログとして残す
 - JST 基準の日付でログファイルを生成する
+- 蓄積したログを集計・振り返りに活用する
+- 将来の助言生成や自己振り返り機能へ拡張できる土台を保つ
 - CLI として再利用できる最小構成を保つ
 
 ## 現在の機能一覧
@@ -25,6 +27,11 @@
 - `--help` / `-h` でヘルプを表示する
 - `logs/` ディレクトリを自動作成してログを書き込む
 - `npm run doctor` でローカル実行状態を点検する
+- same-day append で同日の既存ログへ新しいエントリを追記する
+- `--monthly-summary` で月次サマリーを生成する
+- `--weekly-summary` で週次サマリーを生成する
+- `--stats` でログの記録状況や月ごとの傾向を集計する
+- `--advice` で最新の日次ログを読み込んで stdout に表示する
 
 ## CLIコマンド一覧
 
@@ -101,12 +108,54 @@ node dist/index.js 今日は少し疲れた
 - ヘルプ文を表示して終了します
 - ファイル出力は行いません
 
+### `--stats`
+
+- `logs/` 配下の日次ログを読み取り、記録状況を集計して stdout に表示します
+- ログファイル数とエントリ数を集計します
+- 最新ログと最古ログの日付を表示します
+- 現在の連続記録日数と最長連続記録日数を集計します
+- 最新ログからの経過日数を集計します
+- 1ログ日あたりの平均エントリ数を集計します
+- 1日の最大エントリ数と最も活動的な日を集計します
+- 今月・先月のログ日数や記録率など、月ごとの記録状況と傾向を集計します
+- ログファイルそのものは変更しません
+
+実行例:
+
+```bash
+node dist/index.js --stats
+```
+### `--monthly-summary [YYYY-MM]`
+
+- 指定した月の日次ログをまとめて月次サマリーを生成します
+- 月を省略した場合は現在月を対象にします
+- 対象月のログを日付順にまとめます
+- 対象ログがない場合は空月用の定型内容を生成します
+
+### `--weekly-summary [YYYY-Www]`
+
+- 指定した ISO 週の日次ログをまとめて週次サマリーを生成します
+- 週を省略した場合は現在週を対象にします
+- 月曜から日曜までを 1 週間として扱います
+- 月跨ぎ・年跨ぎの週にも対応します
+
+### `--advice`
+
+- 最新の日次ログを特定して、その Markdown 内容を stdout に表示します
+- 最新ログの特定には `getLogStats()` を使います
+- ログが存在しない場合は `No logs found for advice` エラーになります
+- 現在はログ内容の表示までで、AI による助言生成はまだ行いません
+
+実行例:
+
+```bash
+node dist/index.js --advice
+```
+
 ### 未実装・未対応オプション
 
 以下は現行コードベースには存在せず、実行すると `Unknown option` エラーになります。
 
-- `--stats`
-- `--advice`
 - `--mirror-stats`
 - `--mirror-advice`
 
@@ -142,37 +191,37 @@ _No memo provided_
 
 ## ディレクトリ構成
 
-2026-05-19 時点で確認できた構成です。
+現行コードベースで確認できる主な構成です。
 
 ```text
 mental-auto/
+
 ├─ README.md
-├─ DEV_CHECKLIST.md
-├─ RUN_REPORT_2026-03-25.md
 ├─ package.json
 ├─ package-lock.json
 ├─ tsconfig.json
 ├─ AGENTS.md
 ├─ src/
-│  ├─ doctor.ts
 │  ├─ index.ts
+│  ├─ doctor.ts
 │  └─ safe-share.ts
 ├─ test/
-│  ├─ doctor.test.ts
-│  └─ index.test.ts
+│  ├─ index.test.ts
+│  └─ doctor.test.ts
 ├─ dist/
-│  ├─ doctor.js
-│  └─ index.js
+│  ├─ index.js
+│  └─ doctor.js
 ├─ logs/
-│  ├─ 2026-03-26.md
-│  ├─ 2026-03-29.md
-│  └─ 2026-04-05.md
+│  └─ YYYY-MM-DD.md
+├─ mobile-inbox/
+│  ├─ YYYY-MM-DD.md
+│  └─ archive/
 └─ docs/
    ├─ design.md
    ├─ mental-auto-spec.md
+   ├─ mental-auto-user-guide.md
    ├─ status.md
-   ├─ tasks.md
-   └─ mental-auto-user-guide.md
+   └─ tasks.md
 ```
 
 ## ログ構造
@@ -214,11 +263,12 @@ mobile import を行うと、同じログ内に次のセクションが追加ま
 
 ## append仕様
 
-append は未実装です。
+same-day append は実装済みです。
 
-- `writeFile(filePath, content, "utf8")` により毎回全内容を書き込みます
-- 同日の既存ファイルがある場合、追記ではなく上書きされます
-- 既存メモを保持しながら追加する仕様は現行コードにはありません
+- 同日のログファイルが存在しない場合は、新しい日次ログを作成します
+- 同日の既存ログがある場合は、既存内容を保持したまま新しいメモを追記します
+- 追記するメモには `## Entry YYYY-MM-DD HH:mm:ss JST` 形式の見出しを付けます
+- 1 日 1 ファイルの構成を維持しながら、同日に複数回メモを残せます
 
 ## mirror JSON仕様
 
@@ -266,12 +316,26 @@ append は未実装です。
 
 ## advice生成仕様
 
-現行コードベースでは未実装です。
+`--advice` の第一段階は実装済みです。
 
-- `--advice` オプションなし
-- advice 生成ロジックなし
-- advice 出力形式の定義なし
-- advice 用テストなし
+現在の仕様:
+
+- `--advice` を指定すると、`getLogStats()` を使って最新の日次ログを特定します
+- 最新ログが存在する場合、その Markdown ファイルを読み込みます
+- 読み込んだログ内容を `adviceContent` として返します
+- 直接 CLI から実行した場合は、`adviceContent` を stdout に表示します
+- ログが存在しない場合は `No logs found for advice` エラーになります
+- 最新ログを正しく読み込む正常系テストがあります
+- ログが存在しない場合のエラーテストがあります
+
+現在は未実装:
+
+- ログ内容を分析して advice を生成する処理
+- LLM を利用した助言生成
+- 複数日のログを使った振り返り
+- 生成した advice の保存
+
+現段階の `--advice` は、将来の振り返り・助言生成に向けて過去ログを読み出すための基盤機能です。
 
 ## mirror advice仕様
 
@@ -295,43 +359,47 @@ append は未実装です。
 - TypeScript を `dist/` にコンパイルします
 - `rootDir` は `src`
 - `outDir` は `dist`
-- 2026-06-01 時点で実行成功を確認
+- 現行コードベースでビルド成功を確認
 
 ### `npm test`
 
 - `vitest run` を使う最小構成です
 - Vitest 設定ファイルはなく、デフォルト設定で実行されています
-- 2026-06-01 時点で 2 ファイル 15 テスト成功を確認
+- 現行テストでは 2 ファイル 53 テスト成功を確認
 
 ## テスト構成
 
-`test/index.test.ts` の対象は以下です。
+`test/index.test.ts` では、主に以下をテストしています。
 
-- `getJstDateString`
-  - UTC 時刻から JST 日付へ変換できること
-- `renderLog`
-  - 通常メモのレンダリング
-  - 空メモ時の `_No memo provided_`
-- `formatHelp`
-  - Usage と `--date` の表示
-- `runCli`
-  - `--help` 時の戻り値
-  - `--date` + `--memo` + `--output-dir` の書き込み
-- `--memo` 指定時に通常引数を無視すること
-- 無効日付を拒否すること
-- mobile inbox 取り込み
-- dry-run
-- directory 指定
-- invalid filename 拒否
-- `writeLogFile`
-  - `logs/` 自動作成とファイル書き込み
+- JST 基準の日付・週の計算
+- 日次ログの Markdown 生成
+- 空メモ時の `_No memo provided_`
+- same-day append の追記処理
+- `--date`、`--memo`、`--output-dir` の CLI 処理
+- `--help` の表示内容
+- mobile inbox の取り込み
+- `--dry-run` の処理
+- invalid mobile inbox filename の拒否
+- 月次サマリーの生成
+- 週次サマリーの生成
+- `--stats` によるログ統計の集計
+- 現在の連続記録日数と最長連続記録日数
+- 最新ログ・最古ログと最新ログからの経過日数
+- 平均エントリ数、1日の最大エントリ数、最も活動的な日
+- 今月・先月のログ日数や月ごとの記録傾向
+- `--advice` で最新の日次ログを読み込めること
+- `--advice` でログが存在しない場合にエラーになること
+
+`test/doctor.test.ts` では、`npm run doctor` に関するローカル実行状態の点検処理をテストしています。
 
 ## 回帰テスト対象
 
-現行テストで回帰を検知できる範囲:
+現行テストで回帰を検知できる主な範囲:
 
-- JST 日付計算
+- JST 日付・週の計算
 - ログ Markdown 形式
+- 空メモ時の表示
+- same-day append の追記処理
 - ヘルプ出力の基本文言
 - カスタム出力先への書き込み
 - `--memo` 優先仕様
@@ -339,32 +407,35 @@ append は未実装です。
 - mobile import の正常系
 - mobile import の dry-run
 - invalid mobile inbox filename の拒否
+- 月次サマリーの生成
+- 週次サマリーの生成
+- `--stats` の各種集計
+- `--advice` で最新ログを読み込めること
+- `--advice` でログが存在しない場合にエラーになること
 
-現行テストで未カバーの範囲:
+現行テストで未カバー、または今後追加確認できる範囲:
 
 - 直接実行時の標準出力文言
 - `--output-dir` 不正値時の挙動
 - `--date` / `--memo` / `--output-dir` の値欠落エラー
 - 未知オプションエラー
-- 同日ファイル上書き
 - README 記載コマンドとの整合
+
 
 ## 今後拡張しやすいポイント
 
 - `parseArgs` を独立モジュール化するとオプション追加に強くなる
 - ログ生成、ファイル保存、CLI 表示を分離すると機能追加しやすい
-- 将来の `mirror` / `stats` / `advice` を別モジュール化しやすいほど現在の責務分離余地が大きい
+- `mirror` 機能や、今後拡張する `stats` / `advice` の処理を別モジュールへ分離しやすい構成にすると保守しやすい
 - 出力を Markdown 以外にも広げるならデータモデル層が必要
 - analyzer 系を実装するなら専用ユニットテスト群を `test/analyzers/` などへ分離しやすい
 
 ## 現時点の制限事項
 
 - 1 ファイル構成で責務が集中している
-- ログは追記ではなく上書き
 - JSON 出力なし
 - mirror 機能なし
-- stats 機能なし
-- advice 機能なし
+- `--advice` は最新ログの読み出し・表示までで、AI による助言生成は未実装
 - interactive モードなし
 - exercise / sauna 判定なし
 - README は現行 CLI オプションと未実装境界を説明している
@@ -378,16 +449,16 @@ append は未実装です。
 
 ## 運用上の注意
 
-- 同じ日付で再実行すると既存ログを上書きする
-- `README.md` は現行 CLI オプション全体を説明している
-- `dist/index.js` を実行する前に `npm run build` が必要
-- `logs/` と `dist/` は Git 上で追跡済みファイルがあるため、運用ルールを決めないと差分が散らばる
+- 同じ日付で再実行した場合は、既存ログを保持したまま新しいメモを追記する
 
-## READMEと実装の差異
+## READMEと実装の整合
 
-- README は `--memo`、`--output-dir`、`--safe-share`、`--help`、エラー、上書き仕様を説明している
-- README は `--stats` などの未実装機能を「できないこと」として明記している
-- README のコードブロックは閉じられている
+- README は現行の主要 CLI オプションと使用例を説明している
+- same-day append の追記仕様を説明している
+- `--stats` は実装済み機能として説明している
+- `--advice` は最新の日次ログを読み込んで表示する第一段階の機能として説明している
+- `--advice` による AI 助言生成は未実装であることを明記している
+- `--mirror-stats`、`--mirror-advice` などの未実装機能は、実装済み機能と区別している
 
 ## 変更理由
 
