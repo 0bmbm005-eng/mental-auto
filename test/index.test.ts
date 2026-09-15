@@ -455,7 +455,8 @@ describe("runCli", () => {
 
     await expect(readFile(result.filePath, "utf8")).resolves.toContain("今日は");
   });
-  it("returns latest log content for --advice", async () => {
+
+  it("returns the three most recent log contents for --advice", async () => {
     const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-advice-"));
     const logsDir = join(baseDir, "logs");
 
@@ -471,6 +472,16 @@ describe("runCli", () => {
       "# 2026-09-03\n\nlatest log\n",
     );
 
+    await writeFile(
+      join(logsDir, "2026-09-05.md"),
+      "# 2026-09-05\n\nthird log\n",
+    );
+
+    await writeFile(
+      join(logsDir, "2026-09-07.md"),
+      "# 2026-09-07\n\nlatest log\n",
+    );
+
     const result = await runCli([
       "--advice",
       "--output-dir",
@@ -478,7 +489,7 @@ describe("runCli", () => {
     ]);
 
     expect(result.adviceContent).toBe(
-      "# 2026-09-03\n\nlatest log\n",
+      "# 2026-09-03\n\nlatest log\n\n\n# 2026-09-05\n\nthird log\n\n\n# 2026-09-07\n\nlatest log\n",
     );
   });
 

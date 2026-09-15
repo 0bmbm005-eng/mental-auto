@@ -932,18 +932,29 @@ export async function runCli(
 
   if (parsed.advice) {
     const stats = await getLogStats(parsed.outputDir);
+    const logsDir = join(parsed.outputDir, DEFAULT_LOG_DIR);
+    const entries = await readdir(logsDir, { withFileTypes: true });
+
+    const logFiles = entries.filter(
+      (entry) => entry.isFile() && entry.name.endsWith(".md"),
+    );
+
+    const sortedFileNames = logFiles
+      .map((entry) => entry.name)
+      .sort();
+
+    const recentFileNames = sortedFileNames.slice(-3);
 
     if (stats.latestLog === null) {
       throw new Error("No logs found for advice");
     }
 
-    const latestLogPath = join(
-      parsed.outputDir,
-      DEFAULT_LOG_DIR,
-      `${stats.latestLog}.md`,
+      const recentLogContents = await Promise.all(
+      recentFileNames.map(async (fileName) => {
+        const filePath = join(logsDir, fileName);
+        return readFile(filePath, "utf8");
+      }),
     );
-
-    const latestLogContent = await readFile(latestLogPath, "utf8");
 
     return {
       filePath: null,
@@ -952,7 +963,7 @@ export async function runCli(
       safeShareText: null,
       mobileImportPlans: null,
       dryRun: false,
-      adviceContent: latestLogContent,
+      adviceContent: recentLogContents.join("\n\n"),
     };
   }
 
