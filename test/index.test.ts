@@ -6,6 +6,7 @@ import { describe, expect, it , vi } from "vitest";
 
 import {
   countLogEntries,
+  formatAdviceInput,
   getLogStats,
   formatHelp,
   formatMonthlyTrendSummary,
@@ -21,6 +22,20 @@ import {
   writeMonthlySummary,
   writeWeeklySummary,
 } from "../src/index.js";
+
+describe("formatAdviceInput", () => {
+  it("joins multiple log contents with blank lines", () => {
+    const result = formatAdviceInput([
+      "first log",
+      "second log",
+      "third log",
+    ]);
+
+    expect(result).toBe(
+      "# Recent logs for reflection\n\nfirst log\n\nsecond log\n\nthird log",
+    );
+  });
+});
 
 describe("getJstDateString", () => {
   it("formats a date in JST as YYYY-MM-DD", () => {
@@ -489,7 +504,7 @@ describe("runCli", () => {
     ]);
 
     expect(result.adviceContent).toBe(
-      "# 2026-09-03\n\nlatest log\n\n\n# 2026-09-05\n\nthird log\n\n\n# 2026-09-07\n\nlatest log\n",
+      "# Recent logs for reflection\n\n# 2026-09-03\n\nlatest log\n\n\n# 2026-09-05\n\nthird log\n\n\n# 2026-09-07\n\nlatest log\n",
     );
   });
 

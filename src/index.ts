@@ -830,6 +830,14 @@ export function formatHelp(): string {
   return HELP_TEXT;
 }
 
+export function formatAdviceInput(logContents: string[]): string {
+  return [
+    "# Recent logs for reflection",
+    "",
+    logContents.join("\n\n"),
+  ].join("\n");
+}
+
 export function formatMonthlyTrendSummary(
   monthlyTrend: MonthlyTrend,
 ): string {
@@ -963,7 +971,7 @@ export async function runCli(
       safeShareText: null,
       mobileImportPlans: null,
       dryRun: false,
-      adviceContent: recentLogContents.join("\n\n"),
+      adviceContent: formatAdviceInput(recentLogContents),
     };
   }
 

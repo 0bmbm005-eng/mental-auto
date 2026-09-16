@@ -645,6 +645,13 @@ function formatMobileImportPlan(plan, dryRun) {
 export function formatHelp() {
     return HELP_TEXT;
 }
+export function formatAdviceInput(logContents) {
+    return [
+        "# Recent logs for reflection",
+        "",
+        logContents.join("\n\n"),
+    ].join("\n");
+}
 export function formatMonthlyTrendSummary(monthlyTrend) {
     if (monthlyTrend === "improving") {
         return "Logging is improving this month.";
@@ -745,7 +752,7 @@ export async function runCli(args = process.argv.slice(2)) {
             safeShareText: null,
             mobileImportPlans: null,
             dryRun: false,
-            adviceContent: recentLogContents.join("\n\n"),
+            adviceContent: formatAdviceInput(recentLogContents),
         };
     }
     if (parsed.safeShareInput !== null) {
