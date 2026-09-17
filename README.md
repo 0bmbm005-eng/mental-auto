@@ -36,7 +36,7 @@ mental-auto は、日々の短いメモを JST（日本標準時）基準の日�
 - 外出先のメモをあとから取り込める
 - 共有前に個人情報を簡単にマスクできる
 - 指定した月の日次ログを1つの月次サマリーにまとめられる
-- `--advice` で最新のログ内容を確認できる
+- `--advice` で直近3件のログ内容を確認できる
 
 ## Quick Start
 
@@ -107,7 +107,7 @@ node dist/index.js --memo "今日は気分が重い"
 ```bash
 node dist/index.js --safe-share "contact me at foo@example.com path=/Users/example/projects/mental-auto/logs/2026-03-26.md"
 ```
-最新ログを表示:
+直近3件のログを表示:
 
 ```bash
 node dist/index.js --advice
@@ -387,7 +387,7 @@ node dist/index.js "夜のメモ"
 ```
 ## `--advice`
 
-`--advice` は最新の日次ログを読み込み、その内容を表示します。
+`--advice` は直近3件の日次ログを読み込み、古い日付から順に表示します。
 
 例:
 
