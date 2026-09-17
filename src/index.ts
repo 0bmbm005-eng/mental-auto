@@ -34,7 +34,7 @@ Options:
   --dry-run           Show import-mobile actions without changing files
   --safe-share INPUT  Print AI-share-safe text to stdout
   --stats             Show log statistics and monthly trend
-  --advice            Show the latest log content
+  --advice            Show the three most recent log contents
   --monthly-summary [YYYY-MM]
                       Combine the month's daily logs into monthly-summary/YYYY-MM.md
   --weekly-summary [YYYY-Www]
@@ -72,7 +72,7 @@ Behavior:
   - --monthly-summary reads logs in ascending date order and overwrites the monthly summary
   - --weekly-summary reads logs in ascending date order and overwrites the weekly summary
   - Empty memo writes "_No memo provided_"
-  - --advice reads and prints the latest log
+  - --advice reads and prints the three most recent logs
 
 logs / mirror-logs:
   - logs/: implemented primary output directory
