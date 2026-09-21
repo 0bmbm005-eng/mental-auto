@@ -835,6 +835,12 @@ export function formatAdviceInput(logContents: string[]): string {
     "# Recent logs for reflection",
     "",
     logContents.join("\n\n"),
+    "",
+    "# Reflection questions",
+    "",
+    "- What has changed across these logs?",
+    "- Which emotions or patterns repeat?",
+    "- What is one small action you can take next?",
   ].join("\n");
 }
 

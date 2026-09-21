@@ -32,7 +32,21 @@ describe("formatAdviceInput", () => {
     ]);
 
     expect(result).toBe(
-      "# Recent logs for reflection\n\nfirst log\n\nsecond log\n\nthird log",
+      [
+        "# Recent logs for reflection",
+        "",
+        "first log",
+        "",
+        "second log",
+        "",
+        "third log",
+        "",
+        "# Reflection questions",
+        "",
+        "- What has changed across these logs?",
+        "- Which emotions or patterns repeat?",
+        "- What is one small action you can take next?",
+      ].join("\n"),
     );
   });
 });
@@ -504,7 +518,11 @@ describe("runCli", () => {
     ]);
 
     expect(result.adviceContent).toBe(
-      "# Recent logs for reflection\n\n# 2026-09-03\n\nlatest log\n\n\n# 2026-09-05\n\nthird log\n\n\n# 2026-09-07\n\nlatest log\n",
+      formatAdviceInput([
+        "# 2026-09-03\n\nlatest log\n",
+        "# 2026-09-05\n\nthird log\n",
+        "# 2026-09-07\n\nlatest log\n",
+      ]),
     );
   });
 
