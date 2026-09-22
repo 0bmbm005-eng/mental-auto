@@ -653,9 +653,9 @@ export function formatAdviceInput(logContents) {
         "",
         "# Reflection questions",
         "",
-        "- What has changed across these logs?",
-        "- Which emotions or patterns repeat?",
-        "- What is one small action you can take next?",
+        "- この3件のログの間で、何が変化しましたか？",
+        "- 繰り返し現れている感情やパターンはありますか？",
+        "- 次にできる小さな行動は何ですか？",
     ].join("\n");
 }
 export function formatMonthlyTrendSummary(monthlyTrend) {
