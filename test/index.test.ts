@@ -526,6 +526,62 @@ describe("runCli", () => {
     );
   });
 
+  it("formats advice from the three most recent logs in ascending date order with reflection questions once", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-advice-order-"));
+    const logsDir = join(baseDir, "logs");
+
+    await mkdir(logsDir);
+
+    await writeFile(
+      join(logsDir, "2026-09-01.md"),
+      "# 2026-09-01\n\noldest log\n",
+    );
+    await writeFile(
+      join(logsDir, "2026-09-02.md"),
+      "# 2026-09-02\n\nfirst selected log\n",
+    );
+    await writeFile(
+      join(logsDir, "2026-09-03.md"),
+      "# 2026-09-03\n\nsecond selected log\n",
+    );
+    await writeFile(
+      join(logsDir, "2026-09-04.md"),
+      "# 2026-09-04\n\nthird selected log\n",
+    );
+
+    const result = await runCli([
+      "--advice",
+      "--output-dir",
+      baseDir,
+    ]);
+
+    if (result.adviceContent === null) {
+      throw new Error("Expected advice content");
+    }
+
+    expect(result.adviceContent).not.toContain("oldest log");
+    expect(result.adviceContent.indexOf("first selected log")).toBeLessThan(
+      result.adviceContent.indexOf("second selected log"),
+    );
+    expect(result.adviceContent.indexOf("second selected log")).toBeLessThan(
+      result.adviceContent.indexOf("third selected log"),
+    );
+
+    const questions = [
+      "- この3件のログの間で、何が変化しましたか？",
+      "- 繰り返し現れている感情やパターンはありますか？",
+      "- 次にできる小さな行動は何ですか？",
+    ];
+    const tail = result.adviceContent.slice(
+      result.adviceContent.indexOf("# Reflection questions"),
+    );
+
+    for (const question of questions) {
+      expect(tail.split(question).length - 1).toBe(1);
+    }
+    expect(tail.trim().endsWith(questions.at(-1) ?? "")).toBe(true);
+  });
+
   it("rejects --advice when no logs exist", async () => {
     const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-advice-empty-"));
     const logsDir = join(baseDir, "logs");
