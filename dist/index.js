@@ -78,6 +78,11 @@ const MONTH_PATTERN = /^(\d{4})-(\d{2})$/;
 const WEEK_PATTERN = /^(\d{4})-W(\d{2})$/;
 const MOBILE_IMPORT_PATTERN = /^(\d{4}-\d{2}-\d{2})\.md$/;
 const MOBILE_NOTES_HEADING = "## Mobile notes";
+const ADVICE_QUESTIONS = [
+    "この3件のログの間で、何が変化しましたか？",
+    "繰り返し現れている感情やパターンはありますか？",
+    "次にできる小さな行動は何ですか？",
+];
 export function getJstDateString(now = new Date()) {
     const parts = new Intl.DateTimeFormat("en", {
         timeZone: JST_TIME_ZONE,
@@ -645,6 +650,15 @@ function formatMobileImportPlan(plan, dryRun) {
 export function formatHelp() {
     return HELP_TEXT;
 }
+export function buildAdviceInput(logs, sanitized = false) {
+    return {
+        schemaVersion: 1,
+        logCount: logs.length,
+        logs: logs.map((log) => ({ ...log })),
+        questions: [...ADVICE_QUESTIONS],
+        sanitized,
+    };
+}
 export function formatAdviceInput(logContents) {
     return [
         "# Recent logs for reflection",
@@ -653,9 +667,7 @@ export function formatAdviceInput(logContents) {
         "",
         "# Reflection questions",
         "",
-        "- この3件のログの間で、何が変化しましたか？",
-        "- 繰り返し現れている感情やパターンはありますか？",
-        "- 次にできる小さな行動は何ですか？",
+        ...ADVICE_QUESTIONS.map((question) => `- ${question}`),
     ].join("\n");
 }
 export function formatMonthlyTrendSummary(monthlyTrend) {

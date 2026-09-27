@@ -88,8 +88,26 @@ const MONTH_PATTERN = /^(\d{4})-(\d{2})$/;
 const WEEK_PATTERN = /^(\d{4})-W(\d{2})$/;
 const MOBILE_IMPORT_PATTERN = /^(\d{4}-\d{2}-\d{2})\.md$/;
 const MOBILE_NOTES_HEADING = "## Mobile notes";
+const ADVICE_QUESTIONS = [
+  "この3件のログの間で、何が変化しましたか？",
+  "繰り返し現れている感情やパターンはありますか？",
+  "次にできる小さな行動は何ですか？",
+];
 
 type MonthlyTrend = "improving" | "declining" | "steady";
+
+export type AdviceLogInput = {
+  date: string;
+  content: string;
+};
+
+export type AdviceInput = {
+  schemaVersion: 1;
+  logCount: number;
+  logs: AdviceLogInput[];
+  questions: string[];
+  sanitized: boolean;
+};
 
 type MobileImportPlan = {
   sourcePath: string;
@@ -830,6 +848,19 @@ export function formatHelp(): string {
   return HELP_TEXT;
 }
 
+export function buildAdviceInput(
+  logs: AdviceLogInput[],
+  sanitized = false,
+): AdviceInput {
+  return {
+    schemaVersion: 1,
+    logCount: logs.length,
+    logs: logs.map((log) => ({ ...log })),
+    questions: [...ADVICE_QUESTIONS],
+    sanitized,
+  };
+}
+
 export function formatAdviceInput(logContents: string[]): string {
   return [
     "# Recent logs for reflection",
@@ -838,9 +869,7 @@ export function formatAdviceInput(logContents: string[]): string {
     "",
     "# Reflection questions",
     "",
-    "- この3件のログの間で、何が変化しましたか？",
-    "- 繰り返し現れている感情やパターンはありますか？",
-    "- 次にできる小さな行動は何ですか？",
+    ...ADVICE_QUESTIONS.map((question) => `- ${question}`),
   ].join("\n");
 }
 

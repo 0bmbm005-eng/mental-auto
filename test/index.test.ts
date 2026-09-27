@@ -5,6 +5,7 @@ import { isAbsolute, join } from "node:path";
 import { describe, expect, it , vi } from "vitest";
 
 import {
+  buildAdviceInput,
   countLogEntries,
   formatAdviceInput,
   getLogStats,
@@ -22,6 +23,40 @@ import {
   writeMonthlySummary,
   writeWeeklySummary,
 } from "../src/index.js";
+
+describe("buildAdviceInput", () => {
+  it("builds a versioned input while preserving log order", () => {
+    const logs = [
+      { date: "2026-09-25", content: "first log" },
+      { date: "2026-09-26", content: "second log" },
+      { date: "2026-09-27", content: "third log" },
+    ];
+
+    expect(buildAdviceInput(logs)).toEqual({
+      schemaVersion: 1,
+      logCount: 3,
+      logs,
+      questions: [
+        "この3件のログの間で、何が変化しましたか？",
+        "繰り返し現れている感情やパターンはありますか？",
+        "次にできる小さな行動は何ですか？",
+      ],
+      sanitized: false,
+    });
+  });
+
+  it("does not mutate or retain references to the input logs", () => {
+    const logs = [{ date: "2026-09-27", content: "original" }];
+    const result = buildAdviceInput(logs, true);
+
+    expect(result.sanitized).toBe(true);
+    expect(result.logs).not.toBe(logs);
+    expect(result.logs[0]).not.toBe(logs[0]);
+
+    result.logs[0].content = "changed";
+    expect(logs).toEqual([{ date: "2026-09-27", content: "original" }]);
+  });
+});
 
 describe("formatAdviceInput", () => {
   it("joins multiple log contents with blank lines", () => {
