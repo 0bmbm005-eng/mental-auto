@@ -861,6 +861,8 @@ export function buildAdviceInput(
   };
 }
 
+export type AdviceProvider = (input: AdviceInput) => Promise<string>;
+
 export function formatAdviceInput(logContents: string[]): string {
   return [
     "# Recent logs for reflection",
