@@ -659,6 +659,9 @@ export function buildAdviceInput(logs, sanitized = false) {
         sanitized,
     };
 }
+export async function generateAdvice(input, provider) {
+    return await provider(input);
+}
 export function formatAdviceInput(logContents) {
     return [
         "# Recent logs for reflection",

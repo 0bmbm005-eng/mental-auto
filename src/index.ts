@@ -861,6 +861,13 @@ export function buildAdviceInput(
   };
 }
 
+export async function generateAdvice(
+  input: AdviceInput,
+  provider: AdviceProvider,
+): Promise<string> {
+  return await provider(input);
+}
+
 export type AdviceProvider = (input: AdviceInput) => Promise<string>;
 
 export function formatAdviceInput(logContents: string[]): string {

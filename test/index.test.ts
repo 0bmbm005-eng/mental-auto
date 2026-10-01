@@ -6,6 +6,7 @@ import { describe, expect, it , vi } from "vitest";
 
 import {
   buildAdviceInput,
+  generateAdvice,
   countLogEntries,
   formatAdviceInput,
   getLogStats,
@@ -55,6 +56,21 @@ describe("buildAdviceInput", () => {
 
     result.logs[0].content = "changed";
     expect(logs).toEqual([{ date: "2026-09-27", content: "original" }]);
+  });
+});
+
+describe("generateAdvice", () => {
+  it("passes the input to the provider and returns its response", async () => {
+    const input = buildAdviceInput([
+      { date: "2026-09-27", content: "今日は落ち着いて過ごせた" },
+    ]);
+    const provider = vi.fn().mockResolvedValue("小さな変化を振り返ろう");
+
+    const result = await generateAdvice(input, provider);
+
+    expect(provider).toHaveBeenCalledTimes(1);
+    expect(provider).toHaveBeenCalledWith(input);
+    expect(result).toBe("小さな変化を振り返ろう");
   });
 });
 
