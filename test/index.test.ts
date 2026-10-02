@@ -72,8 +72,17 @@ describe("generateAdvice", () => {
     expect(provider).toHaveBeenCalledWith(input);
     expect(result).toBe("小さな変化を振り返ろう");
   });
-});
 
+  it("propagates provider errors", async () => {
+    const input = buildAdviceInput([
+      { date: "2026-10-02", content: "今日の記録" },
+    ]);
+    const error = new Error("接続に失敗しました");
+    const provider = vi.fn().mockRejectedValue(error);
+
+    await expect(generateAdvice(input, provider)).rejects.toBe(error);
+  });
+});
 describe("formatAdviceInput", () => {
   it("joins multiple log contents with blank lines", () => {
     const result = formatAdviceInput([
