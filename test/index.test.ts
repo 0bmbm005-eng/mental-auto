@@ -5,7 +5,9 @@ import { isAbsolute, join } from "node:path";
 import { describe, expect, it , vi } from "vitest";
 
 import {
+  ADVICE_OUTPUT_JSON_SCHEMA,
   buildAdviceInput,
+  buildOllamaAdviceRequest,
   generateAdvice,
   countLogEntries,
   formatAdviceInput,
@@ -23,6 +25,9 @@ import {
   writeLogFile,
   writeMonthlySummary,
   writeWeeklySummary,
+  type AdviceOutput,
+  type OllamaAdviceMessage,
+  type OllamaAdviceRequest,
 } from "../src/index.js";
 
 describe("buildAdviceInput", () => {
@@ -56,6 +61,102 @@ describe("buildAdviceInput", () => {
 
     result.logs[0].content = "changed";
     expect(logs).toEqual([{ date: "2026-09-27", content: "original" }]);
+  });
+});
+
+describe("buildOllamaAdviceRequest", () => {
+  it("includes the model, fixed options, output schema, and system policy", () => {
+    const request: OllamaAdviceRequest = buildOllamaAdviceRequest(
+      buildAdviceInput([]),
+      "local-model:latest",
+    );
+    const systemMessage: OllamaAdviceMessage = request.messages[0];
+
+    expect(request).toEqual({
+      model: "local-model:latest",
+      messages: [systemMessage, { role: "user", content: JSON.stringify(buildAdviceInput([])) }],
+      stream: false,
+      think: false,
+      options: { temperature: 0 },
+      format: ADVICE_OUTPUT_JSON_SCHEMA,
+    });
+    expect(systemMessage.role).toBe("system");
+    for (const policy of [
+      "JSONだけを返してください",
+      "ログに明記された内容とモデルの推測を分け",
+      "selfEvaluationsには、本人が明記した自己評価だけ",
+      "repeatedPatternsは、複数の日付で確認できる内容だけ",
+      "evidenceDatesには、実際に根拠がある日付だけ",
+      "反芻を診断・断定しない",
+      "追加の反省・分析・作業継続を促さない",
+      "休息や注意の切り替えを含む小さな行動の中から1つだけ",
+    ]) {
+      expect(systemMessage.content).toContain(policy);
+    }
+  });
+
+  it("serializes every input field without changing input or log order", () => {
+    const input = buildAdviceInput([
+      { date: "2026-10-02", content: 'メモ\n"引用"と\\文字' },
+      { date: "2026-10-01", content: "前日のメモ" },
+    ], true);
+    input.questions = ["独自の質問"];
+    const original = structuredClone(input);
+    Object.freeze(input.logs[0]);
+    Object.freeze(input.logs[1]);
+    Object.freeze(input.logs);
+    Object.freeze(input.questions);
+    Object.freeze(input);
+
+    const request = buildOllamaAdviceRequest(input, "another-model");
+
+    expect(request.messages[1].role).toBe("user");
+    expect(JSON.parse(request.messages[1].content)).toEqual(original);
+    expect(input).toEqual(original);
+  });
+});
+
+describe("ADVICE_OUTPUT_JSON_SCHEMA", () => {
+  it("defines all output fields, nested requirements, and closed objects", () => {
+    const output: AdviceOutput = {
+      schemaVersion: 1,
+      recordedStatements: [],
+      selfEvaluations: [],
+      repeatedPatterns: [],
+      ruminationNotice: "",
+      nextAction: "少し休む",
+    };
+    const statementSchema = {
+      type: "object",
+      properties: { date: { type: "string" }, statement: { type: "string" } },
+      required: ["date", "statement"],
+      additionalProperties: false,
+    };
+
+    expect(ADVICE_OUTPUT_JSON_SCHEMA).toEqual({
+      type: "object",
+      properties: {
+        schemaVersion: { type: "integer", const: 1 },
+        recordedStatements: { type: "array", items: statementSchema },
+        selfEvaluations: { type: "array", items: statementSchema },
+        repeatedPatterns: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              summary: { type: "string" },
+              evidenceDates: { type: "array", items: { type: "string" } },
+            },
+            required: ["summary", "evidenceDates"],
+            additionalProperties: false,
+          },
+        },
+        ruminationNotice: { type: "string" },
+        nextAction: { type: "string" },
+      },
+      required: Object.keys(output),
+      additionalProperties: false,
+    });
   });
 });
 
