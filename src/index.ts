@@ -109,6 +109,25 @@ export type AdviceInput = {
   sanitized: boolean;
 };
 
+export type AdviceRecordedStatement = {
+  date: string;
+  statement: string;
+};
+
+export type AdviceRepeatedPattern = {
+  summary: string;
+  evidenceDates: string[];
+};
+
+export type AdviceOutput = {
+  schemaVersion: 1;
+  recordedStatements: AdviceRecordedStatement[];
+  selfEvaluations: AdviceRecordedStatement[];
+  repeatedPatterns: AdviceRepeatedPattern[];
+  ruminationNotice: string;
+  nextAction: string;
+};
+
 type MobileImportPlan = {
   sourcePath: string;
   targetLogPath: string;
