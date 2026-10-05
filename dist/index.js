@@ -83,6 +83,52 @@ const ADVICE_QUESTIONS = [
     "繰り返し現れている感情やパターンはありますか？",
     "次にできる小さな行動は何ですか？",
 ];
+const ADVICE_RECORDED_STATEMENT_JSON_SCHEMA = {
+    type: "object",
+    properties: {
+        date: { type: "string" },
+        statement: { type: "string" },
+    },
+    required: ["date", "statement"],
+    additionalProperties: false,
+};
+export const ADVICE_OUTPUT_JSON_SCHEMA = {
+    type: "object",
+    properties: {
+        schemaVersion: { type: "integer", const: 1 },
+        recordedStatements: {
+            type: "array",
+            items: ADVICE_RECORDED_STATEMENT_JSON_SCHEMA,
+        },
+        selfEvaluations: {
+            type: "array",
+            items: ADVICE_RECORDED_STATEMENT_JSON_SCHEMA,
+        },
+        repeatedPatterns: {
+            type: "array",
+            items: {
+                type: "object",
+                properties: {
+                    summary: { type: "string" },
+                    evidenceDates: { type: "array", items: { type: "string" } },
+                },
+                required: ["summary", "evidenceDates"],
+                additionalProperties: false,
+            },
+        },
+        ruminationNotice: { type: "string" },
+        nextAction: { type: "string" },
+    },
+    required: [
+        "schemaVersion",
+        "recordedStatements",
+        "selfEvaluations",
+        "repeatedPatterns",
+        "ruminationNotice",
+        "nextAction",
+    ],
+    additionalProperties: false,
+};
 export function getJstDateString(now = new Date()) {
     const parts = new Intl.DateTimeFormat("en", {
         timeZone: JST_TIME_ZONE,
@@ -657,6 +703,33 @@ export function buildAdviceInput(logs, sanitized = false) {
         logs: logs.map((log) => ({ ...log })),
         questions: [...ADVICE_QUESTIONS],
         sanitized,
+    };
+}
+export function buildOllamaAdviceRequest(input, model) {
+    return {
+        model,
+        messages: [
+            {
+                role: "system",
+                content: [
+                    "指定されたJSON Schemaに対応するJSONだけを返してください。",
+                    "ログに明記された内容とモデルの推測を分け、推測を記録された事実として扱わないでください。",
+                    "recordedStatementsにはログに明記された内容だけを入れてください。",
+                    "selfEvaluationsには、本人が明記した自己評価だけを入れてください。",
+                    "repeatedPatternsは、複数の日付で確認できる内容だけにしてください。",
+                    "各パターンのevidenceDatesには、実際に根拠がある日付だけを入れてください。",
+                    "根拠がない場合、recordedStatements、selfEvaluations、repeatedPatternsは空配列にしてください。",
+                    "ruminationNoticeでは反芻を診断・断定しないでください。",
+                    "追加の反省・分析・作業継続を促さないでください。",
+                    "nextActionは、休息や注意の切り替えを含む小さな行動の中から1つだけ返してください。",
+                ].join("\n"),
+            },
+            { role: "user", content: JSON.stringify(input) },
+        ],
+        stream: false,
+        think: false,
+        options: { temperature: 0 },
+        format: ADVICE_OUTPUT_JSON_SCHEMA,
     };
 }
 export async function generateAdvice(input, provider) {
