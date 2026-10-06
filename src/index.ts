@@ -973,6 +973,42 @@ export function buildOllamaAdviceRequest(
   };
 }
 
+export function createOllamaAdviceProvider(
+  model: string,
+  endpoint = "http://127.0.0.1:11434/api/chat",
+  fetchImpl: typeof fetch = fetch,
+): AdviceProvider {
+  return async (input) => {
+    const response = await fetchImpl(endpoint, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(buildOllamaAdviceRequest(input, model)),
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Ollama request failed: ${response.status} ${response.statusText}`,
+      );
+    }
+
+    const result: unknown = await response.json();
+
+    if (
+      typeof result !== "object" ||
+      result === null ||
+      !("message" in result) ||
+      typeof result.message !== "object" ||
+      result.message === null ||
+      !("content" in result.message) ||
+      typeof result.message.content !== "string"
+    ) {
+      throw new Error("Invalid Ollama response");
+    }
+
+    return result.message.content;
+  };
+}
+
 export async function generateAdvice(
   input: AdviceInput,
   provider: AdviceProvider,

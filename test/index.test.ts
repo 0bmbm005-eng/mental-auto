@@ -2,12 +2,13 @@ import { mkdtemp, mkdir, readFile, readdir, stat, writeFile } from "node:fs/prom
 import { tmpdir } from "node:os";
 import { isAbsolute, join } from "node:path";
 
-import { describe, expect, it , vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import {
   ADVICE_OUTPUT_JSON_SCHEMA,
   buildAdviceInput,
   buildOllamaAdviceRequest,
+  createOllamaAdviceProvider,
   generateAdvice,
   countLogEntries,
   formatAdviceInput,
@@ -95,6 +96,8 @@ describe("buildOllamaAdviceRequest", () => {
     }
   });
 
+
+
   it("serializes every input field without changing input or log order", () => {
     const input = buildAdviceInput([
       { date: "2026-10-02", content: 'メモ\n"引用"と\\文字' },
@@ -115,6 +118,85 @@ describe("buildOllamaAdviceRequest", () => {
     expect(input).toEqual(original);
   });
 });
+
+describe("createOllamaAdviceProvider", () => {
+  it("posts an Ollama request and returns the assistant content", async () => {
+    const input = buildAdviceInput([
+      { date: "2026-10-06", content: "今日は落ち着いて作業できた" },
+    ]);
+    const content = '{"schemaVersion":1,"nextAction":"少し休む"}';
+    const fetchMock = vi.fn(async () =>
+      new Response(
+        JSON.stringify({
+          message: { role: "assistant", content },
+        }),
+        {
+          status: 200,
+          headers: { "content-type": "application/json" },
+        },
+      ),
+    );
+    const provider = createOllamaAdviceProvider(
+      "local-model:latest",
+      "http://127.0.0.1:11434/api/chat",
+      fetchMock as typeof fetch,
+    );
+
+    const result = await provider(input);
+
+    expect(result).toBe(content);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledWith(
+      "http://127.0.0.1:11434/api/chat",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(
+          buildOllamaAdviceRequest(input, "local-model:latest"),
+        ),
+      },
+    );
+  });
+
+  it("propagates connection failures", async () => {
+    const input = buildAdviceInput([
+      { date: "2026-10-06", content: "今日の記録" },
+    ]);
+    const error = new TypeError("fetch failed");
+    const fetchMock = vi.fn().mockRejectedValue(error);
+    const provider = createOllamaAdviceProvider(
+      "local-model:latest",
+      "http://127.0.0.1:11434/api/chat",
+      fetchMock as typeof fetch,
+    );
+
+    await expect(provider(input)).rejects.toBe(error);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+  });
+
+  it("rejects a response without assistant content", async () => {
+    const input = buildAdviceInput([
+      { date: "2026-10-06", content: "今日の記録" },
+    ]);
+    const fetchMock = vi.fn(async () =>
+      new Response(JSON.stringify({ message: {} }), {
+        status: 200,
+        headers: { "content-type": "application/json" },
+      }),
+    );
+    const provider = createOllamaAdviceProvider(
+      "local-model:latest",
+      "http://127.0.0.1:11434/api/chat",
+      fetchMock as typeof fetch,
+    );
+
+    await expect(provider(input)).rejects.toThrow(
+      "Invalid Ollama response",
+    );
+  });
+});
+
 
 describe("ADVICE_OUTPUT_JSON_SCHEMA", () => {
   it("defines all output fields, nested requirements, and closed objects", () => {
@@ -184,6 +266,7 @@ describe("generateAdvice", () => {
     await expect(generateAdvice(input, provider)).rejects.toBe(error);
   });
 });
+
 describe("formatAdviceInput", () => {
   it("joins multiple log contents with blank lines", () => {
     const result = formatAdviceInput([
@@ -309,7 +392,7 @@ vi.useRealTimers();
 it("formats positive monthly log day change with plus sign", async () => {
   vi.useFakeTimers();
   vi.setSystemTime(new Date("2026-08-22T00:00:00+09:00"));
-  
+
  const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-positive-change-"));
  const logsDir = join(baseDir, "logs");
  await mkdir(logsDir);
@@ -323,7 +406,7 @@ it("formats positive monthly log day change with plus sign", async () => {
 
 });
 it("reports improving monthly trend", async () => {
-  
+
   vi.useFakeTimers();
   vi.setSystemTime(new Date("2026-08-22T00:00:00+09:00"));
 
@@ -440,7 +523,7 @@ it("tracks the longest streak", async () => {
 
 });
 describe("renderMonthlySummary", () => {
-  
+
   it("renders logs in the supplied order", () => {
     expect(
       renderMonthlySummary("2026-07", [
@@ -456,9 +539,9 @@ describe("renderMonthlySummary", () => {
     expect(renderMonthlySummary("2026-08", [])).toBe(
       "# Monthly Summary: 2026-08\n\n対象月のログはありません。\n",
 
- 
+
     );
-    
+
   });
 });
 
