@@ -10,6 +10,7 @@ import {
   buildOllamaAdviceRequest,
   createOllamaAdviceProvider,
   generateAdvice,
+  parseAdviceOutput,
   countLogEntries,
   formatAdviceInput,
   getLogStats,
@@ -119,12 +120,62 @@ describe("buildOllamaAdviceRequest", () => {
   });
 });
 
+describe("parseAdviceOutput", () => {
+  it("parses a valid AdviceOutput", () => {
+    const expected: AdviceOutput = {
+      schemaVersion: 1,
+      recordedStatements: [
+        { date: "2026-10-06", statement: "落ち着いて作業できた" },
+      ],
+      selfEvaluations: [
+        { date: "2026-10-06", statement: "今日は調子がよかった" },
+      ],
+      repeatedPatterns: [
+        {
+          summary: "短時間でも作業を継続している",
+          evidenceDates: ["2026-10-05", "2026-10-06"],
+        },
+      ],
+      ruminationNotice: "反芻の断定はできません。",
+      nextAction: "5分休む",
+    };
+
+    expect(parseAdviceOutput(JSON.stringify(expected))).toEqual(expected);
+  });
+
+  it("rejects invalid JSON and incomplete output", () => {
+    const invalidOutputs = [
+      "not JSON",
+      JSON.stringify({
+        schemaVersion: 1,
+        recordedStatements: [],
+        selfEvaluations: [],
+        repeatedPatterns: [],
+        ruminationNotice: "",
+      }),
+    ];
+
+    for (const content of invalidOutputs) {
+      expect(() => parseAdviceOutput(content)).toThrow(
+        "Invalid AdviceOutput",
+      );
+    }
+  });
+});
+
 describe("createOllamaAdviceProvider", () => {
   it("posts an Ollama request and returns the assistant content", async () => {
     const input = buildAdviceInput([
       { date: "2026-10-06", content: "今日は落ち着いて作業できた" },
     ]);
-    const content = '{"schemaVersion":1,"nextAction":"少し休む"}';
+    const content = JSON.stringify({
+      schemaVersion: 1,
+      recordedStatements: [],
+      selfEvaluations: [],
+      repeatedPatterns: [],
+      ruminationNotice: "",
+      nextAction: "少し休む",
+    } satisfies AdviceOutput);
     const fetchMock = vi.fn(async () =>
       new Response(
         JSON.stringify({
@@ -172,7 +223,6 @@ describe("createOllamaAdviceProvider", () => {
 
     await expect(provider(input)).rejects.toBe(error);
     expect(fetchMock).toHaveBeenCalledTimes(1);
-
   });
 
   it("rejects a response without assistant content", async () => {
@@ -193,6 +243,35 @@ describe("createOllamaAdviceProvider", () => {
 
     await expect(provider(input)).rejects.toThrow(
       "Invalid Ollama response",
+    );
+  });
+
+  it("rejects invalid AdviceOutput content", async () => {
+    const input = buildAdviceInput([
+      { date: "2026-10-07", content: "今日の記録" },
+    ]);
+    const fetchMock = vi.fn(async () =>
+      new Response(
+        JSON.stringify({
+          message: {
+            role: "assistant",
+            content: JSON.stringify({ schemaVersion: 1 }),
+          },
+        }),
+        {
+          status: 200,
+          headers: { "content-type": "application/json" },
+        },
+      ),
+    );
+    const provider = createOllamaAdviceProvider(
+      "local-model:latest",
+      "http://127.0.0.1:11434/api/chat",
+      fetchMock as typeof fetch,
+    );
+
+    await expect(provider(input)).rejects.toThrow(
+      "Invalid AdviceOutput",
     );
   });
 });

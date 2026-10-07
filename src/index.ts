@@ -973,6 +973,80 @@ export function buildOllamaAdviceRequest(
   };
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function hasExactKeys(
+  value: Record<string, unknown>,
+  keys: readonly string[],
+): boolean {
+  const actualKeys = Object.keys(value);
+
+  return (
+    actualKeys.length === keys.length &&
+    keys.every((key) => Object.prototype.hasOwnProperty.call(value, key))
+  );
+}
+
+function isAdviceRecordedStatement(
+  value: unknown,
+): value is AdviceRecordedStatement {
+  return (
+    isRecord(value) &&
+    hasExactKeys(value, ["date", "statement"]) &&
+    typeof value.date === "string" &&
+    typeof value.statement === "string"
+  );
+}
+
+function isAdviceRepeatedPattern(
+  value: unknown,
+): value is AdviceRepeatedPattern {
+  return (
+    isRecord(value) &&
+    hasExactKeys(value, ["summary", "evidenceDates"]) &&
+    typeof value.summary === "string" &&
+    Array.isArray(value.evidenceDates) &&
+    value.evidenceDates.every((date) => typeof date === "string")
+  );
+}
+
+export function parseAdviceOutput(content: string): AdviceOutput {
+  let parsed: unknown;
+
+  try {
+    parsed = JSON.parse(content);
+  } catch {
+    throw new Error("Invalid AdviceOutput");
+  }
+
+  if (
+    !isRecord(parsed) ||
+    !hasExactKeys(parsed, [
+      "schemaVersion",
+      "recordedStatements",
+      "selfEvaluations",
+      "repeatedPatterns",
+      "ruminationNotice",
+      "nextAction",
+    ]) ||
+    parsed.schemaVersion !== 1 ||
+    !Array.isArray(parsed.recordedStatements) ||
+    !parsed.recordedStatements.every(isAdviceRecordedStatement) ||
+    !Array.isArray(parsed.selfEvaluations) ||
+    !parsed.selfEvaluations.every(isAdviceRecordedStatement) ||
+    !Array.isArray(parsed.repeatedPatterns) ||
+    !parsed.repeatedPatterns.every(isAdviceRepeatedPattern) ||
+    typeof parsed.ruminationNotice !== "string" ||
+    typeof parsed.nextAction !== "string"
+  ) {
+    throw new Error("Invalid AdviceOutput");
+  }
+
+  return parsed as AdviceOutput;
+}
+
 export function createOllamaAdviceProvider(
   model: string,
   endpoint = "http://127.0.0.1:11434/api/chat",
@@ -1004,6 +1078,8 @@ export function createOllamaAdviceProvider(
     ) {
       throw new Error("Invalid Ollama response");
     }
+
+    parseAdviceOutput(result.message.content);
 
     return result.message.content;
   };

@@ -732,6 +732,57 @@ export function buildOllamaAdviceRequest(input, model) {
         format: ADVICE_OUTPUT_JSON_SCHEMA,
     };
 }
+function isRecord(value) {
+    return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+function hasExactKeys(value, keys) {
+    const actualKeys = Object.keys(value);
+    return (actualKeys.length === keys.length &&
+        keys.every((key) => Object.prototype.hasOwnProperty.call(value, key)));
+}
+function isAdviceRecordedStatement(value) {
+    return (isRecord(value) &&
+        hasExactKeys(value, ["date", "statement"]) &&
+        typeof value.date === "string" &&
+        typeof value.statement === "string");
+}
+function isAdviceRepeatedPattern(value) {
+    return (isRecord(value) &&
+        hasExactKeys(value, ["summary", "evidenceDates"]) &&
+        typeof value.summary === "string" &&
+        Array.isArray(value.evidenceDates) &&
+        value.evidenceDates.every((date) => typeof date === "string"));
+}
+export function parseAdviceOutput(content) {
+    let parsed;
+    try {
+        parsed = JSON.parse(content);
+    }
+    catch {
+        throw new Error("Invalid AdviceOutput");
+    }
+    if (!isRecord(parsed) ||
+        !hasExactKeys(parsed, [
+            "schemaVersion",
+            "recordedStatements",
+            "selfEvaluations",
+            "repeatedPatterns",
+            "ruminationNotice",
+            "nextAction",
+        ]) ||
+        parsed.schemaVersion !== 1 ||
+        !Array.isArray(parsed.recordedStatements) ||
+        !parsed.recordedStatements.every(isAdviceRecordedStatement) ||
+        !Array.isArray(parsed.selfEvaluations) ||
+        !parsed.selfEvaluations.every(isAdviceRecordedStatement) ||
+        !Array.isArray(parsed.repeatedPatterns) ||
+        !parsed.repeatedPatterns.every(isAdviceRepeatedPattern) ||
+        typeof parsed.ruminationNotice !== "string" ||
+        typeof parsed.nextAction !== "string") {
+        throw new Error("Invalid AdviceOutput");
+    }
+    return parsed;
+}
 export function createOllamaAdviceProvider(model, endpoint = "http://127.0.0.1:11434/api/chat", fetchImpl = fetch) {
     return async (input) => {
         const response = await fetchImpl(endpoint, {
@@ -752,6 +803,7 @@ export function createOllamaAdviceProvider(model, endpoint = "http://127.0.0.1:1
             typeof result.message.content !== "string") {
             throw new Error("Invalid Ollama response");
         }
+        parseAdviceOutput(result.message.content);
         return result.message.content;
     };
 }
