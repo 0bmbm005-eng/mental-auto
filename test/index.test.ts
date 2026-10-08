@@ -225,6 +225,27 @@ describe("createOllamaAdviceProvider", () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
+  it("rejects unsuccessful HTTP responses", async () => {
+    const input = buildAdviceInput([
+      { date: "2026-10-08", content: "今日の記録" },
+    ]);
+    const fetchMock = vi.fn(async () =>
+      new Response("Service unavailable", {
+        status: 503,
+        statusText: "Service Unavailable",
+      }),
+    );
+    const provider = createOllamaAdviceProvider(
+      "local-model:latest",
+      "http://127.0.0.1:11434/api/chat",
+      fetchMock as typeof fetch,
+    );
+
+    await expect(provider(input)).rejects.toThrow(
+      "Ollama request failed: 503 Service Unavailable",
+    );
+  });
+
   it("rejects a response without assistant content", async () => {
     const input = buildAdviceInput([
       { date: "2026-10-06", content: "今日の記録" },
