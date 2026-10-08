@@ -799,6 +799,22 @@ describe("writeLogFile", () => {
 });
 
 describe("runCli", () => {
+
+  it("validates --advice-provider arguments", async () => {
+    await expect(
+      runCli(["--advice", "--advice-provider"]),
+    ).rejects.toThrow("Missing value for --advice-provider");
+
+    await expect(
+      runCli(["--advice", "--advice-provider", "remote"]),
+    ).rejects.toThrow("Invalid value for --advice-provider: remote");
+
+    await expect(
+      runCli(["--advice-provider", "ollama"]),
+    ).rejects.toThrow("--advice-provider requires --advice");
+  });
+
+
   it("writes a log file to a custom output directory", async () => {
     const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-"));
     const result = await runCli([

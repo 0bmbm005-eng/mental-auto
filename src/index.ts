@@ -605,6 +605,7 @@ function parseArgs(
   help: boolean;
   stats: boolean;
   advice: boolean;
+  adviceProvider: "ollama" | null;
   safeShareInput: string | null;
   importMobilePath: string | null;
   dryRun: boolean;
@@ -617,6 +618,7 @@ function parseArgs(
   let help = false;
   let stats = false;
   let advice = false;
+  let adviceProvider: "ollama" | null = null;
   let memoSpecified = false;
   let safeShareInput: string | null = null;
   let importMobilePath: string | null = null;
@@ -639,6 +641,22 @@ function parseArgs(
 
      if (arg === "--advice") {
       advice = true;
+      continue;
+    }
+
+    if (arg === "--advice-provider") {
+      const value = args[index + 1];
+
+      if (value === undefined || value.startsWith("--")) {
+        throw new Error("Missing value for --advice-provider");
+      }
+
+      if (value !== "ollama") {
+        throw new Error(`Invalid value for --advice-provider: ${value}`);
+      }
+
+      adviceProvider = value;
+      index += 1;
       continue;
     }
 
@@ -733,7 +751,11 @@ function parseArgs(
     }
   }
 
-  if (dryRun && importMobilePath === null) {
+   if (adviceProvider !== null && !advice) {
+    throw new Error("--advice-provider requires --advice");
+  }
+
+   if (dryRun && importMobilePath === null) {
     throw new Error("--dry-run requires --import-mobile");
   }
 
@@ -744,6 +766,7 @@ function parseArgs(
     help,
     stats,
     advice,
+    adviceProvider,
     safeShareInput,
     importMobilePath,
     dryRun,
