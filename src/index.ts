@@ -1170,6 +1170,7 @@ export function formatStats(
 
 export async function runCli(
   args = process.argv.slice(2),
+  dependencies: { adviceProvider?: AdviceProvider } = {},
 ): Promise<{
   filePath: string | null;
   help: boolean;
@@ -1255,6 +1256,16 @@ export async function runCli(
       }),
     );
 
+    const adviceContent = parsed.adviceProvider === "ollama"
+      ? await generateAdvice(
+          buildAdviceInput(recentFileNames.map((fileName, index) => ({
+            date: fileName.slice(0, -3),
+            content: recentLogContents[index],
+          }))),
+          dependencies.adviceProvider ?? createOllamaAdviceProvider("qwen3.5:9b"),
+        )
+      : formatAdviceInput(recentLogContents);
+
     return {
       filePath: null,
       help: false,
@@ -1262,7 +1273,7 @@ export async function runCli(
       safeShareText: null,
       mobileImportPlans: null,
       dryRun: false,
-      adviceContent: formatAdviceInput(recentLogContents),
+      adviceContent,
     };
   }
 

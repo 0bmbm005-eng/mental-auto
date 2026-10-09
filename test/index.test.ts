@@ -1,4 +1,4 @@
-import { mkdtemp, mkdir, readFile, readdir, stat, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { isAbsolute, join } from "node:path";
 
@@ -28,6 +28,7 @@ import {
   writeMonthlySummary,
   writeWeeklySummary,
   type AdviceOutput,
+  type AdviceProvider,
   type OllamaAdviceMessage,
   type OllamaAdviceRequest,
 } from "../src/index.js";
@@ -799,6 +800,52 @@ describe("writeLogFile", () => {
 });
 
 describe("runCli", () => {
+
+  it("passes three ordered logs to the injected Ollama advice provider once and returns its JSON", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-advice-provider-"));
+    const logs = [
+      { date: "2026-09-01", content: "# 2026-09-01\n\n散歩した。\n" },
+      { date: "2026-09-02", content: "# 2026-09-02\n\n本を読んだ。\n" },
+      { date: "2026-09-03", content: "# 2026-09-03\n\n早めに休んだ。\n" },
+    ];
+    const fixedJson = JSON.stringify({
+      schemaVersion: 1,
+      recordedStatements: [],
+      selfEvaluations: [],
+      repeatedPatterns: [],
+      ruminationNotice: "",
+      nextAction: "短い散歩をする。",
+    } satisfies AdviceOutput);
+    const provider = vi.fn<AdviceProvider>().mockResolvedValue(fixedJson);
+
+    try {
+      await mkdir(join(baseDir, "logs"));
+      for (const log of [...logs].reverse()) {
+        await writeFile(join(baseDir, "logs", `${log.date}.md`), log.content, "utf8");
+      }
+
+      const result = await runCli(
+        ["--advice", "--advice-provider", "ollama", "--output-dir", baseDir],
+        { adviceProvider: provider },
+      );
+
+      expect(provider).toHaveBeenCalledTimes(1);
+      expect(provider).toHaveBeenCalledWith({
+        schemaVersion: 1,
+        logCount: 3,
+        logs,
+        questions: [
+          "この3件のログの間で、何が変化しましたか？",
+          "繰り返し現れている感情やパターンはありますか？",
+          "次にできる小さな行動は何ですか？",
+        ],
+        sanitized: false,
+      });
+      expect(result.adviceContent).toBe(fixedJson);
+    } finally {
+      await rm(baseDir, { recursive: true, force: true });
+    }
+  });
 
   it("validates --advice-provider arguments", async () => {
     await expect(
