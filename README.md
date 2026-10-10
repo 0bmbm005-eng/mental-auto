@@ -390,15 +390,30 @@ node dist/index.js "夜のメモ"
 `--advice` は直近3件の日次ログを読み込み、古い日付から順に表示します。
 ログの後には、変化、繰り返している感情やパターン、次の小さな行動を振り返るための質問を表示します。
 
-例:
-
 ```bash
 node dist/index.js --advice
 ```
 
-ログが存在しない場合は `No logs found for advice` で失敗します。
+### Ollamaで振り返りを生成する
 
-現時点では、AI による助言生成は行いません。
+`--advice-provider ollama` を追加すると、直近3件のログをローカルのOllamaに渡して、AIによる振り返りを生成します。
+
+前提:
+
+- Ollamaが起動していること
+- モデル `qwen3.5:9b` が取得済みであること
+
+```bash
+node dist/index.js --advice --advice-provider ollama
+```
+
+接続先は `http://127.0.0.1:11434/api/chat`、使用モデルは `qwen3.5:9b` です。
+この設定では、ログを端末内のOllamaへ送信します。
+
+`--advice-provider` を省略した場合は、AIを使わずログと振り返り質問を表示します。
+`--advice-provider ollama` は `--advice` と一緒に指定する必要があります。
+
+ログが存在しない場合は `No logs found for advice` で失敗します。
 
 ## `--stats`
 
