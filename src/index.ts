@@ -25,6 +25,7 @@ Usage:
   mental-auto --weekly-summary [YYYY-Www]
   mental-auto --import-mobile FILE_OR_DIR [--dry-run]
   mental-auto --advice
+  mental-auto --advice --advice-provider ollama
 
 Options:
   --date YYYY-MM-DD   Specify the log date in JST
@@ -34,7 +35,9 @@ Options:
   --dry-run           Show import-mobile actions without changing files
   --safe-share INPUT  Print AI-share-safe text to stdout
   --stats             Show log statistics and monthly trend
-  --advice            Show the three most recent log contents
+  --advice            Show the three most recent logs and reflection questions
+  --advice-provider ollama
+                      Generate AI reflections with local Ollama (requires --advice)
   --monthly-summary [YYYY-MM]
                       Combine the month's daily logs into monthly-summary/YYYY-MM.md
   --weekly-summary [YYYY-Www]
@@ -58,6 +61,7 @@ Examples:
   mental-auto --weekly-summary 2026-W13
   mental-auto --help
   mental-auto --advice
+  mental-auto --advice --advice-provider ollama
 
 Behavior:
   - Default output: ./logs/YYYY-MM-DD.md
@@ -72,7 +76,8 @@ Behavior:
   - --monthly-summary reads logs in ascending date order and overwrites the monthly summary
   - --weekly-summary reads logs in ascending date order and overwrites the weekly summary
   - Empty memo writes "_No memo provided_"
-  - --advice reads and prints the three most recent logs
+  - --advice prints the three most recent logs and reflection questions without AI
+  - --advice --advice-provider ollama generates reflections using local qwen3.5:9b
 
 logs / mirror-logs:
   - logs/: implemented primary output directory
