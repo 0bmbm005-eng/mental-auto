@@ -410,6 +410,12 @@ node dist/index.js --advice --advice-provider ollama
 接続先は `http://127.0.0.1:11434/api/chat`、使用モデルは `qwen3.5:9b` です。
 この設定では、ログを端末内のOllamaへ送信します。
 
+接続に失敗した場合は、次のメッセージを標準エラーに表示し、終了コード `1` で終了します。
+
+```text
+mental-auto failed: Ollamaに接続できませんでした。Ollamaが起動しているか、接続先 http://127.0.0.1:11434/api/chat が正しいか確認してください。
+```
+
 `--advice-provider` を省略した場合は、AIを使わずログと振り返り質問を表示します。
 `--advice-provider ollama` は `--advice` と一緒に指定する必要があります。
 

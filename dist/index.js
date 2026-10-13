@@ -811,6 +811,8 @@ export function createOllamaAdviceProvider(model, endpoint = "http://127.0.0.1:1
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify(buildOllamaAdviceRequest(input, model)),
+        }).catch((error) => {
+            throw new Error(`Ollamaに接続できませんでした。Ollamaが起動しているか、接続先 ${endpoint} が正しいか確認してください。`, { cause: error });
         });
         if (!response.ok) {
             throw new Error(`Ollama request failed: ${response.status} ${response.statusText}`);

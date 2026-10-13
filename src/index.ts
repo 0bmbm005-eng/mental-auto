@@ -1085,6 +1085,11 @@ export function createOllamaAdviceProvider(
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(buildOllamaAdviceRequest(input, model)),
+    }).catch((error: unknown) => {
+      throw new Error(
+        `Ollamaに接続できませんでした。Ollamaが起動しているか、接続先 ${endpoint} が正しいか確認してください。`,
+        { cause: error },
+      );
     });
 
     if (!response.ok) {

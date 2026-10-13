@@ -210,7 +210,7 @@ describe("createOllamaAdviceProvider", () => {
     );
   });
 
-  it("propagates connection failures", async () => {
+  it("guides users on connection failures and preserves the cause", async () => {
     const input = buildAdviceInput([
       { date: "2026-10-06", content: "今日の記録" },
     ]);
@@ -222,7 +222,11 @@ describe("createOllamaAdviceProvider", () => {
       fetchMock as typeof fetch,
     );
 
-    await expect(provider(input)).rejects.toBe(error);
+    const result = provider(input);
+    await expect(result).rejects.toThrow(
+      "Ollamaに接続できませんでした。Ollamaが起動しているか、接続先 http://127.0.0.1:11434/api/chat が正しいか確認してください。",
+    );
+    await expect(result).rejects.toHaveProperty("cause", error);
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
