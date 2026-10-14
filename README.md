@@ -5,7 +5,7 @@ mental-auto は、日々の短いメモを JST（日本標準時）基準の日�
 
 > **現在の開発状況**
 >
-> 現在は、日次ログを安全かつ継続的に蓄積する基盤の構築を中心に開発しています。AI による分析・知識提示機能は、今後追加予定です。
+> 現在は、日次ログを安全かつ継続的に蓄積する基盤の構築を中心に開発しています。`--advice --advice-provider ollama` で、OllamaによるローカルAIの振り返り生成を利用できます。`--mirror-stats`、`--mirror-advice`、`mirror-logs` 生成は未実装です。
 
 ## 目次
 
@@ -409,6 +409,16 @@ node dist/index.js --advice --advice-provider ollama
 
 接続先は `http://127.0.0.1:11434/api/chat`、使用モデルは `qwen3.5:9b` です。
 この設定では、ログを端末内のOllamaへ送信します。
+
+生成結果はJSON形式で標準出力（stdout）に表示します。主な出力項目は次のとおりです。
+
+- `recordedStatements`: ログに明記された内容を、日付（`date`）と記述（`statement`）の組で示す配列です。
+- `selfEvaluations`: 本人がログに明記した自己評価を、日付（`date`）と記述（`statement`）の組で示す配列です。
+- `repeatedPatterns`: 複数の日付で確認できる繰り返しパターンを、要約（`summary`）と根拠のある日付（`evidenceDates`）で示す配列です。
+- `ruminationNotice`: 反芻についての注意を示す文章です。モデルには、反芻を診断・断定せず、追加の反省・分析・作業継続を促さないよう指示しています。
+- `nextAction`: 休息や注意の切り替えを含む小さな行動の中から、次の行動を1つ提案する文章です。
+
+モデルには、ログに明記された内容と推測・解釈を区別し、推測を記録された事実として扱わないよう指示しています。`recordedStatements`、`selfEvaluations`、`repeatedPatterns` は、根拠がない場合は空配列にするよう指示しています。CLIはJSONの構造と型を検証しますが、内容がログの根拠に沿っているかまでは自動検証しません。
 
 接続に失敗した場合は、次のメッセージを標準エラーに表示し、終了コード `1` で終了します。
 
