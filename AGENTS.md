@@ -8,7 +8,7 @@
 - 実装の中心は [src/index.ts](src/index.ts) 1 ファイル
 - テストは [test/index.test.ts](test/index.test.ts) が正
 - `--stats` は実装済み
-- `--advice` は最新の日次ログを読み込んで表示する第一段階まで実装済み
+- `--advice` は直近3件の日次ログと振り返り質問の表示、Ollamaによる助言生成のCLI接続まで実装済み
 - same-day append は実装済み
 - `--mirror-stats` / `--mirror-advice` / `mirror-logs` は未実装
 - `npm run doctor` は実装済みで、ローカル基本状態の確認に使える
@@ -76,7 +76,11 @@ node dist/index.js "確認メモ"
 
 `--stats` は実装済み。
 
-`--advice` は最新の日次ログを読み込んで表示する第一段階まで実装済みで、AI による助言生成はまだ行わない。
+`--advice` は直近3件の日次ログを古い日付から順に読み込み、AI なしでログ内容と振り返り質問を表示する。AI なしでも既存機能は利用可能。
+
+AI入力形式の設計と、`--advice --advice-provider ollama` による助言生成のCLI接続は実装済み。生成結果は JSON として stdout に出力し、元ログには書き込まない。Issue #8は First step 完了としてクローズ済み。
+
+Ollama送信前の匿名化導線と、生成内容の根拠・品質・再現性の検証は今後の課題。`--safe-share` は別経路で、Ollama送信時には自動適用されない。
 
 将来、新しいオプションや機能を実装する場合は、少なくとも次を一緒に更新すること。
 
@@ -122,7 +126,7 @@ npm test
 ## よくある誤解
 
 - `mental-auto` は現時点では高度な分析 CLI ではない
-- `--advice` は実装済みだが、現時点では AI による助言生成は行わない
+- 通常の `--advice` は AI なしで動作し、`--advice-provider ollama` を追加すると AI による助言を生成する
 - `mirror-logs` はまだ存在しない
 - same-day append は実装済み
 - 同日再実行では既存ログを上書きせず、新しいエントリを末尾に追記する
