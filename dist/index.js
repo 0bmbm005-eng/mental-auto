@@ -805,6 +805,25 @@ export function parseAdviceOutput(content) {
     }
     return parsed;
 }
+export function validateAdviceEvidenceDates(input, output) {
+    const logDates = new Set(input.logs.map((log) => log.date));
+    output.repeatedPatterns.forEach((pattern, index) => {
+        const path = `repeatedPatterns[${index}].evidenceDates`;
+        if (pattern.evidenceDates.length < 2) {
+            throw new Error(`${path} must contain at least 2 dates`);
+        }
+        const seenDates = new Set();
+        for (const date of pattern.evidenceDates) {
+            if (seenDates.has(date)) {
+                throw new Error(`${path} contains duplicate date: ${date}`);
+            }
+            if (!logDates.has(date)) {
+                throw new Error(`${path} contains date not found in input.logs: ${date}`);
+            }
+            seenDates.add(date);
+        }
+    });
+}
 export function createOllamaAdviceProvider(model, endpoint = "http://127.0.0.1:11434/api/chat", fetchImpl = fetch) {
     return async (input) => {
         const response = await fetchImpl(endpoint, {
