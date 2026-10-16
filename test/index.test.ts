@@ -11,6 +11,7 @@ import {
   createOllamaAdviceProvider,
   generateAdvice,
   parseAdviceOutput,
+  validateAdviceEvidenceDates,
   countLogEntries,
   formatAdviceInput,
   getLogStats,
@@ -161,6 +162,86 @@ describe("parseAdviceOutput", () => {
         "Invalid AdviceOutput",
       );
     }
+  });
+});
+
+describe("validateAdviceEvidenceDates", () => {
+  function fixtures(evidenceDates = ["2026-10-05", "2026-10-06"]) {
+    const input = buildAdviceInput([
+      { date: "2026-10-06", content: "second log" },
+      { date: "2026-10-05", content: "first log" },
+    ]);
+    const output: AdviceOutput = {
+      schemaVersion: 1,
+      recordedStatements: [],
+      selfEvaluations: [],
+      repeatedPatterns: [{ summary: "継続している", evidenceDates }],
+      ruminationNotice: "",
+      nextAction: "休む",
+    };
+    return { input, output };
+  }
+
+  it("accepts dates present in input logs", () => {
+    const { input, output } = fixtures();
+    expect(validateAdviceEvidenceDates(input, output)).toBeUndefined();
+  });
+
+  it("allows the same dates across different patterns", () => {
+    const { input, output } = fixtures();
+    output.repeatedPatterns.push({
+      summary: "別のパターン",
+      evidenceDates: ["2026-10-06", "2026-10-05"],
+    });
+    expect(validateAdviceEvidenceDates(input, output)).toBeUndefined();
+  });
+
+  it("rejects a date absent from input logs", () => {
+    const { input, output } = fixtures(["2026-10-05", "2026-10-07"]);
+    expect(() => validateAdviceEvidenceDates(input, output)).toThrow(
+      "repeatedPatterns[0].evidenceDates contains date not found in input.logs: 2026-10-07",
+    );
+  });
+
+  it("rejects duplicate dates within a pattern", () => {
+    const { input, output } = fixtures(["2026-10-05", "2026-10-06", "2026-10-05"]);
+    expect(() => validateAdviceEvidenceDates(input, output)).toThrow(
+      "repeatedPatterns[0].evidenceDates contains duplicate date: 2026-10-05",
+    );
+  });
+
+  it.each([["2026-10-05"], []])("rejects insufficient evidence dates: %j", (...dates) => {
+    const { input, output } = fixtures(dates);
+    expect(() => validateAdviceEvidenceDates(input, output)).toThrow(
+      "repeatedPatterns[0].evidenceDates must contain at least 2 dates",
+    );
+  });
+
+  it("accepts an empty repeatedPatterns array even without logs", () => {
+    const { output } = fixtures();
+    output.repeatedPatterns = [];
+    expect(validateAdviceEvidenceDates(buildAdviceInput([]), output)).toBeUndefined();
+  });
+
+  it.each([
+    ["2026-10-05", "2026-10-06"],
+    ["2026-10-05", "2026-10-07"],
+    ["2026-10-05", "2026-10-05"],
+    ["2026-10-05"],
+    [],
+  ])("does not mutate either argument: %j", (...dates) => {
+    const { input, output } = fixtures(dates);
+    const originalInput = structuredClone(input);
+    const originalOutput = structuredClone(output);
+
+    try {
+      validateAdviceEvidenceDates(input, output);
+    } catch {
+      // Invalid evidence must also leave both arguments unchanged.
+    }
+
+    expect(input).toEqual(originalInput);
+    expect(output).toEqual(originalOutput);
   });
 });
 

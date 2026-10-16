@@ -1075,6 +1075,32 @@ export function parseAdviceOutput(content: string): AdviceOutput {
   return parsed as AdviceOutput;
 }
 
+export function validateAdviceEvidenceDates(
+  input: AdviceInput,
+  output: AdviceOutput,
+): void {
+  const logDates = new Set(input.logs.map((log) => log.date));
+
+  output.repeatedPatterns.forEach((pattern, index) => {
+    const path = `repeatedPatterns[${index}].evidenceDates`;
+
+    if (pattern.evidenceDates.length < 2) {
+      throw new Error(`${path} must contain at least 2 dates`);
+    }
+
+    const seenDates = new Set<string>();
+    for (const date of pattern.evidenceDates) {
+      if (seenDates.has(date)) {
+        throw new Error(`${path} contains duplicate date: ${date}`);
+      }
+      if (!logDates.has(date)) {
+        throw new Error(`${path} contains date not found in input.logs: ${date}`);
+      }
+      seenDates.add(date);
+    }
+  });
+}
+
 export function createOllamaAdviceProvider(
   model: string,
   endpoint = "http://127.0.0.1:11434/api/chat",
