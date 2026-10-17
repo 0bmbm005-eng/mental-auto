@@ -10,7 +10,7 @@ import {
 import { basename, dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-import { resolveSafeShareInput, sanitizeForSafeShare } from "./safe-share.js";
+import { maskSensitiveText, resolveSafeShareInput, sanitizeForSafeShare } from "./safe-share.js";
 
 const JST_TIME_ZONE = "Asia/Tokyo";
 const DEFAULT_LOG_DIR = "logs";
@@ -38,6 +38,9 @@ Options:
   --advice            Show the three most recent logs and reflection questions
   --advice-provider ollama
                       Generate AI reflections with local Ollama (requires --advice)
+  --sanitize-advice   Mask email, key and path patterns before Ollama submission
+                      Requires --advice --advice-provider ollama; allows --output-dir
+                      Rejects other modes, memo arguments, --memo and --date
   --monthly-summary [YYYY-MM]
                       Combine the month's daily logs into monthly-summary/YYYY-MM.md
   --weekly-summary [YYYY-Www]
@@ -78,6 +81,8 @@ Behavior:
   - Empty memo writes "_No memo provided_"
   - --advice prints the three most recent logs and reflection questions without AI
   - --advice --advice-provider ollama generates reflections using local qwen3.5:9b
+  - Add --sanitize-advice to mask copied log bodies without truncation or whitespace changes
+  - sanitized: true means limited masking applied, not complete anonymization (names remain)
 
 logs / mirror-logs:
   - logs/: implemented primary output directory
@@ -611,6 +616,7 @@ function parseArgs(
   stats: boolean;
   advice: boolean;
   adviceProvider: "ollama" | null;
+  sanitizeAdvice: boolean;
   safeShareInput: string | null;
   importMobilePath: string | null;
   dryRun: boolean;
@@ -624,6 +630,8 @@ function parseArgs(
   let stats = false;
   let advice = false;
   let adviceProvider: "ollama" | null = null;
+  let sanitizeAdvice = false;
+  let sanitizeConflict: string | null = null;
   let memoSpecified = false;
   let safeShareInput: string | null = null;
   let importMobilePath: string | null = null;
@@ -636,6 +644,16 @@ function parseArgs(
 
     if (arg === "--help" || arg === "-h") {
       help = true;
+      continue;
+    }
+
+    if (["--stats", "--safe-share", "--monthly-summary", "--weekly-summary",
+      "--import-mobile", "--dry-run", "--memo", "--date"].includes(arg)) {
+      sanitizeConflict ??= arg;
+    }
+
+    if (arg === "--sanitize-advice") {
+      sanitizeAdvice = true;
       continue;
     }
 
@@ -751,16 +769,26 @@ function parseArgs(
       throw new Error(`Unknown option: ${arg}`);
     }
 
+    sanitizeConflict ??= "memo arguments";
     if (!memoSpecified) {
       memoParts.push(arg);
     }
   }
 
-   if (adviceProvider !== null && !advice) {
+  if (sanitizeAdvice && !help) {
+    if (!advice || adviceProvider !== "ollama") {
+      throw new Error("--sanitize-advice requires --advice --advice-provider ollama");
+    }
+    if (sanitizeConflict !== null) {
+      throw new Error(`--sanitize-advice cannot be combined with ${sanitizeConflict}`);
+    }
+  }
+
+   if (adviceProvider !== null && !advice && !(sanitizeAdvice && help)) {
     throw new Error("--advice-provider requires --advice");
   }
 
-   if (dryRun && importMobilePath === null) {
+   if (dryRun && importMobilePath === null && !(sanitizeAdvice && help)) {
     throw new Error("--dry-run requires --import-mobile");
   }
 
@@ -772,6 +800,7 @@ function parseArgs(
     stats,
     advice,
     adviceProvider,
+    sanitizeAdvice,
     safeShareInput,
     importMobilePath,
     dryRun,
@@ -1305,8 +1334,10 @@ export async function runCli(
       ? await generateAdvice(
           buildAdviceInput(recentFileNames.map((fileName, index) => ({
             date: fileName.slice(0, -3),
-            content: recentLogContents[index],
-          }))),
+            content: parsed.sanitizeAdvice
+              ? maskSensitiveText(recentLogContents[index])
+              : recentLogContents[index],
+          })), parsed.sanitizeAdvice),
           dependencies.adviceProvider ?? createOllamaAdviceProvider("qwen3.5:9b"),
         )
       : formatAdviceInput(recentLogContents);

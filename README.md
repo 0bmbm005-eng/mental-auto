@@ -410,6 +410,19 @@ node dist/index.js --advice --advice-provider ollama
 接続先は `http://127.0.0.1:11434/api/chat`、使用モデルは `qwen3.5:9b` です。
 この設定では、ログを端末内のOllamaへ送信します。
 
+送信前に限定的なマスクを適用する場合:
+
+```bash
+node dist/index.js --advice --advice-provider ollama --sanitize-advice
+node dist/index.js --advice --advice-provider ollama --sanitize-advice --output-dir ./tmp
+```
+
+`--sanitize-advice` は、送信するログ本文のコピーにだけ、既存のメールアドレス・APIキーらしき文字列・ローカルパスのマスクを適用します。長文の省略、空白整理、改行変換は行わず、日付・順序・元ログを保持します。未指定時は本文を加工しません。
+
+AI入力の `sanitized: true` は、この限定的なマスク処理の適用済みを意味します。人名・会社名・住所・電話番号などを含む完全な匿名化ではなく、すべての秘密情報を検出するものでもありません。パスなどの一致範囲が周辺の記述を巻き込む場合もあります。
+
+`--advice --advice-provider ollama` が必須です。`--output-dir` と併用できますが、`--safe-share`、`--stats`、`--monthly-summary`、`--weekly-summary`、`--import-mobile`、`--dry-run`、本文引数、`--memo`、`--date` との併用はエラーになります。`--help` / `-h` は表示できます。既存の `--safe-share` は別経路で、従来どおり整形と長文省略も行います。
+
 生成結果はJSON形式で標準出力（stdout）に表示します。主な出力項目は次のとおりです。
 
 - `recordedStatements`: ログに明記された内容を、日付（`date`）と記述（`statement`）の組で示す配列です。

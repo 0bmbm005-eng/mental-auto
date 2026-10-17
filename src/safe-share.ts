@@ -22,14 +22,18 @@ export function sanitizeForSafeShare(input: string): string {
   const normalizedInput = input.replace(/\r\n/g, "\n");
 
   const masked = [
-    maskEmails,
-    maskApiKeys,
-    maskLocalPaths,
+    maskSensitiveText,
     normalizeWhitespace,
     truncateLongLines,
   ].reduce((value, transform) => transform(value), normalizedInput);
 
   return masked.trim();
+}
+
+export function maskSensitiveText(input: string): string {
+  return [maskEmails, maskApiKeys, maskLocalPaths].reduce(
+    (value, transform) => transform(value), input,
+  );
 }
 
 function maskEmails(input: string): string {

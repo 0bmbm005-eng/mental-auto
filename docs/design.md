@@ -32,7 +32,7 @@
 `safe-share` の処理:
 
 1. 入力を文字列または既存ファイルとして受ける
-2. メールアドレス、API key らしき文字列、ローカルパスを最低限マスクする
+2. 共通関数 `maskSensitiveText` でメールアドレス、API key らしき文字列、ローカルパスを最低限マスクする
 3. 長すぎる行を省略する
 4. 不要空白を整理して stdout に出す
 
@@ -116,6 +116,10 @@ same-day append は実装済みです。
 `--advice --advice-provider ollama` を指定すると、直近3件のログをローカルOllamaへ渡して AI による助言を生成し、結果の JSON を stdout に表示します。接続先は `http://127.0.0.1:11434/api/chat`、使用モデルは `qwen3.5:9b` です。Ollamaの起動とモデルの取得が必要です。
 
 `--advice-provider ollama` 指定時のfetch接続失敗は、Ollamaの起動と接続先の確認を促す日本語エラーへ変換し、元のエラーを `cause` に保持します。HTTPエラーとレスポンス形式エラーは、それぞれ既存の処理で扱います。
+
+`--sanitize-advice` 指定時は、読み込んだログから新しいオブジェクトを作り、`content` にだけ `maskSensitiveText` を適用して `buildAdviceInput(logs, true)` へ渡します。日付・順序・元ファイルは保持し、長文省略・空白整理・改行変換は行いません。`buildAdviceInput` 自体はマスク処理を行いません。未指定時は本文を保持し `sanitized: false` とします。`sanitized: true` は限定的なマスク適用済みという意味で、人名などを含む完全な匿名化を示しません。
+
+新オプションは `--advice --advice-provider ollama` を必須とし、`--output-dir` と併用できます。別処理（safe-share、stats、月次・週次サマリー、import、dry-run）、本文引数、`--memo`、`--date` との併用は拒否します。`--help` / `-h` では新オプションの依存・組み合わせ検証を省略してhelpを表示します。既存の引数処理は新オプション未指定時には変更しません。
 
 Ollama応答は `parseAdviceOutput` でJSONの構造と型を確認した後、`validateAdviceEvidenceDates` で日付の整合性を検証します。`recordedStatements` と `selfEvaluations` の各 `date` は入力の `logs` に存在する必要があります。同日付の複数記述と空配列は許可します。不一致のエラーには項目名・配列インデックス・対象日付を含めます。`repeatedPatterns` の各 `evidenceDates` は入力ログに存在する重複のない2日以上を必要とし、`repeatedPatterns` 自体は空配列を許可します。検証は入力・出力オブジェクトを変更しません。日付が整合していても記述内容そのものの根拠を保証するものではなく、内容の根拠確認は未実装です。
 

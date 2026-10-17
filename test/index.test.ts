@@ -1003,6 +1003,80 @@ describe("runCli", () => {
     }
   });
 
+  it.each([false, true])("preserves source logs and transmitted formatting (sanitize: %s)", async (sanitize) => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-sanitize-"));
+    const secrets = [
+      "user@example.com", "sk-1234567890abcdef", "ghp_12345678901234567890",
+      "github_pat_12345678901234567890", "xoxb-123456789012",
+      "API_KEY=secret", "ACCESS_TOKEN=secret", "SECRET_KEY=secret",
+      "Authorization: Bearer secret", "/Users/person/note", "/home/person/note",
+      "/private/note", "/tmp/note", "C:\\Users\\person\\note",
+    ];
+    const replacements = [
+      "[masked-email]", ...Array(4).fill("[masked-api-key]"),
+      "API_KEY=[masked-api-key]", "ACCESS_TOKEN=[masked-api-key]", "SECRET_KEY=[masked-api-key]",
+      "Authorization: Bearer [masked-api-key]", ...Array(5).fill("[masked-path]"),
+    ];
+    const prefix = `  \t${"長い本文".repeat(60)}末尾  \r\n\r\n\r\n`;
+    const logs = ["2026-10-05", "2026-10-06", "2026-10-07"].map(date => ({
+      date, content: `${prefix}${secrets.join(" \t ")}\r\n  `,
+    }));
+    const provider = vi.fn<AdviceProvider>().mockResolvedValue("{}");
+    try {
+      await mkdir(join(baseDir, "logs"));
+      for (const log of [...logs].reverse()) {
+        await writeFile(join(baseDir, "logs", `${log.date}.md`), log.content);
+      }
+      await runCli([
+        "--advice", "--advice-provider", "ollama", "--output-dir", baseDir,
+        ...(sanitize ? ["--sanitize-advice"] : []),
+      ], { adviceProvider: provider });
+      expect(provider).toHaveBeenCalledTimes(1);
+      const input = provider.mock.calls[0][0];
+      expect(input.sanitized).toBe(sanitize);
+      expect(input.logs).toEqual(logs.map(log => ({
+        ...log,
+        content: sanitize ? `${prefix}${replacements.join(" \t ")}\r\n  ` : log.content,
+      })));
+      if (sanitize) {
+        for (const secret of secrets) {
+          expect(input.logs[0].content).not.toContain(secret);
+        }
+      }
+      for (const log of logs) {
+        expect(await readFile(join(baseDir, "logs", `${log.date}.md`), "utf8")).toBe(log.content);
+      }
+    } finally {
+      await rm(baseDir, { recursive: true, force: true });
+    }
+  });
+
+  it.each([
+    [], ["--advice"], ["--advice-provider", "ollama"],
+  ])("requires Ollama advice for sanitization: %j", async (...args) => {
+    await expect(runCli(["--sanitize-advice", ...args])).rejects.toThrow(
+      "--sanitize-advice requires --advice --advice-provider ollama",
+    );
+  });
+
+  it.each([
+    ["--stats"], ["--safe-share", "text"], ["--monthly-summary"],
+    ["--weekly-summary"], ["--import-mobile", "inbox"], ["--dry-run"],
+    ["--memo", ""], ["--date", "2026-10-05"], ["本文"], [""],
+    ["本文", "--memo", "replacement"],
+  ])("rejects conflicting sanitization arguments: %j", async (...args) => {
+    await expect(runCli([
+      ...args, "--sanitize-advice", "--advice", "--advice-provider", "ollama",
+    ])).rejects.toThrow("--sanitize-advice cannot be combined with");
+  });
+
+  it.each(["--help", "-h"])("allows %s with sanitization without logs or provider", async (help) => {
+    expect((await runCli(["--sanitize-advice", help])).help).toBe(true);
+    expect((await runCli(["--sanitize-advice", "--dry-run", help])).help).toBe(true);
+    expect((await runCli(["--sanitize-advice", "--advice-provider", "ollama", help])).help).toBe(true);
+    expect(formatHelp()).toContain("--sanitize-advice");
+  });
+
   it("validates --advice-provider arguments", async () => {
     await expect(
       runCli(["--advice", "--advice-provider"]),
