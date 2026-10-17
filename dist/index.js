@@ -807,6 +807,13 @@ export function parseAdviceOutput(content) {
 }
 export function validateAdviceEvidenceDates(input, output) {
     const logDates = new Set(input.logs.map((log) => log.date));
+    for (const field of ["recordedStatements", "selfEvaluations"]) {
+        output[field].forEach(({ date }, index) => {
+            if (!logDates.has(date)) {
+                throw new Error(`${field}[${index}].date contains date not found in input.logs: ${date}`);
+            }
+        });
+    }
     output.repeatedPatterns.forEach((pattern, index) => {
         const path = `repeatedPatterns[${index}].evidenceDates`;
         if (pattern.evidenceDates.length < 2) {
@@ -846,7 +853,8 @@ export function createOllamaAdviceProvider(model, endpoint = "http://127.0.0.1:1
             typeof result.message.content !== "string") {
             throw new Error("Invalid Ollama response");
         }
-        parseAdviceOutput(result.message.content);
+        const output = parseAdviceOutput(result.message.content);
+        validateAdviceEvidenceDates(input, output);
         return result.message.content;
     };
 }

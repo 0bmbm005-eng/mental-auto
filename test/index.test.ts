@@ -166,6 +166,44 @@ describe("parseAdviceOutput", () => {
 });
 
 describe("validateAdviceEvidenceDates", () => {
+  describe.each(["recordedStatements", "selfEvaluations"] as const)("%s dates", (field) => {
+    it.each([false, true])("validates dates without mutation (invalid: %s)", (invalid) => {
+      const { input, output } = fixtures();
+      output[field] = [
+        { date: "2026-10-05", statement: "最初の記述" },
+        { date: invalid ? "2026-10-07" : "2026-10-06", statement: "次の記述" },
+      ];
+      const originalInput = structuredClone(input);
+      const originalOutput = structuredClone(output);
+
+      if (invalid) {
+        expect(() => validateAdviceEvidenceDates(input, output)).toThrow(
+          `${field}[1].date contains date not found in input.logs: 2026-10-07`,
+        );
+      } else {
+        expect(validateAdviceEvidenceDates(input, output)).toBeUndefined();
+      }
+      expect(input).toEqual(originalInput);
+      expect(output).toEqual(originalOutput);
+    });
+
+    it("allows multiple statements on the same date", () => {
+      const { input, output } = fixtures();
+      output[field] = [
+        { date: "2026-10-05", statement: "朝の記述" },
+        { date: "2026-10-05", statement: "夜の記述" },
+      ];
+      expect(validateAdviceEvidenceDates(input, output)).toBeUndefined();
+    });
+
+    it("allows empty arrays without input logs", () => {
+      const { output } = fixtures();
+      output.repeatedPatterns = [];
+      expect(output[field]).toEqual([]);
+      expect(validateAdviceEvidenceDates(buildAdviceInput([]), output)).toBeUndefined();
+    });
+  });
+
   function fixtures(evidenceDates = ["2026-10-05", "2026-10-06"]) {
     const input = buildAdviceInput([
       { date: "2026-10-06", content: "second log" },
@@ -246,6 +284,39 @@ describe("validateAdviceEvidenceDates", () => {
 });
 
 describe("createOllamaAdviceProvider", () => {
+  it.each(["recordedStatements", "selfEvaluations", "repeatedPatterns"] as const)(
+    "applies %s date validation in the Ollama generation path",
+    async (field) => {
+      const input = buildAdviceInput([
+        { date: "2026-10-05", content: "最初のログ" },
+        { date: "2026-10-06", content: "次のログ" },
+      ]);
+      const output: AdviceOutput = {
+        schemaVersion: 1,
+        recordedStatements: [{ date: "2026-10-05", statement: "記述" }],
+        selfEvaluations: [{ date: "2026-10-06", statement: "自己評価" }],
+        repeatedPatterns: [{ summary: "パターン", evidenceDates: ["2026-10-05", "2026-10-06"] }],
+        ruminationNotice: "",
+        nextAction: "休む",
+      };
+      const fetchMock = vi.fn(async () => new Response(JSON.stringify({
+        message: { content: JSON.stringify(output) },
+      })));
+      const provider = createOllamaAdviceProvider("local-model", undefined, fetchMock as typeof fetch);
+      await expect(generateAdvice(input, provider)).resolves.toBe(JSON.stringify(output));
+
+      if (field === "repeatedPatterns") {
+        output.repeatedPatterns[0].evidenceDates[1] = "2026-10-07";
+      } else {
+        output[field][0].date = "2026-10-07";
+      }
+      const path = field === "repeatedPatterns" ? `${field}[0].evidenceDates` : `${field}[0].date`;
+      await expect(generateAdvice(input, provider)).rejects.toThrow(
+        `${path} contains date not found in input.logs: 2026-10-07`,
+      );
+    },
+  );
+
   it("posts an Ollama request and returns the assistant content", async () => {
     const input = buildAdviceInput([
       { date: "2026-10-06", content: "今日は落ち着いて作業できた" },

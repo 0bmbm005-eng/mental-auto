@@ -117,6 +117,8 @@ same-day append は実装済みです。
 
 `--advice-provider ollama` 指定時のfetch接続失敗は、Ollamaの起動と接続先の確認を促す日本語エラーへ変換し、元のエラーを `cause` に保持します。HTTPエラーとレスポンス形式エラーは、それぞれ既存の処理で扱います。
 
+Ollama応答は `parseAdviceOutput` でJSONの構造と型を確認した後、`validateAdviceEvidenceDates` で日付の整合性を検証します。`recordedStatements` と `selfEvaluations` の各 `date` は入力の `logs` に存在する必要があります。同日付の複数記述と空配列は許可します。不一致のエラーには項目名・配列インデックス・対象日付を含めます。`repeatedPatterns` の各 `evidenceDates` は入力ログに存在する重複のない2日以上を必要とし、`repeatedPatterns` 自体は空配列を許可します。検証は入力・出力オブジェクトを変更しません。日付が整合していても記述内容そのものの根拠を保証するものではなく、内容の根拠確認は未実装です。
+
 ### `--mirror-stats` / `--mirror-advice`
 
 未実装です。

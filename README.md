@@ -418,7 +418,7 @@ node dist/index.js --advice --advice-provider ollama
 - `ruminationNotice`: 反芻についての注意を示す文章です。モデルには、反芻を診断・断定せず、追加の反省・分析・作業継続を促さないよう指示しています。
 - `nextAction`: 休息や注意の切り替えを含む小さな行動の中から、次の行動を1つ提案する文章です。
 
-モデルには、ログに明記された内容と推測・解釈を区別し、推測を記録された事実として扱わないよう指示しています。`recordedStatements`、`selfEvaluations`、`repeatedPatterns` は、根拠がない場合は空配列にするよう指示しています。CLIはJSONの構造と型を検証しますが、内容がログの根拠に沿っているかまでは自動検証しません。
+モデルには、ログに明記された内容と推測・解釈を区別し、推測を記録された事実として扱わないよう指示しています。`recordedStatements`、`selfEvaluations`、`repeatedPatterns` は、根拠がない場合は空配列にするよう指示しています。CLIはJSONの構造・型に加え、`recordedStatements` と `selfEvaluations` の各 `date` が入力ログに存在することを検証します。同じ日付の複数記述と空配列は許可します。`repeatedPatterns` の各 `evidenceDates` は、入力ログに存在する重複のない2日以上である必要があります（`repeatedPatterns` 自体は空配列を許可）。不整合は例外として処理し、入力・出力オブジェクトは変更しません。これは日付の整合性の検証であり、記述内容そのものがログに裏付けられているかは自動検証しません。
 
 接続に失敗した場合は、次のメッセージを標準エラーに表示し、終了コード `1` で終了します。
 
