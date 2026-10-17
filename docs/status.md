@@ -54,7 +54,7 @@
 - `src/index.ts` 1 ファイルに CLI パース、日付処理、整形、書き込みが集まっている
 - `logs` 読み出しと mobile import が `src/index.ts` に集まっている
 - same-day append を採用するか上書き維持で固定するかが未確定
-- mobile import の重複取り込み検知がない
+- mobile import の重複検知は履歴導入後のみ。ログ保存後・履歴保存前の失敗では再実行時に重複が残り得る
 - `mirror-logs` の責務が未定義
 - `--stats` / `--advice` 系の責務が未定義
 - README のセットアップ例を CI 相当で定期確認する仕組みがない

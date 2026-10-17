@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { mkdtemp, mkdir, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { isAbsolute, join } from "node:path";
@@ -1548,5 +1549,139 @@ describe("runCli", () => {
     await expect(
       runCli(["--import-mobile", join(inboxDir, "2026-6-27.md"), "--output-dir", baseDir]),
     ).rejects.toThrow("Invalid mobile inbox filename (expected YYYY-MM-DD.md): 2026-6-27.md");
+  });
+});
+
+describe("mobile import deduplication", () => {
+  async function setup() {
+    const base = await mkdtemp(join(tmpdir(), "mental-auto-dedup-"));
+    const inbox = join(base, "inbox");
+    await mkdir(inbox);
+    const source = join(inbox, "2026-06-25.md");
+    const log = join(base, "logs", "2026-06-25.md");
+    const history = join(base, "logs", ".mobile-import-history.json");
+    const args = ["--import-mobile", source, "--output-dir", base];
+    return { base, inbox, source, log, history, args };
+  }
+
+  it("imports once, skips normalized duplicates, and preserves both archives", async () => {
+    const t = await setup();
+    await writeFile(t.source, "  first\r\nsecond\r\n ");
+    await runCli(t.args);
+    const before = await readFile(t.log, "utf8");
+    const historyBefore = await readFile(t.history, "utf8");
+    expect(before).toBe("# 2026-06-25\n\n## Mobile notes\n\nfirst\nsecond\n");
+    await writeFile(t.source, "first\nsecond\n");
+    const result = await runCli(t.args);
+    expect(result.mobileImportPlans?.[0].skipped).toBe(true);
+    expect(await readFile(t.log, "utf8")).toBe(before);
+    expect(await readFile(t.history, "utf8")).toBe(historyBefore);
+    expect(await readFile(join(t.inbox, "archive", "2026-06-25.md"), "utf8"))
+      .toBe("  first\r\nsecond\r\n ");
+    expect(await readFile(join(t.inbox, "archive", "2026-06-25.1.md"), "utf8"))
+      .toBe("first\nsecond\n");
+    await expect(stat(t.source)).rejects.toThrow();
+  });
+
+  it("preserves both directory import history entries and skips both on reimport", async () => {
+    const t = await setup();
+    const files = [
+      { date: "2026-06-25", body: "first day\n" },
+      { date: "2026-06-26", body: "second day\n" },
+    ];
+    const args = ["--import-mobile", t.inbox, "--output-dir", t.base];
+    for (const file of files) {
+      await writeFile(join(t.inbox, `${file.date}.md`), file.body);
+    }
+    await runCli(args);
+    const history = await readFile(t.history, "utf8");
+    expect(JSON.parse(history)).toEqual({
+      schemaVersion: 1,
+      entries: files.map(file => ({
+        date: file.date,
+        sha256: createHash("sha256").update(file.body.trim(), "utf8").digest("hex"),
+      })),
+    });
+    const logs = await Promise.all(files.map(file =>
+      readFile(join(t.base, "logs", `${file.date}.md`), "utf8"),
+    ));
+    for (const file of files) {
+      await writeFile(join(t.inbox, `${file.date}.md`), file.body);
+    }
+    const result = await runCli(args);
+    expect(result.mobileImportPlans?.map(plan => ({ date: plan.date, skipped: plan.skipped })))
+      .toEqual(files.map(file => ({ date: file.date, skipped: true })));
+    for (const [index, file] of files.entries()) {
+      expect(await readFile(join(t.base, "logs", `${file.date}.md`), "utf8")).toBe(logs[index]);
+      await expect(stat(join(t.inbox, `${file.date}.md`))).rejects.toThrow();
+    }
+    expect(await readFile(t.history, "utf8")).toBe(history);
+  });
+
+  it("imports different bodies on the same date and the same body on another date", async () => {
+    const t = await setup();
+    for (const body of ["first", "second", "first  line", "first line"]) {
+      await writeFile(t.source, body);
+      expect((await runCli(t.args)).mobileImportPlans?.[0].skipped).toBeUndefined();
+    }
+    expect(await readFile(t.log, "utf8")).toBe(
+      "# 2026-06-25\n\n## Mobile notes\n\nfirst\n\nsecond\n\nfirst  line\n\nfirst line\n",
+    );
+    const other = join(t.inbox, "2026-06-26.md");
+    await writeFile(other, "first");
+    await runCli(["--import-mobile", other, "--output-dir", t.base]);
+    expect(await readFile(join(t.base, "logs", "2026-06-26.md"), "utf8"))
+      .toContain("\nfirst\n");
+    expect(JSON.parse(await readFile(t.history, "utf8")).entries).toHaveLength(5);
+  });
+
+  it.each(["{", '{"schemaVersion":2,"entries":[]}',
+    '{"schemaVersion":1,"entries":[{"date":"2026-02-30","sha256":"' + "a".repeat(64) + '"}]}',
+    '{"schemaVersion":1,"entries":[{"date":"2026-06-25","sha256":"bad"}]}'])
+  ("rejects corrupt history before modifying files: %s", async (corrupt) => {
+    const t = await setup();
+    await mkdir(join(t.base, "logs"));
+    await writeFile(t.log, "original log");
+    await writeFile(t.history, corrupt);
+    await writeFile(t.source, "new body");
+    await expect(runCli(t.args)).rejects.toThrow("Invalid mobile import history");
+    expect(await readFile(t.log, "utf8")).toBe("original log");
+    expect(await readFile(t.source, "utf8")).toBe("new body");
+    expect(await readFile(t.history, "utf8")).toBe(corrupt);
+    await expect(stat(join(t.inbox, "archive"))).rejects.toThrow();
+  });
+
+  it("dry-run previews new and duplicate imports without writes", async () => {
+    const t = await setup();
+    await writeFile(t.source, "body");
+    const first = await runCli([...t.args, "--dry-run"]);
+    expect(first.mobileImportPlans?.[0].skipped).toBeUndefined();
+    await expect(stat(join(t.base, "logs"))).rejects.toThrow();
+    await expect(stat(join(t.inbox, "archive"))).rejects.toThrow();
+    expect(await readFile(t.source, "utf8")).toBe("body");
+    await runCli(t.args);
+    const log = await readFile(t.log, "utf8");
+    const history = await readFile(t.history, "utf8");
+    await writeFile(t.source, "body");
+    expect((await runCli([...t.args, "--dry-run"])).mobileImportPlans?.[0].skipped).toBe(true);
+    expect(await readFile(t.log, "utf8")).toBe(log);
+    expect(await readFile(t.history, "utf8")).toBe(history);
+    expect(await readdir(join(t.inbox, "archive"))).toEqual(["2026-06-25.md"]);
+    expect(await readFile(t.source, "utf8")).toBe("body");
+  });
+
+  it("does not append again after an archive failure", async () => {
+    const t = await setup();
+    const archive = join(t.inbox, "archive");
+    await writeFile(archive, "block archive directory creation");
+    await writeFile(t.source, "body");
+    await expect(runCli(t.args)).rejects.toThrow("Failed to archive mobile file");
+    const log = await readFile(t.log, "utf8");
+    expect(JSON.parse(await readFile(t.history, "utf8")).entries).toHaveLength(1);
+    expect(await readFile(t.source, "utf8")).toBe("body");
+    await rm(archive);
+    expect((await runCli(t.args)).mobileImportPlans?.[0].skipped).toBe(true);
+    expect(await readFile(t.log, "utf8")).toBe(log);
+    expect(await readFile(join(archive, "2026-06-25.md"), "utf8")).toBe("body");
   });
 });

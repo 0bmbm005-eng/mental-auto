@@ -1,4 +1,6 @@
-import { appendFile, mkdir, readFile, readdir, rename, stat, writeFile, } from "node:fs/promises";
+import { appendFile, copyFile, lstat, mkdir, readFile, readdir, unlink, stat, writeFile, } from "node:fs/promises";
+import { constants } from "node:fs";
+import { createHash } from "node:crypto";
 import { basename, dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { maskSensitiveText, resolveSafeShareInput, sanitizeForSafeShare } from "./safe-share.js";
@@ -684,41 +686,104 @@ function buildLogWithMobileNotes(existingLog, date, mobileMarkdown) {
     }
     return `${beforeSectionEnd}\n\n${mobileBody}\n\n${afterSection}`;
 }
-async function importSingleMobileFile(plan, dryRun) {
-    if (dryRun) {
-        return;
+async function readMobileImportHistory(path) {
+    let text;
+    try {
+        text = await readFile(path, "utf8");
     }
+    catch (error) {
+        if (error.code === "ENOENT") {
+            return { schemaVersion: 1, entries: [] };
+        }
+        throw error;
+    }
+    try {
+        const value = JSON.parse(text);
+        if (value === null || typeof value !== "object" || value.schemaVersion !== 1 ||
+            !Array.isArray(value.entries))
+            throw new Error("Invalid history structure");
+        for (const entry of value.entries) {
+            if (entry === null || typeof entry !== "object" || typeof entry.date !== "string" ||
+                typeof entry.sha256 !== "string" || !/^[a-f0-9]{64}$/.test(entry.sha256)) {
+                throw new Error("Invalid history entry");
+            }
+            validateDate(entry.date);
+        }
+        return value;
+    }
+    catch (error) {
+        throw new Error(`Invalid mobile import history: ${path}`, { cause: error });
+    }
+}
+async function availableArchivePath(path) {
+    for (let suffix = 0;; suffix++) {
+        const candidate = suffix === 0 ? path : path.replace(/\.md$/, `.${suffix}.md`);
+        try {
+            await lstat(candidate);
+        }
+        catch (error) {
+            if (["ENOENT", "ENOTDIR"].includes(error.code ?? ""))
+                return candidate;
+            throw error;
+        }
+    }
+}
+async function importSingleMobileFile(plan, dryRun, history, historyPath) {
     let mobileMarkdown;
     try {
         mobileMarkdown = await readFile(plan.sourcePath, "utf8");
     }
     catch (error) {
-        const message = error instanceof Error ? error.message : String(error);
-        throw new Error(`Failed to read Markdown: ${plan.sourcePath}: ${message}`);
+        throw new Error(`Failed to read Markdown: ${plan.sourcePath}: ${String(error)}`);
     }
-    let existingLog = null;
-    try {
-        existingLog = await readFile(plan.targetLogPath, "utf8");
-    }
-    catch (error) {
-        const nodeError = error;
-        if (nodeError.code !== "ENOENT") {
-            const message = error instanceof Error ? error.message : String(error);
-            throw new Error(`Failed to read existing log: ${plan.targetLogPath}: ${message}`);
+    const sha256 = createHash("sha256")
+        .update(normalizeLineEndings(mobileMarkdown).trim(), "utf8").digest("hex");
+    const duplicate = history.entries.some(entry => entry.date === plan.date && entry.sha256 === sha256);
+    if (duplicate)
+        plan.skipped = true;
+    plan.archivePath = await availableArchivePath(plan.archivePath);
+    if (!duplicate) {
+        let existingLog = null;
+        try {
+            existingLog = await readFile(plan.targetLogPath, "utf8");
+        }
+        catch (error) {
+            if (error.code !== "ENOENT") {
+                throw new Error(`Failed to read existing log: ${plan.targetLogPath}: ${String(error)}`);
+            }
+        }
+        if (!dryRun) {
+            const nextLogContent = buildLogWithMobileNotes(existingLog, plan.date, mobileMarkdown);
+            try {
+                await mkdir(dirname(plan.targetLogPath), { recursive: true });
+                await writeFile(plan.targetLogPath, nextLogContent, "utf8");
+            }
+            catch (error) {
+                throw new Error(`Failed to create or update log: ${plan.targetLogPath}: ${String(error)}`);
+            }
+        }
+        history.entries.push({ date: plan.date, sha256 });
+        if (!dryRun) {
+            await writeFile(historyPath, `${JSON.stringify(history, null, 2)}\n`, "utf8");
         }
     }
-    const nextLogContent = buildLogWithMobileNotes(existingLog, plan.date, mobileMarkdown);
-    try {
-        await mkdir(dirname(plan.targetLogPath), { recursive: true });
-        await writeFile(plan.targetLogPath, nextLogContent, "utf8");
-    }
-    catch (error) {
-        const message = error instanceof Error ? error.message : String(error);
-        throw new Error(`Failed to create or update log: ${plan.targetLogPath}: ${message}`);
-    }
+    if (dryRun)
+        return;
     try {
         await mkdir(dirname(plan.archivePath), { recursive: true });
-        await rename(plan.sourcePath, plan.archivePath);
+        // Exclusive creation also prevents overwrites if another process claims the path.
+        for (;;) {
+            try {
+                await copyFile(plan.sourcePath, plan.archivePath, constants.COPYFILE_EXCL);
+                break;
+            }
+            catch (error) {
+                if (error.code !== "EEXIST")
+                    throw error;
+                plan.archivePath = await availableArchivePath(plan.archivePath);
+            }
+        }
+        await unlink(plan.sourcePath);
     }
     catch (error) {
         const message = error instanceof Error ? error.message : String(error);
@@ -726,9 +791,12 @@ async function importSingleMobileFile(plan, dryRun) {
     }
 }
 async function importMobileFiles(importPath, outputDir, dryRun) {
+    const historyPath = join(outputDir, DEFAULT_LOG_DIR, ".mobile-import-history.json");
+    // Validate all history before changing any log or source file.
+    const history = await readMobileImportHistory(historyPath);
     const plans = await collectMobileImportPlans(importPath, outputDir);
     for (const plan of plans) {
-        await importSingleMobileFile(plan, dryRun);
+        await importSingleMobileFile(plan, dryRun, history, historyPath);
     }
     return plans;
 }
@@ -736,7 +804,9 @@ function formatMobileImportPlan(plan, dryRun) {
     const prefix = dryRun ? "[dry-run] " : "";
     return [
         `${prefix}Read: ${plan.sourcePath}`,
-        `${prefix}Append to: ${plan.targetLogPath}`,
+        plan.skipped
+            ? `${prefix}Skip duplicate: ${plan.sourcePath}`
+            : `${prefix}Append to: ${plan.targetLogPath}`,
         `${prefix}Archive to: ${plan.archivePath}`,
     ];
 }
