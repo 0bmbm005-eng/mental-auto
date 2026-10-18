@@ -29,5 +29,8 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Smoke test Quick Start
+        run: npm run test:smoke
+
       - name: Check generated files and whitespace
         run: git diff --check && git diff --exit-code

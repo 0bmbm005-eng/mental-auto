@@ -11,6 +11,7 @@
     "build": "tsc -p tsconfig.json",
     "doctor": "node dist/doctor.js",
     "test": "vitest run",
+    "test:smoke": "node scripts/quick-start-smoke.mjs",
     "start": "node dist/index.js"
   },
   "devDependencies": {
