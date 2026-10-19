@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { mkdtemp, readFile, readdir, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, readdir, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -35,6 +35,20 @@ async function smokeTest() {
       assert.equal(firstFiles.length, 1);
       const firstContent = await readFile(join(logs, firstFiles[0]), "utf8");
       await run(process.execPath, [cli, secondMemo], options);
+      const explicitCwd = join(cwd, "explicit-cwd");
+      const outputDir = join(cwd, "custom-output");
+      const outputMemo = "指定した出力先へのメモ";
+      await mkdir(explicitCwd);
+      await run(process.execPath, [cli, "--output-dir", outputDir, outputMemo], {
+        ...options,
+        cwd: explicitCwd,
+      });
+      const outputLogs = join(outputDir, "logs");
+      const outputFiles = await readdir(outputLogs);
+      assert.equal(outputFiles.length, 1);
+      const outputContent = await readFile(join(outputLogs, outputFiles[0]), "utf8");
+      await assert.rejects(readdir(join(explicitCwd, "logs")), { code: "ENOENT" });
+
       const endDate = todayInJst();
       if (date !== endDate) {
         console.log("JST date changed during smoke test; retrying in a fresh directory.");
@@ -43,6 +57,8 @@ async function smokeTest() {
 
       assert.deepEqual(firstFiles, [`${date}.md`]);
       assert.equal(firstContent, `# ${date}\n\n${firstMemo}\n`);
+      assert.deepEqual(outputFiles, [`${date}.md`]);
+      assert.equal(outputContent, `# ${date}\n\n${outputMemo}\n`);
       assert.deepEqual(await readdir(logs), [`${date}.md`]);
       const content = await readFile(join(logs, `${date}.md`), "utf8");
       assert.ok(content.startsWith(firstContent), "The first memo must be preserved");

@@ -68,7 +68,7 @@ npm test
 npm run doctor
 ```
 
-ビルド済み CLI の保存・同日追記を一時ディレクトリで確認する場合:
+ビルド済み CLI の保存・同日追記・`--output-dir` を一時ディレクトリで確認する場合:
 
 ```bash
 npm run build
