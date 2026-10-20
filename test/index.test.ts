@@ -1,7 +1,10 @@
 import { createHash } from "node:crypto";
+import { spawnSync } from "node:child_process";
+import { createRequire } from "node:module";
 import { mkdtemp, mkdir, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { isAbsolute, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { describe, expect, it, vi } from "vitest";
 
@@ -1092,6 +1095,26 @@ describe("runCli", () => {
     ).rejects.toThrow("--advice-provider requires --advice");
   });
 
+
+  it("fails without creating logs when --output-dir has no value", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-output-dir-missing-"));
+
+    try {
+      const result = spawnSync(process.execPath, [
+        "--import",
+        createRequire(import.meta.url).resolve("tsx"),
+        fileURLToPath(new URL("../src/index.ts", import.meta.url)),
+        "--output-dir",
+      ], { cwd: baseDir, encoding: "utf8", timeout: 10_000 });
+
+      expect(result.error).toBeUndefined();
+      expect(result.status).toBe(1);
+      expect(result.stderr).toContain("Missing value for --output-dir");
+      await expect(readdir(baseDir)).resolves.toEqual([]);
+    } finally {
+      await rm(baseDir, { recursive: true, force: true });
+    }
+  });
 
   it("writes a log file to a custom output directory", async () => {
     const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-"));
