@@ -1,4 +1,10 @@
 # mental-auto
+
+mental-auto is a CLI that helps you capture daily notes and reflect on them.
+It saves daily logs locally as Markdown files using Japan Standard Time (JST) dates.
+Weekly and monthly summaries, along with log statistics, are available.
+Local AI advice through Ollama is optional.
+
 mental-auto は、日々の短いメモを JST（日本標準時）基準の日付ごとの Markdown ファイルとしてローカルに蓄積する CLI ツールです。
 
 将来的には、AI の知識・視点を活用しながら、記録を振り返り、感情と向き合い、その経験から学び、自分自身で受け止め方を選べるようになることを目指したプロジェクトです。
