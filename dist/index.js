@@ -33,6 +33,9 @@ Options:
   --sanitize-advice   Mask email, key and path patterns before Ollama submission
                       Requires --advice --advice-provider ollama; allows --output-dir
                       Rejects other modes, memo arguments, --memo and --date
+  --preview-advice    Print the Ollama request as JSON without communication
+                      Requires --advice --advice-provider ollama; allows --output-dir
+                      Rejects other modes, memo arguments, --memo and --date
   --monthly-summary [YYYY-MM]
                       Combine the month's daily logs into monthly-summary/YYYY-MM.md
   --weekly-summary [YYYY-Www]
@@ -455,6 +458,7 @@ function parseArgs(args) {
     let advice = false;
     let adviceProvider = null;
     let sanitizeAdvice = false;
+    let previewAdvice = false;
     let sanitizeConflict = null;
     let memoSpecified = false;
     let safeShareInput = null;
@@ -474,6 +478,10 @@ function parseArgs(args) {
         }
         if (arg === "--sanitize-advice") {
             sanitizeAdvice = true;
+            continue;
+        }
+        if (arg === "--preview-advice") {
+            previewAdvice = true;
             continue;
         }
         if (arg === "--stats") {
@@ -588,10 +596,18 @@ function parseArgs(args) {
             throw new Error(`--sanitize-advice cannot be combined with ${sanitizeConflict}`);
         }
     }
-    if (adviceProvider !== null && !advice && !(sanitizeAdvice && help)) {
+    if (previewAdvice && !help) {
+        if (!advice || adviceProvider !== "ollama") {
+            throw new Error("--preview-advice requires --advice --advice-provider ollama");
+        }
+        if (sanitizeConflict !== null) {
+            throw new Error(`--preview-advice cannot be combined with ${sanitizeConflict}`);
+        }
+    }
+    if (adviceProvider !== null && !advice && !((sanitizeAdvice || previewAdvice) && help)) {
         throw new Error("--advice-provider requires --advice");
     }
-    if (dryRun && importMobilePath === null && !(sanitizeAdvice && help)) {
+    if (dryRun && importMobilePath === null && !((sanitizeAdvice || previewAdvice) && help)) {
         throw new Error("--dry-run requires --import-mobile");
     }
     return {
@@ -603,6 +619,7 @@ function parseArgs(args) {
         advice,
         adviceProvider,
         sanitizeAdvice,
+        previewAdvice,
         safeShareInput,
         importMobilePath,
         dryRun,
@@ -926,6 +943,7 @@ export function validateAdviceEvidenceDates(input, output) {
         }
     });
 }
+const OLLAMA_ADVICE_MODEL = "qwen3.5:9b";
 export function createOllamaAdviceProvider(model, endpoint = "http://127.0.0.1:11434/api/chat", fetchImpl = fetch) {
     return async (input) => {
         const response = await fetchImpl(endpoint, {
@@ -1009,6 +1027,7 @@ export async function runCli(args = process.argv.slice(2), dependencies = {}) {
             mobileImportPlans: null,
             dryRun: false,
             adviceContent: null,
+            advicePreviewContent: null,
         };
     }
     if (parsed.monthlySummaryMonth !== null) {
@@ -1020,6 +1039,7 @@ export async function runCli(args = process.argv.slice(2), dependencies = {}) {
             mobileImportPlans: null,
             dryRun: false,
             adviceContent: null,
+            advicePreviewContent: null,
         };
     }
     if (parsed.weeklySummaryWeek !== null) {
@@ -1031,6 +1051,7 @@ export async function runCli(args = process.argv.slice(2), dependencies = {}) {
             mobileImportPlans: null,
             dryRun: false,
             adviceContent: null,
+            advicePreviewContent: null,
         };
     }
     if (parsed.stats) {
@@ -1042,6 +1063,7 @@ export async function runCli(args = process.argv.slice(2), dependencies = {}) {
             mobileImportPlans: null,
             dryRun: false,
             adviceContent: null,
+            advicePreviewContent: null,
         };
     }
     if (parsed.advice) {
@@ -1060,14 +1082,25 @@ export async function runCli(args = process.argv.slice(2), dependencies = {}) {
             const filePath = join(logsDir, fileName);
             return readFile(filePath, "utf8");
         }));
-        const adviceContent = parsed.adviceProvider === "ollama"
-            ? await generateAdvice(buildAdviceInput(recentFileNames.map((fileName, index) => ({
+        let adviceContent = null;
+        let advicePreviewContent = null;
+        if (parsed.adviceProvider === "ollama") {
+            const input = buildAdviceInput(recentFileNames.map((fileName, index) => ({
                 date: fileName.slice(0, -3),
                 content: parsed.sanitizeAdvice
                     ? maskSensitiveText(recentLogContents[index])
                     : recentLogContents[index],
-            })), parsed.sanitizeAdvice), dependencies.adviceProvider ?? createOllamaAdviceProvider("qwen3.5:9b"))
-            : formatAdviceInput(recentLogContents);
+            })), parsed.sanitizeAdvice);
+            if (parsed.previewAdvice) {
+                advicePreviewContent = JSON.stringify(buildOllamaAdviceRequest(input, OLLAMA_ADVICE_MODEL), null, 2);
+            }
+            else {
+                adviceContent = await generateAdvice(input, dependencies.adviceProvider ?? createOllamaAdviceProvider(OLLAMA_ADVICE_MODEL));
+            }
+        }
+        else {
+            adviceContent = formatAdviceInput(recentLogContents);
+        }
         return {
             filePath: null,
             help: false,
@@ -1076,6 +1109,7 @@ export async function runCli(args = process.argv.slice(2), dependencies = {}) {
             mobileImportPlans: null,
             dryRun: false,
             adviceContent,
+            advicePreviewContent,
         };
     }
     if (parsed.safeShareInput !== null) {
@@ -1088,6 +1122,7 @@ export async function runCli(args = process.argv.slice(2), dependencies = {}) {
             mobileImportPlans: null,
             dryRun: false,
             adviceContent: null,
+            advicePreviewContent: null,
         };
     }
     if (parsed.importMobilePath !== null) {
@@ -1099,6 +1134,7 @@ export async function runCli(args = process.argv.slice(2), dependencies = {}) {
             mobileImportPlans: await importMobileFiles(parsed.importMobilePath, parsed.outputDir, parsed.dryRun),
             dryRun: parsed.dryRun,
             adviceContent: null,
+            advicePreviewContent: null,
         };
     }
     const content = renderLog(parsed.memo, parsed.date);
@@ -1110,6 +1146,7 @@ export async function runCli(args = process.argv.slice(2), dependencies = {}) {
         mobileImportPlans: null,
         dryRun: false,
         adviceContent: null,
+        advicePreviewContent: null,
     };
 }
 const isDirectExecution = process.argv[1] !== undefined &&
@@ -1123,6 +1160,10 @@ if (isDirectExecution) {
         }
         if (result.stats !== null) {
             console.log(formatStats(result.stats));
+            return;
+        }
+        if (result.advicePreviewContent !== null) {
+            console.log(result.advicePreviewContent);
             return;
         }
         if (result.adviceContent !== null) {
