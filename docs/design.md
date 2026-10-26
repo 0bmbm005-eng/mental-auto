@@ -142,7 +142,17 @@ same-day append は実装済みです。
 
 `--sanitize-advice` 指定時は、読み込んだログから新しいオブジェクトを作り、`content` にだけ `maskSensitiveText` を適用して `buildAdviceInput(logs, true)` へ渡します。日付・順序・元ファイルは保持し、長文省略・空白整理・改行変換は行いません。`buildAdviceInput` 自体はマスク処理を行いません。未指定時は本文を保持し `sanitized: false` とします。`sanitized: true` は限定的なマスク適用済みという意味で、人名などを含む完全な匿名化を示しません。
 
-新オプションは `--advice --advice-provider ollama` を必須とし、`--output-dir` と併用できます。別処理（safe-share、stats、月次・週次サマリー、import、dry-run）、本文引数、`--memo`、`--date` との併用は拒否します。`--help` / `-h` では新オプションの依存・組み合わせ検証を省略してhelpを表示します。既存の引数処理は新オプション未指定時には変更しません。
+`--sanitize-advice` と `--preview-advice` は `--advice --advice-provider ollama` を必須とし、互いに併用でき、`--output-dir` も指定できます。別処理（safe-share、stats、月次・週次サマリー、import、dry-run）、本文引数、`--memo`、`--date` との併用は拒否します。`--help` / `-h` では両オプションの依存・組み合わせ検証を省略してhelpを表示します。両オプション未指定時の引数処理は維持します。
+
+Ollama用の入力生成・プレビュー・通信の処理順:
+
+1. 引数を解析・検証し、通常の `--advice` と共通の処理で直近3件のログを古い日付から読み込む。ログがない場合は既存の `No logs found for advice` エラーを維持する。
+2. 通常送信とプレビューで共通の `AdviceInput` を生成する。上記のとおり、`--sanitize-advice` 指定時だけ本文のコピーをマスクし、`buildAdviceInput` がログ・件数・質問・`sanitized` をまとめる。
+3. `--preview-advice` 指定時は、共通定数のモデル名と入力を `buildOllamaAdviceRequest` に渡す。この関数は通信せず、system/userメッセージ、生成設定、出力JSON Schemaを含むリクエスト本文全体を構築する。userメッセージの `content` は `JSON.stringify(input)` による文字列とする。
+4. プレビューは `JSON.stringify(request, null, 2)` を `runCli` の `advicePreviewContent` に返し、`adviceContent` は `null` とする。CLIはJSONのみをstdoutへ出力して終了し、provider生成・呼び出し・fetchは行わない。ログやディレクトリへの書き込みも行わない。
+5. プレビュー未指定時は、注入されたproviderまたは `createOllamaAdviceProvider` を利用する。通常のOllama providerも同じ `buildOllamaAdviceRequest` とモデル定数を使い、構築した本文をJSON化してfetchで送信する。生成結果は従来どおり `adviceContent` に返す。
+
+AIなしの `--advice` は、このOllama用分岐を通らず、従来どおり `formatAdviceInput` でログと質問を表示する。プレビューは実行時点の送信予定内容の確認であり、後続の通常実行ではログを再読み込みするため、確認済み内容を固定して送る保証は持たない。
 
 Ollama応答は `parseAdviceOutput` でJSONの構造と型を確認した後、`validateAdviceEvidenceDates` で日付の整合性を検証します。`recordedStatements` と `selfEvaluations` の各 `date` は入力の `logs` に存在する必要があります。同日付の複数記述と空配列は許可します。不一致のエラーには項目名・配列インデックス・対象日付を含めます。`repeatedPatterns` の各 `evidenceDates` は入力ログに存在する重複のない2日以上を必要とし、`repeatedPatterns` 自体は空配列を許可します。検証は入力・出力オブジェクトを変更しません。日付が整合していても記述内容そのものの根拠を保証するものではなく、内容の根拠確認は未実装です。
 

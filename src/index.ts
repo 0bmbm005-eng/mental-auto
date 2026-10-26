@@ -45,6 +45,9 @@ Options:
   --sanitize-advice   Mask email, key and path patterns before Ollama submission
                       Requires --advice --advice-provider ollama; allows --output-dir
                       Rejects other modes, memo arguments, --memo and --date
+  --preview-advice    Print the Ollama request as JSON without communication
+                      Requires --advice --advice-provider ollama; allows --output-dir
+                      Rejects other modes, memo arguments, --memo and --date
   --monthly-summary [YYYY-MM]
                       Combine the month's daily logs into monthly-summary/YYYY-MM.md
   --weekly-summary [YYYY-Www]
@@ -622,6 +625,7 @@ function parseArgs(
   advice: boolean;
   adviceProvider: "ollama" | null;
   sanitizeAdvice: boolean;
+  previewAdvice: boolean;
   safeShareInput: string | null;
   importMobilePath: string | null;
   dryRun: boolean;
@@ -636,6 +640,7 @@ function parseArgs(
   let advice = false;
   let adviceProvider: "ollama" | null = null;
   let sanitizeAdvice = false;
+  let previewAdvice = false;
   let sanitizeConflict: string | null = null;
   let memoSpecified = false;
   let safeShareInput: string | null = null;
@@ -659,6 +664,11 @@ function parseArgs(
 
     if (arg === "--sanitize-advice") {
       sanitizeAdvice = true;
+      continue;
+    }
+
+    if (arg === "--preview-advice") {
+      previewAdvice = true;
       continue;
     }
 
@@ -789,11 +799,20 @@ function parseArgs(
     }
   }
 
-   if (adviceProvider !== null && !advice && !(sanitizeAdvice && help)) {
+  if (previewAdvice && !help) {
+    if (!advice || adviceProvider !== "ollama") {
+      throw new Error("--preview-advice requires --advice --advice-provider ollama");
+    }
+    if (sanitizeConflict !== null) {
+      throw new Error(`--preview-advice cannot be combined with ${sanitizeConflict}`);
+    }
+  }
+
+   if (adviceProvider !== null && !advice && !((sanitizeAdvice || previewAdvice) && help)) {
     throw new Error("--advice-provider requires --advice");
   }
 
-   if (dryRun && importMobilePath === null && !(sanitizeAdvice && help)) {
+   if (dryRun && importMobilePath === null && !((sanitizeAdvice || previewAdvice) && help)) {
     throw new Error("--dry-run requires --import-mobile");
   }
 
@@ -806,6 +825,7 @@ function parseArgs(
     advice,
     adviceProvider,
     sanitizeAdvice,
+    previewAdvice,
     safeShareInput,
     importMobilePath,
     dryRun,
@@ -1207,6 +1227,8 @@ export function validateAdviceEvidenceDates(
   });
 }
 
+const OLLAMA_ADVICE_MODEL = "qwen3.5:9b";
+
 export function createOllamaAdviceProvider(
   model: string,
   endpoint = "http://127.0.0.1:11434/api/chat",
@@ -1322,6 +1344,7 @@ export async function runCli(
   dryRun: boolean;
   stats: Awaited<ReturnType<typeof getLogStats>> | null;
   adviceContent: string | null;
+  advicePreviewContent: string | null;
 }> {
   const parsed = parseArgs(args);
 
@@ -1334,6 +1357,7 @@ export async function runCli(
       mobileImportPlans: null,
       dryRun: false,
       adviceContent: null,
+      advicePreviewContent: null,
     };
   }
 
@@ -1346,6 +1370,7 @@ export async function runCli(
       mobileImportPlans: null,
       dryRun: false,
       adviceContent: null,
+      advicePreviewContent: null,
     };
   }
 
@@ -1358,6 +1383,7 @@ export async function runCli(
       mobileImportPlans: null,
       dryRun: false,
       adviceContent: null,
+      advicePreviewContent: null,
     };
   }
 
@@ -1370,6 +1396,7 @@ export async function runCli(
       mobileImportPlans: null,
       dryRun: false,
       adviceContent: null,
+      advicePreviewContent: null,
   };
 }
 
@@ -1399,17 +1426,29 @@ export async function runCli(
       }),
     );
 
-    const adviceContent = parsed.adviceProvider === "ollama"
-      ? await generateAdvice(
-          buildAdviceInput(recentFileNames.map((fileName, index) => ({
-            date: fileName.slice(0, -3),
-            content: parsed.sanitizeAdvice
-              ? maskSensitiveText(recentLogContents[index])
-              : recentLogContents[index],
-          })), parsed.sanitizeAdvice),
-          dependencies.adviceProvider ?? createOllamaAdviceProvider("qwen3.5:9b"),
-        )
-      : formatAdviceInput(recentLogContents);
+    let adviceContent: string | null = null;
+    let advicePreviewContent: string | null = null;
+    if (parsed.adviceProvider === "ollama") {
+      const input = buildAdviceInput(recentFileNames.map((fileName, index) => ({
+        date: fileName.slice(0, -3),
+        content: parsed.sanitizeAdvice
+          ? maskSensitiveText(recentLogContents[index])
+          : recentLogContents[index],
+      })), parsed.sanitizeAdvice);
+
+      if (parsed.previewAdvice) {
+        advicePreviewContent = JSON.stringify(
+          buildOllamaAdviceRequest(input, OLLAMA_ADVICE_MODEL), null, 2,
+        );
+      } else {
+        adviceContent = await generateAdvice(
+          input,
+          dependencies.adviceProvider ?? createOllamaAdviceProvider(OLLAMA_ADVICE_MODEL),
+        );
+      }
+    } else {
+      adviceContent = formatAdviceInput(recentLogContents);
+    }
 
     return {
       filePath: null,
@@ -1419,6 +1458,7 @@ export async function runCli(
       mobileImportPlans: null,
       dryRun: false,
       adviceContent,
+      advicePreviewContent,
     };
   }
 
@@ -1433,6 +1473,7 @@ export async function runCli(
       mobileImportPlans: null,
       dryRun: false,
       adviceContent: null,
+      advicePreviewContent: null,
     };
   }
 
@@ -1449,6 +1490,7 @@ export async function runCli(
       ),
       dryRun: parsed.dryRun,
       adviceContent: null,
+      advicePreviewContent: null,
     };
   }
 
@@ -1462,6 +1504,7 @@ export async function runCli(
     mobileImportPlans: null,
     dryRun: false,
     adviceContent: null,
+    advicePreviewContent: null,
   };
 }
 
@@ -1478,6 +1521,10 @@ if (isDirectExecution) {
       }
       if (result.stats !== null) {
         console.log(formatStats(result.stats));
+        return;
+      }
+      if (result.advicePreviewContent !== null) {
+        console.log(result.advicePreviewContent);
         return;
       }
       if (result.adviceContent !== null) {

@@ -908,6 +908,7 @@ describe("runCli help", () => {
       help: true,
       stats: null,
       adviceContent: null,
+      advicePreviewContent: null,
       safeShareText: null,
       mobileImportPlans: null,
       dryRun: false,
@@ -1081,6 +1082,122 @@ describe("runCli", () => {
     expect(formatHelp()).toContain("--sanitize-advice");
   });
 
+  it.each([
+    [], ["--advice"], ["--advice-provider", "ollama"],
+  ])("requires Ollama advice for preview: %j", async (...args) => {
+    for (const ordered of [["--preview-advice", ...args], [...args, "--preview-advice"]]) {
+      await expect(runCli(ordered)).rejects.toThrow(
+        "--preview-advice requires --advice --advice-provider ollama",
+      );
+    }
+  });
+
+  it.each([
+    ["--stats"], ["--safe-share", "text"], ["--monthly-summary"],
+    ["--weekly-summary"], ["--import-mobile", "inbox"], ["--dry-run"],
+    ["--memo", ""], ["--date", "2026-10-05"], ["本文"], [""],
+    ["本文", "--memo", "replacement"], ["--memo", "replacement", "本文"],
+  ])("rejects conflicting preview arguments in either order: %j", async (...args) => {
+    const preview = ["--preview-advice", "--advice", "--advice-provider", "ollama"];
+    for (const ordered of [[...args, ...preview], [...preview, ...args]]) {
+      await expect(runCli(ordered)).rejects.toThrow(
+        `--preview-advice cannot be combined with ${args[0].startsWith("--") ? args[0] : "memo arguments"}`,
+      );
+    }
+  });
+
+  it.each(["--help", "-h"])("allows %s with preview regardless of dependencies and conflicts", async (help) => {
+    for (const args of [
+      [], ["--advice-provider", "ollama"], ["--dry-run"],
+      ["--stats"], ["--memo", ""], ["本文"],
+      ["--sanitize-advice", "--dry-run", "--advice-provider", "ollama"],
+    ]) {
+      for (const ordered of [[help, ...args, "--preview-advice"], ["--preview-advice", ...args, help]]) {
+        expect((await runCli(ordered)).help).toBe(true);
+      }
+    }
+    expect(formatHelp()).toContain("--preview-advice");
+
+  });
+
+  it.each([false, true])("previews the exact request without communication or writes (sanitize: %s)", async (sanitize) => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-preview-"));
+    const provider = vi.fn<AdviceProvider>().mockResolvedValue("{}");
+    const output = {
+      schemaVersion: 1, recordedStatements: [], selfEvaluations: [],
+      repeatedPatterns: [], ruminationNotice: "", nextAction: "休む",
+    } satisfies AdviceOutput;
+    const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify({
+      message: { content: JSON.stringify(output) },
+    })));
+    vi.stubGlobal("fetch", fetchMock);
+    try {
+      const logsDir = join(baseDir, "logs");
+      await mkdir(logsDir);
+      const dates = ["2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04"];
+      const content = (date: string) => `# ${date}\r\n  user@example.com\t${"長文".repeat(100)}\r\n\r\n`;
+      for (const date of [...dates].reverse()) {
+        await writeFile(join(logsDir, `${date}.md`), content(date));
+      }
+      const before = await readdir(logsDir);
+      const args = ["--advice", "--advice-provider", "ollama", "--output-dir", baseDir,
+        ...(sanitize ? ["--sanitize-advice"] : [])];
+      const result = await runCli([...args, "--preview-advice"], { adviceProvider: provider });
+      expect(result.adviceContent).toBeNull();
+      const request = JSON.parse(result.advicePreviewContent!);
+      expect(result.advicePreviewContent).toBe(JSON.stringify(request, null, 2));
+      const input = JSON.parse(request.messages[1].content);
+      expect(input.logs).toEqual(dates.slice(1).map(date => ({
+        date, content: sanitize ? content(date).replace("user@example.com", "[masked-email]") : content(date),
+      })));
+      expect(input.sanitized).toBe(sanitize);
+      expect(input.logCount).toBe(3);
+      expect((await runCli([...args, "--preview-advice"])).advicePreviewContent)
+        .toBe(result.advicePreviewContent);
+      expect(provider).not.toHaveBeenCalled();
+      expect(fetchMock).not.toHaveBeenCalled();
+
+      const cli = spawnSync(process.execPath, [
+        "--import", createRequire(import.meta.url).resolve("tsx"),
+        fileURLToPath(new URL("../src/index.ts", import.meta.url)), ...args, "--preview-advice",
+      ], { cwd: baseDir, encoding: "utf8", timeout: 10_000 });
+      expect(cli.error).toBeUndefined();
+      expect(cli.status).toBe(0);
+      expect(cli.stderr).toBe("");
+      expect(cli.stdout).toBe(`${result.advicePreviewContent}\n`);
+      expect(JSON.parse(cli.stdout)).toEqual(request);
+
+      const normal = await runCli(args);
+      expect(normal.advicePreviewContent).toBeNull();
+      expect(normal.adviceContent).toBe(JSON.stringify(output));
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual(request);
+      expect(await readdir(baseDir)).toEqual(["logs"]);
+      expect(await readdir(logsDir)).toEqual(before);
+      for (const date of dates) {
+        expect(await readFile(join(logsDir, `${date}.md`))).toEqual(Buffer.from(content(date)));
+      }
+    } finally {
+      vi.unstubAllGlobals();
+      await rm(baseDir, { recursive: true, force: true });
+    }
+  });
+
+  it("preserves the no-logs error for preview without writes or communication", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-preview-empty-"));
+    const provider = vi.fn<AdviceProvider>();
+    try {
+      await mkdir(join(baseDir, "logs"));
+      await expect(runCli([
+        "--advice", "--advice-provider", "ollama", "--preview-advice", "--output-dir", baseDir,
+      ], { adviceProvider: provider })).rejects.toThrow("No logs found for advice");
+      expect(provider).not.toHaveBeenCalled();
+      expect(await readdir(join(baseDir, "logs"))).toEqual([]);
+    } finally {
+      await rm(baseDir, { recursive: true, force: true });
+    }
+  });
+
   it("validates --advice-provider arguments", async () => {
     await expect(
       runCli(["--advice", "--advice-provider"]),
@@ -1134,6 +1251,7 @@ describe("runCli", () => {
       help: false,
       stats: null,
       adviceContent: null,
+      advicePreviewContent: null,
       safeShareText: null,
       mobileImportPlans: null,
       dryRun: false,
@@ -1408,6 +1526,7 @@ describe("runCli", () => {
       help: false,
       stats: null,
       adviceContent: null,
+      advicePreviewContent: null,
       safeShareText: "[masked-email]  [masked-api-key] [masked-path]",
       mobileImportPlans: null,
       dryRun: false,
@@ -1431,6 +1550,7 @@ describe("runCli", () => {
       help: false,
       stats: null,
       adviceContent: null,
+      advicePreviewContent: null,
       safeShareText: "contact: [masked-email]\npath: [masked-path]",
       mobileImportPlans: null,
       dryRun: false,

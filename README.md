@@ -459,7 +459,7 @@ node dist/index.js --advice --advice-provider ollama --sanitize-advice --output-
 
 AI入力の `sanitized: true` は、この限定的なマスク処理の適用済みを意味します。人名・会社名・住所・電話番号などを含む完全な匿名化ではなく、すべての秘密情報を検出するものでもありません。パスなどの一致範囲が周辺の記述を巻き込む場合もあります。
 
-`--advice --advice-provider ollama` が必須です。`--output-dir` と併用できますが、`--safe-share`、`--stats`、`--monthly-summary`、`--weekly-summary`、`--import-mobile`、`--dry-run`、本文引数、`--memo`、`--date` との併用はエラーになります。`--help` / `-h` は表示できます。既存の `--safe-share` は別経路で、従来どおり整形と長文省略も行います。
+`--sanitize-advice` と後述の `--preview-advice` は、どちらも `--advice --advice-provider ollama` が必須です。`--output-dir` と併用できますが、`--safe-share`、`--stats`、`--monthly-summary`、`--weekly-summary`、`--import-mobile`、`--dry-run`、本文引数、`--memo`、`--date` との併用はエラーになります。`--help` / `-h` は表示できます。既存の `--safe-share` は別経路で、従来どおり整形と長文省略も行います。
 
 生成結果はJSON形式で標準出力（stdout）に表示します。主な出力項目は次のとおりです。
 
@@ -481,6 +481,27 @@ mental-auto failed: Ollamaに接続できませんでした。Ollamaが起動し
 `--advice-provider ollama` は `--advice` と一緒に指定する必要があります。
 
 ログが存在しない場合は `No logs found for advice` で失敗します。
+
+### `--preview-advice` で送信予定のJSONを確認する
+
+`--advice --advice-provider ollama` に追加すると、通常実行と同じ直近3件のログを古い日付から読み込み、送信予定のリクエスト本文全体をJSONで表示して終了します。Ollamaへ通信せず、Ollamaの起動やモデルの取得も不要です。元ログやディレクトリは変更しません。
+
+```bash
+# マスクなしで確認
+node dist/index.js --advice --advice-provider ollama --preview-advice
+
+# 限定的なマスクを適用して確認
+node dist/index.js --advice --advice-provider ollama --sanitize-advice --preview-advice
+
+# ./tmp/logs を読み取って確認
+node dist/index.js --advice --advice-provider ollama --sanitize-advice --preview-advice --output-dir ./tmp
+```
+
+正常時は説明文を混ぜず、2スペースで整形したJSONのみをstdoutへ出力します。JSONにはモデル名、`messages`、生成設定、出力JSON Schemaを含みます。`messages` 内の `role: "user"` の `content` は、ログや振り返り質問などを含むAI入力をJSON化した文字列です。外側のJSONを解析した後、この文字列もJSONとして解析できます。
+
+`--sanitize-advice` は自動適用されません。指定時のマスク対象と限界は上記のとおりで、完全な匿名化ではありません。プレビュー出力には個人情報や秘密情報が含まれる可能性があるため、ターミナルの記録、コピーした内容、リダイレクト先ファイルの取り扱いに注意してください。
+
+プレビュー後に `--preview-advice` を外して通常実行すると、ログを再読み込みします。その間にログが追加・編集・削除されると、選ばれるログや送信内容が変わる可能性があります。確認したJSONを保存してそのまま送信する機能ではありません。
 
 ## `--stats`
 
