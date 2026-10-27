@@ -505,6 +505,8 @@ node dist/index.js --advice --advice-provider ollama --sanitize-advice --preview
 
 ## `--stats`
 
+`--stats` と `--advice` は、`logs/` 直下の `YYYY-MM-DD.md` 形式かつ実在する日付の通常ファイルだけを対象にします。その他の Markdown、不正な日付、異なる拡張子、ディレクトリは無視します。
+
 `--stats` は保存されているログを集計し、記録状況や月ごとの傾向を表示します。
 
 例:

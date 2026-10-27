@@ -1828,3 +1828,71 @@ describe("mobile import deduplication", () => {
     expect(await readFile(join(archive, "2026-06-25.md"), "utf8")).toBe("body");
   });
 });
+
+
+describe("daily log file selection", () => {
+  const ignoredNames = [
+    "README.md", "notes.md", "2026-2-01.md", "2026-02-29.md",
+    "2026-04-31.md", "2026-13-01.md", "2026-00-01.md", "2026-01-00.md",
+    "2026-01-32.md", "2028-02-30.md", "2028-03-01.txt", "2028-03-02.MD",
+    "2028-03-03.md.bak",
+  ];
+
+  it("uses only real daily log files for stats and the three ordered advice logs", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-selection-"));
+    try {
+      const logsDir = join(baseDir, "logs");
+      await mkdir(logsDir);
+      const dates = ["2028-02-29", "2026-03-01", "2024-02-29", "2026-02-28"];
+      for (const date of dates) {
+        await writeFile(join(logsDir, `${date}.md`), `# ${date}\n\n${date} memo\n`);
+      }
+      for (const name of ignoredNames) {
+        await writeFile(join(logsDir, name), "ignored content\n");
+      }
+      await mkdir(join(logsDir, "2028-03-04.md"));
+      const stats = await getLogStats(baseDir);
+      expect(stats).toMatchObject({
+        totalFiles: 4, totalEntries: 4,
+        oldestLog: "2024-02-29", latestLog: "2028-02-29",
+      });
+      const result = await runCli(["--advice", "--output-dir", baseDir]);
+      expect(result.adviceContent).toBe(formatAdviceInput(
+        ["2026-02-28", "2026-03-01", "2028-02-29"].map(
+          (date) => `# ${date}\n\n${date} memo\n`,
+        ),
+      ));
+    } finally {
+      await rm(baseDir, { recursive: true, force: true });
+    }
+  });
+
+  it("keeps empty stats and the no-logs advice error when all files are excluded", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-selection-empty-"));
+    try {
+      const logsDir = join(baseDir, "logs");
+      await mkdir(logsDir);
+      for (const name of ignoredNames) {
+        await writeFile(join(logsDir, name), "ignored content\n");
+      }
+      expect(await getLogStats(baseDir)).toMatchObject({
+        totalFiles: 0, totalEntries: 0, latestLog: null, oldestLog: null,
+      });
+      await expect(runCli(["--advice", "--output-dir", baseDir]))
+        .rejects.toThrow("No logs found for advice");
+    } finally {
+      await rm(baseDir, { recursive: true, force: true });
+    }
+  });
+
+  it("preserves filesystem errors when the logs directory is missing", async () => {
+    const baseDir = await mkdtemp(join(tmpdir(), "mental-auto-selection-missing-"));
+    try {
+      await expect(getLogStats(baseDir)).rejects.toMatchObject({ code: "ENOENT" });
+      await expect(runCli(["--advice", "--output-dir", baseDir]))
+        .rejects.toMatchObject({ code: "ENOENT" });
+    } finally {
+      await rm(baseDir, { recursive: true, force: true });
+    }
+  });
+});

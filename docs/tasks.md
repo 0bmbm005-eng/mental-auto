@@ -4,6 +4,8 @@
 
 ## 優先度高
 
+- [x] stats と advice の日次ログ選別を共通化し、実在日付の `YYYY-MM-DD.md` の通常ファイルだけを対象にする
+
 - [x] mobile import の日付＋正規化本文 SHA-256 による重複取り込み検知を追加する
 - [x] `--preview-advice` でOllama送信前のリクエスト本文全体をJSONで確認できるようにする
 - Ollama送信前のマスク対象の拡張を検討する

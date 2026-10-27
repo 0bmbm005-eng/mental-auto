@@ -204,10 +204,24 @@ function getPreviousDate(date) {
     currentDate.setDate(currentDate.getDate() - 1);
     return currentDate.toISOString().split("T")[0];
 }
+async function readDailyLogFiles(logsDir) {
+    const entries = await readdir(logsDir, { withFileTypes: true });
+    return entries.filter((entry) => {
+        if (!entry.isFile() || !entry.name.endsWith(".md")) {
+            return false;
+        }
+        try {
+            validateDate(entry.name.slice(0, -3));
+            return true;
+        }
+        catch {
+            return false;
+        }
+    });
+}
 export async function getLogStats(baseDir = process.cwd()) {
     const logsDir = join(baseDir, DEFAULT_LOG_DIR);
-    const entries = await readdir(logsDir, { withFileTypes: true });
-    const logFiles = entries.filter((entry) => entry.isFile() && entry.name.endsWith(".md"));
+    const logFiles = await readDailyLogFiles(logsDir);
     const totalFiles = logFiles.length;
     const sortedFileNames = logFiles
         .map((entry) => entry.name)
@@ -1069,8 +1083,7 @@ export async function runCli(args = process.argv.slice(2), dependencies = {}) {
     if (parsed.advice) {
         const stats = await getLogStats(parsed.outputDir);
         const logsDir = join(parsed.outputDir, DEFAULT_LOG_DIR);
-        const entries = await readdir(logsDir, { withFileTypes: true });
-        const logFiles = entries.filter((entry) => entry.isFile() && entry.name.endsWith(".md"));
+        const logFiles = await readDailyLogFiles(logsDir);
         const sortedFileNames = logFiles
             .map((entry) => entry.name)
             .sort();
