@@ -180,3 +180,9 @@ Codex に期待すること:
 - build と test を回したか
 - 未実装のまま残したものは何か
 - 次の AI が見るべきファイルはどこか
+
+## 13. 生成ファイルのコミット漏れ防止
+
+開発環境では `npm ci` 後に `npm run hooks:install` を一度実行します。既存の独自フックがある場合の扱いは README を参照してください。pre-commit は `git diff --cached --check` と `scripts/check-generated.mjs` を実行します。
+
+生成チェックは Git index を一時ディレクトリへ展開し、インストール済み TypeScript でコンパイルした結果を index 内の Git管理対象 `dist/` とバイト単位で比較します。未ステージのソースや生成物は検査対象に含めず、作業ツリーと index を変更しません。依存更新時は先に `npm ci` を実行してください。フックを使わない環境でも、既存 CI のビルド後差分検査で更新漏れを検出します。

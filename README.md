@@ -558,3 +558,27 @@ node dist/index.js --output-dir
 - [docs/design.md](docs/design.md): 設計意図と未実装境界
 - [docs/tasks.md](docs/tasks.md): 今後の TODO
 - [AGENTS.md](AGENTS.md): 将来の作業者向けガイド
+
+## 開発時の生成ファイル確認
+
+開発用の clone ごとに、依存導入後、一度だけコミット前チェックを有効にします（Node.js 22、Git、npm が必要）。
+
+```bash
+npm ci
+npm run hooks:install
+```
+
+既に独自の `core.hooksPath` を設定している場合は、この設定を上書きせず、既存の pre-commit から `node scripts/check-generated.mjs` を呼び出してください。
+
+フックはステージ済みの空白エラーを検査し、ステージ済みソースを一時ディレクトリでコンパイルして、Git管理対象の `dist/` と照合します。作業ツリーの変更や自動ステージは行いません。未ステージの修正ではコミット内容の不一致を解消できません。
+
+不一致の場合は次を実行し、対応するソースと生成ファイルを一緒にステージして再試行します。
+
+```bash
+npm run build
+git diff -- dist/index.js
+git add src/index.ts dist/index.js
+npm run check:generated
+```
+
+他のソースを変更した場合は、そのファイルもステージしてください。手動確認の `npm run check:generated` もステージ済み内容を検査します。新規 clone やフックを無効化した環境では自動実行されないため、CI の生成差分検査も継続します。
