@@ -26,6 +26,9 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Test generated-file guard
+        run: npm run test:generated
+
       - name: Build
         run: npm run build
 
