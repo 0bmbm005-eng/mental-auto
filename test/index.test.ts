@@ -366,6 +366,34 @@ describe("createOllamaAdviceProvider", () => {
     );
   });
 
+  it("includes classification and evidence policies in the posted request (not a quality evaluation)", async () => {
+    const input = buildAdviceInput([{ date: "2026-10-01", content: "架空の記録" }]);
+    const fetchMock = vi.fn(async (_url: string | URL | Request, _init?: RequestInit) => new Response(JSON.stringify({
+      message: { content: JSON.stringify({
+        schemaVersion: 1, recordedStatements: [], selfEvaluations: [],
+        repeatedPatterns: [], ruminationNotice: "", nextAction: "休む",
+      } satisfies AdviceOutput) },
+    })));
+    await createOllamaAdviceProvider("local-model", undefined, fetchMock as typeof fetch)(input);
+
+    // Inspect the serialized HTTP body, independently of the request builder.
+    // A mocked response cannot demonstrate the model's classification or summary quality.
+    const request = JSON.parse(fetchMock.mock.calls[0][1]?.body as string);
+    expect(request.messages[0].role).toBe("system");
+    for (const policy of [
+      "本人による自分の能力・性質・行動などへの評価",
+      "他者の気持ちの推測はselfEvaluationsから除外し、推測表現を保ってrecordedStatementsに残してください",
+      "『嫌われた気がする』は他者の気持ちの推測、『自分は会話が下手だと思った』は自己評価",
+      "両配列への同じ記述の重複自体は禁止しません",
+      "記載された行動・希望・目的を区別し、要約は列挙した各evidenceDatesの本文で裏付けられる共通内容に限定",
+      "単日の希望・目的を、他日の実施済み行動や複数日の傾向へ広げない",
+      "根拠のある繰り返しは拾い、共通内容を確保できない場合はrepeatedPatternsを空配列",
+    ]) {
+      expect(request.messages[0].content).toContain(policy);
+    }
+    expect(JSON.parse(request.messages[1].content)).toEqual(input);
+  });
+
   it("guides users on connection failures and preserves the cause", async () => {
     const input = buildAdviceInput([
       { date: "2026-10-06", content: "今日の記録" },
