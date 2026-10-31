@@ -38,6 +38,15 @@ import {
   type OllamaAdviceRequest,
 } from "../src/index.js";
 
+// Inclusion checks only; mocked responses do not evaluate generation quality.
+const PATTERN_REVIEW_POLICIES = [
+  "repeatedPatternsの要約候補を、対象・行動・希望／目的・程度／頻度／継続の要素に分け、各根拠日の本文と照合してください。",
+  "裏付けのない要素は削るか、成立する根拠日の部分集合へ絞ってください。",
+  "回数・時間から深さや目的を補わず、希望を実施済みの行動に変えないでください。",
+  "修正後の要約全体が、残したすべての根拠日で成立し、重複のない2日以上になる場合のみ出力してください。",
+  "成立しない候補は除外し、別の根拠ある繰り返しは保持してください。",
+];
+
 describe("buildAdviceInput", () => {
   it("builds a versioned input while preserving log order", () => {
     const logs = [
@@ -94,6 +103,7 @@ describe("buildOllamaAdviceRequest", () => {
       "ログに明記された内容とモデルの推測を分け",
       "selfEvaluationsには、本人が明記した自己評価だけ",
       "repeatedPatternsは、複数の日付で確認できる内容だけ",
+      ...PATTERN_REVIEW_POLICIES,
       "evidenceDatesには、実際に根拠がある日付だけ",
       "反芻を診断・断定しない",
       "追加の反省・分析・作業継続を促さない",
@@ -381,6 +391,7 @@ describe("createOllamaAdviceProvider", () => {
     const request = JSON.parse(fetchMock.mock.calls[0][1]?.body as string);
     expect(request.messages[0].role).toBe("system");
     for (const policy of [
+      ...PATTERN_REVIEW_POLICIES,
       "本人による自分の能力・性質・行動などへの評価",
       "他者の気持ちの推測はselfEvaluationsから除外し、推測表現を保ってrecordedStatementsに残してください",
       "『嫌われた気がする』は他者の気持ちの推測、『自分は会話が下手だと思った』は自己評価",
@@ -1174,6 +1185,9 @@ describe("runCli", () => {
       expect(result.adviceContent).toBeNull();
       const request = JSON.parse(result.advicePreviewContent!);
       expect(result.advicePreviewContent).toBe(JSON.stringify(request, null, 2));
+      for (const policy of PATTERN_REVIEW_POLICIES) {
+        expect(request.messages[0].content).toContain(policy);
+      }
       const input = JSON.parse(request.messages[1].content);
       expect(input.logs).toEqual(dates.slice(1).map(date => ({
         date, content: sanitize ? content(date).replace("user@example.com", "[masked-email]") : content(date),
