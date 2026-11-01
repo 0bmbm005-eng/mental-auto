@@ -461,6 +461,8 @@ AI入力の `sanitized: true` は、この限定的なマスク処理の適用�
 
 `--sanitize-advice` と後述の `--preview-advice` は、どちらも `--advice --advice-provider ollama` が必須です。`--output-dir` と併用できますが、`--safe-share`、`--stats`、`--monthly-summary`、`--weekly-summary`、`--import-mobile`、`--dry-run`、本文引数、`--memo`、`--date` との併用はエラーになります。`--help` / `-h` は表示できます。既存の `--safe-share` は別経路で、従来どおり整形と長文省略も行います。
 
+日付別根拠の引用・構造を検証する内部処理は実装済みですが、CLIには未接続です。現在のOllama応答にこの検証は適用されず、意味分類の正しさや生成品質の改善は未検証です。詳細は [設計文書](docs/design.md#日付別根拠データの内部検証cli未接続)を参照してください。
+
 生成結果はJSON形式で標準出力（stdout）に表示します。主な出力項目は次のとおりです。
 
 - `recordedStatements`: ログに明記された内容を、日付（`date`）と記述（`statement`）の組で示す配列です。

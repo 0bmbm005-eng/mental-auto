@@ -7,10 +7,12 @@ import { isAbsolute, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { describe, expect, it, vi } from "vitest";
+import { maskSensitiveText } from "../src/safe-share.js";
 
 import {
   ADVICE_OUTPUT_JSON_SCHEMA,
   buildAdviceInput,
+  buildAdviceDailyEvidence,
   buildOllamaAdviceRequest,
   createOllamaAdviceProvider,
   generateAdvice,
@@ -33,6 +35,7 @@ import {
   writeMonthlySummary,
   writeWeeklySummary,
   type AdviceOutput,
+  type AdviceEvidenceQuote,
   type AdviceProvider,
   type OllamaAdviceMessage,
   type OllamaAdviceRequest,
@@ -46,6 +49,109 @@ const PATTERN_REVIEW_POLICIES = [
   "修正後の要約全体が、残したすべての根拠日で成立し、重複のない2日以上になる場合のみ出力してください。",
   "成立しない候補は除外し、別の根拠ある繰り返しは保持してください。",
 ];
+
+describe("buildAdviceDailyEvidence", () => {
+  const log = {
+    date: "2026-10-01",
+    content: "挨拶した。返事は聞こえなかった。嫌われた気がする。休みたい。自分は会話が下手だと思った。",
+  };
+
+  it("preserves literal quotes and all supported kinds, assigning dates and distinct IDs", () => {
+    const extracted: AdviceEvidenceQuote[] = [
+      { quote: "挨拶した。", kind: "action" },
+      { quote: "返事は聞こえなかった。", kind: "observation" },
+      { quote: "嫌われた気がする。", kind: "inference" },
+      { quote: "休みたい。", kind: "wish" },
+      { quote: "自分は会話が下手だと思った。", kind: "selfEvaluation" },
+    ];
+    expect(buildAdviceDailyEvidence(log, extracted)).toEqual(extracted.map((item, index) => ({
+      ...item, date: log.date, id: `${log.date}:${index + 1}`,
+    })));
+    expect(buildAdviceDailyEvidence(log, [extracted[0], extracted[0]]).map(item => item.id))
+      .toEqual(["2026-10-01:1", "2026-10-01:2"]);
+    expect(buildAdviceDailyEvidence({ ...log, date: "2026-10-02" }, [extracted[0]])[0].id)
+      .toBe("2026-10-02:1");
+  });
+
+  it("accepts an explicitly empty extraction, without inventing evidence", () => {
+    expect(buildAdviceDailyEvidence(log, [])).toEqual([]);
+  });
+
+  it.each([
+    null, {}, "[]", [null], [[]], [{}], [{ quote: "挨拶した。" }],
+    [{ kind: "action" }], [{ quote: 1, kind: "action" }],
+    [{ quote: "挨拶した。", kind: null }], [{ quote: "挨拶した。", kind: "unknown" }],
+    [{ quote: "挨拶した。", kind: "action", date: "2026-10-02" }],
+    [{ quote: "挨拶した。", kind: "action", id: "supplied-id" }],
+    [{ quote: "", kind: "action" }], new Array(1),
+  ])("rejects invalid structure, kind, or empty quotes: %j", (extracted) => {
+    expect(() => buildAdviceDailyEvidence(log, extracted)).toThrow("Invalid advice daily evidence");
+  });
+
+  it("rejects a mismatched quote even after a valid item rather than returning partial success", () => {
+    expect(() => buildAdviceDailyEvidence(log, [
+      { quote: "挨拶した。", kind: "action" },
+      { quote: "返事があった。", kind: "observation" },
+    ])).toThrow("evidence[1].quote not found in source for 2026-10-01");
+  });
+
+  it("rejects a quote found only in another day's body", () => {
+    const otherDay = { date: "2026-10-02", content: "散歩した。" };
+    const extracted = [{ quote: otherDay.content, kind: "action" }];
+    expect(buildAdviceDailyEvidence(otherDay, extracted)[0].date).toBe(otherDay.date);
+    expect(() => buildAdviceDailyEvidence(log, extracted)).toThrow("quote not found in source");
+  });
+
+  it("does not normalize whitespace, line endings, or quote text", () => {
+    const source = { date: log.date, content: "  メモ\r\n続き  " };
+    expect(buildAdviceDailyEvidence(source, [{ quote: source.content, kind: "observation" }])[0].quote)
+      .toBe(source.content);
+    expect(() => buildAdviceDailyEvidence(source, [
+      { quote: "メモ\n続き", kind: "observation" },
+    ])).toThrow("quote not found in source");
+  });
+
+  it("matches against the prepared masked body, rejecting the original secret", () => {
+    const original = { date: log.date, content: "user@example.com に連絡した。" };
+    const prepared = buildAdviceInput([
+      { ...original, content: maskSensitiveText(original.content) },
+    ], true);
+    const source = prepared.logs[0];
+    expect(source.content).toBe("[masked-email] に連絡した。");
+    expect(buildAdviceDailyEvidence(source, [{ quote: source.content, kind: "action" }])[0].quote)
+      .toBe(source.content);
+    expect(() => buildAdviceDailyEvidence(source, [
+      { quote: original.content, kind: "action" },
+    ])).toThrow("quote not found in source");
+    expect(original.content).toBe("user@example.com に連絡した。");
+  });
+
+  it.each([false, true])("does not mutate or retain input references (invalid: %s)", (invalid) => {
+    const source = Object.freeze({ ...log });
+    const extracted = Object.freeze([
+      Object.freeze({ quote: "挨拶した。", kind: "action" }),
+      Object.freeze({ quote: invalid ? "不一致" : "休みたい。", kind: "wish" }),
+    ]);
+    const before = structuredClone({ source, extracted });
+    if (invalid) {
+      expect(() => buildAdviceDailyEvidence(source, extracted)).toThrow("quote not found in source");
+    } else {
+      const result = buildAdviceDailyEvidence(source, extracted);
+      result[0].quote = "変更";
+      result[0].date = "2026-10-02";
+    }
+    expect({ source, extracted }).toEqual(before);
+  });
+
+  it.each(["2026-02-30", "2026-1-1", "invalid"])("rejects invalid source dates: %s", (date) => {
+    expect(() => buildAdviceDailyEvidence({ ...log, date }, [])).toThrow("Invalid value for --date");
+  });
+
+  it("does not claim to validate semantic classification", () => {
+    expect(buildAdviceDailyEvidence(log, [{ quote: "休みたい。", kind: "action" }])[0].kind)
+      .toBe("action");
+  });
+});
 
 describe("buildAdviceInput", () => {
   it("builds a versioned input while preserving log order", () => {

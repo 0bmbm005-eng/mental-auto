@@ -900,6 +900,40 @@ function hasExactKeys(value, keys) {
     return (actualKeys.length === keys.length &&
         keys.every((key) => Object.prototype.hasOwnProperty.call(value, key)));
 }
+/** Validate against one day's prepared submission body (already masked if requested).
+ * Checks structure and literal quote presence, not semantic classification or completeness.
+ * IDs are scoped to this day's result and depend on extraction order, not persistent identity.
+ */
+export function buildAdviceDailyEvidence(log, extracted) {
+    if (!isRecord(log) || typeof log.date !== "string" || typeof log.content !== "string") {
+        throw new Error("Invalid advice evidence source");
+    }
+    validateDate(log.date);
+    if (!Array.isArray(extracted)) {
+        throw new Error("Invalid advice daily evidence: expected an array");
+    }
+    const result = [];
+    for (const [index, item] of extracted.entries()) {
+        if (!isRecord(item) ||
+            !hasExactKeys(item, ["quote", "kind"]) ||
+            typeof item.quote !== "string" ||
+            item.quote.length === 0 ||
+            (item.kind !== "action" && item.kind !== "wish" && item.kind !== "inference" &&
+                item.kind !== "selfEvaluation" && item.kind !== "observation")) {
+            throw new Error(`Invalid advice daily evidence[${index}]`);
+        }
+        if (!log.content.includes(item.quote)) {
+            throw new Error(`Advice daily evidence[${index}].quote not found in source for ${log.date}`);
+        }
+        result.push({
+            id: `${log.date}:${index + 1}`,
+            date: log.date,
+            quote: item.quote,
+            kind: item.kind,
+        });
+    }
+    return result;
+}
 function isAdviceRecordedStatement(value) {
     return (isRecord(value) &&
         hasExactKeys(value, ["date", "statement"]) &&
