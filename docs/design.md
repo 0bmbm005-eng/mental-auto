@@ -168,7 +168,7 @@ Ollama応答は `parseAdviceOutput` でJSONの構造と型を確認した後、`
 
 #### 日付別根拠データの内部検証（CLI未接続）
 
-`AdviceEvidenceQuote`（`quote`・`kind`）と、検証後の `AdviceDailyEvidence`（さらに `id`・`date`）を定義しています。`buildAdviceDailyEvidence(log, extracted)` は1日分の送信対象本文を持つ `AdviceLogInput` と、未検証の抽出配列を受け取り、新しい検証済み配列を返します。抽出処理自体は未実装です。
+`AdviceEvidenceQuote`（`quote`・`kind`）と、検証後の `AdviceDailyEvidence`（さらに `id`・`date`）を定義しています。`buildAdviceDailyEvidence(log, extracted)` は1日分の送信対象本文を持つ `AdviceLogInput` と、未検証の抽出配列を受け取り、新しい検証済み配列を返します。
 
 種類は `action`（行動）、`wish`（希望）、`inference`（推測）、`selfEvaluation`（自己評価）、`observation`（観察）です。4種類だけではケースAの「返事は聞こえなかった」という知覚の記述を無理なく扱えないため、観察を追加しています。これは既存ケースを保持するための内部分類であり、一般的な記述を網羅する分類体系とはしていません。
 
@@ -178,7 +178,19 @@ Ollama応答は `parseAdviceOutput` でJSONの構造と型を確認した後、`
 
 保証範囲は構造の整合性と引用の実在までです。引用の種類が意味的に正しいこと、引用範囲が十分なこと、情報を漏れなく抽出したこと、共通要約の裏付けは保証しません。正常・異常構造、引用不一致・空引用・別日の引用、ID割当、マスク後本文、入力不変を単体テストで確認します。実生成の品質改善を実証するものではありません。
 
-CLI・Ollama provider・プロンプトには接続していません。最終JSONと `--preview-advice` は従来どおりです。日付別の実抽出、複数日の共通要約と根拠要素の対応検証、統合後のA〜Dの実生成評価は未実装・未検証で、Dの問題は未解決です。
+#### 日別抽出のOllama内部処理（CLI未接続・実生成未評価）
+
+`buildOllamaDailyExtractionRequest(log, model, sanitize = false)` は1日分の `AdviceLogInput` から通信なしでリクエストを構築します。userメッセージは `{ content: 送信対象本文 }` だけをJSON化し、日付・ID・他日のログ・振り返り質問は送りません。`ADVICE_DAILY_EXTRACTION_JSON_SCHEMA` は `quote`・`kind` だけを持つ要素の配列で、空でない引用と5種類の列挙、必須キーと追加プロパティ禁止を定義します。空配列は許可します。
+
+抽出用system指示では、5種類の定義、原文引用、希望・推測・否定の保持、他者の気持ちの推測と自己評価の区別を求めます。書かれていない対象・目的・程度・感情・因果の補完を禁じ、本文を分析対象データとして扱って本文内の指示には従わないよう求めます。これらはモデルへの指示であり、意味分類の正しさや本文内の指示への耐性を保証する検証ではありません。
+
+`createOllamaDailyExtractionProvider(model, endpoint?, fetchImpl?)` が返す内部関数は `(log, sanitize = false)` を受け取り、検証済みの `AdviceDailyEvidence[]` を返します。送信前に日付を検証して入力のコピーを作り、マスク指定時は `maskSensitiveText` を本文に適用します。このコピーをリクエスト構築と応答の引用照合に共用し、待機中に呼び出し元の入力が変更されても照合元・日付は変わりません。送信前検査にも同じリクエスト構築関数を使用できます。
+
+通信は既存助言生成と共通の `postOllamaChat` を使用します。既定接続先 `http://127.0.0.1:11434/api/chat`、POST・JSON、`temperature: 0`・`think: false`・`stream: false`、接続先とfetchの注入方法は維持します。既存実装には明示的な通信タイムアウトやローカル接続先の強制検証はなく、今回も追加・変更していません。テストの子プロセス用タイムアウトとは別です。
+
+通信失敗は元の原因を保持した接続エラー、HTTP失敗はステータス付きエラーにします。外側のJSON解析と応答形式検査の後、`message.content` をJSON解析して `buildAdviceDailyEvidence` に渡します。不正JSON、構造・種類・引用の不一致は例外で伝播し、空配列や途中結果へ置き換えません。正常な空配列だけは有効な抽出結果として返します。
+
+内部実装済みですが、CLIからは呼び出しません。既存助言のプロンプト・入力と最終JSON・`--preview-advice` の仕様は従来どおりです。モックテストは1日分の送信、指示とSchema、応答処理と日付・ID割当、各失敗経路、マスク後本文との照合と入力不変を確認するもので、実際のOllama実行やモデルの意味分類・生成品質を評価したものではありません。複数日の共通要約と根拠要素の対応検証、CLI接続は未実装、A〜Dの新経路の実生成評価は未実施で、Dの問題は未解決です。
 
 ### `--mirror-stats` / `--mirror-advice`
 
