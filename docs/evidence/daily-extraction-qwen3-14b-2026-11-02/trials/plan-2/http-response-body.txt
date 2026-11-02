@@ -1,0 +1,1 @@
+{"model":"qwen3:14b-q4_K_M","created_at":"2026-11-02T13:12:50.661889Z","message":{"role":"assistant","content":"[{\"quote\":\"明日の朝、旅程を調べる予定だ。\",\"kind\":\"wish\"}]"},"done":true,"done_reason":"stop","total_duration":2035331625,"load_duration":640708,"prompt_eval_count":685,"prompt_eval_cached_count":684,"prompt_eval_duration":88712000,"eval_count":23,"eval_duration":1942357000}

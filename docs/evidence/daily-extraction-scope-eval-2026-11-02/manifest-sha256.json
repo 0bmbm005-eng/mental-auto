@@ -1,0 +1,18 @@
+{
+  "content-evaluation.json": "e6440601577b3098584cd4ae20ae0ac0c45508319fcbe0041b29b3c4e2adbb1c",
+  "expectations.json": "a5e329fcd8d7a0dba90e2632dbc9d9a4ae4d52af298e380c57bc45d7a4c04897",
+  "first-complete.json": "55155eaebf9b1a765d55ded7118b7f30f8510853d32296367ae33243a09c6ed5",
+  "historical-runner.mjs": "e512f50848380713b2ca8af069ca5fb9f74172e7bed30471cd40bce8b6db78c6",
+  "records.json": "1d4dca875007327c64a05961846d1a5dc0892ad61a2b40733d801892bc2ff74d",
+  "snapshot/dist/doctor.js": "c7cbb31fc096ed758f38b37e87f1961135e801a7bbf8e876c9473e8899bb546b",
+  "snapshot/dist/index.js": "ce7aa1363e64d113ff16d6ef9b0600f026809fee7f4f766d79b1dedc087f8a1a",
+  "snapshot/dist/safe-share.js": "995b30444f9bf8efccb96187ad27087e6e0265325a619cc63f4624f383d862ac",
+  "snapshot/package.json": "5f6fbf73db22ef279d21852ac512922aaf7cbb45691bcc3eaa96cfd7cf159495",
+  "snapshot/src/doctor.ts": "09e0b620ac9030576d55126346f961ef64c2f86b1c230180d6ba138ad6381f57",
+  "snapshot/src/index.ts": "8c09563f7ff06dcfa3c65a9a898b74094a4bf5ef7a8e9bb530754e33ad89948a",
+  "snapshot/src/safe-share.ts": "f50e6774c902c7b6acc148fe60c551ec3b4a1d2a78d7796b086bee130042f09b",
+  "snapshot/tsconfig.json": "42267162455ec7e72c7a884472bb60f6511111f7257914cf9fd454560a00b18e",
+  "status-before.txt": "868e7d6be6ff659289efdb046ff29ee3e439f19a2e957fd48fb140e090151971",
+  "used-hashes.json": "896937081ccb15b2688e5194182c42487856440923245945af2951d9c0d74040",
+  "worktree.diff": "3a5bbadda445515a762448e30f43bcf5c6da7f7bd4a897593ba30a07d06f08f4"
+}

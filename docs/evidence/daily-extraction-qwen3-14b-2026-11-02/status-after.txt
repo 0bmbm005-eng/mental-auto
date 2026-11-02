@@ -1,0 +1,13 @@
+## main...origin/main
+ M README.md
+ M dist/index.js
+ M docs/design.md
+ M docs/tasks.md
+ M src/index.ts
+ M test/index.test.ts
+?? docs/daily-extraction-qwen3-14b-comparison-2026-11-02.md
+?? docs/daily-extraction-recheck-2026-11-02.md
+?? docs/daily-extraction-results-2026-11-02.md
+?? docs/daily-extraction-scope-eval-2026-11-02.md
+?? docs/evidence/
+?? test/fixtures/

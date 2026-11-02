@@ -1,0 +1,10 @@
+# Preserve exact bytes of these archived evidence files.
+# Disable only end-of-line whitespace checks; keep other whitespace checks.
+/docs/evidence/daily-extraction-qwen3-14b-2026-11-02/initial-smoke/snapshot/src/index.ts whitespace=-blank-at-eol
+/docs/evidence/daily-extraction-qwen3-14b-2026-11-02/initial-smoke/worktree.diff whitespace=-blank-at-eol
+/docs/evidence/daily-extraction-qwen3-14b-2026-11-02/snapshot/src/index.ts whitespace=-blank-at-eol
+/docs/evidence/daily-extraction-qwen3-14b-2026-11-02/worktree.diff whitespace=-blank-at-eol
+/docs/evidence/daily-extraction-recheck-2026-11-02/snapshot/src/index.ts whitespace=-blank-at-eol
+/docs/evidence/daily-extraction-recheck-2026-11-02/worktree.diff whitespace=-blank-at-eol
+/docs/evidence/daily-extraction-scope-eval-2026-11-02/snapshot/src/index.ts whitespace=-blank-at-eol
+/docs/evidence/daily-extraction-scope-eval-2026-11-02/worktree.diff whitespace=-blank-at-eol

@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "status": "expectations-only; no Ollama evaluation performed",
+  "frozenDateJst": "2026-11-02",
+  "purpose": "Design review cases frozen before model evaluation; local validation does not demonstrate model quality.",
+  "quotePolicy": "Expected quotes define semantic scope. Punctuation or trailing connectors may differ only if meaning and scope are preserved; all returned quotes must be exact nonempty substrings.",
+  "cases": [
+    {
+      "id": "thought-action",
+      "content": "昨夜、旅程を一時間かけて調べた。",
+      "sha256": "7114b1bd356d8cbc268e3faf564e7834db0c114eee0a7c04c7ca172115128b70",
+      "expected": [
+        {
+          "quote": "昨夜、旅程を一時間かけて調べた。",
+          "kind": "action"
+        }
+      ]
+    },
+    {
+      "id": "wish-scope",
+      "content": "旅程を調べて、宿を予約したい。",
+      "sha256": "d4a96b5a75bbd863b61151f193f50b353470c3944b27f7ec113d89e03192a542",
+      "expected": [
+        {
+          "quote": "旅程を調べて、宿を予約したい。",
+          "kind": "wish"
+        }
+      ]
+    },
+    {
+      "id": "plan",
+      "content": "明日の朝、旅程を調べる予定だ。",
+      "sha256": "169cc12ff6412d90f40a7186e11eb1b87b7b42e9c554b8d0429877075a7f6f9e",
+      "expected": [
+        {
+          "quote": "明日の朝、旅程を調べる予定だ。",
+          "kind": "wish"
+        }
+      ]
+    },
+    {
+      "id": "nonperformance",
+      "content": "昨日は旅程を調べなかった。",
+      "sha256": "cbaaa87ebbf6be9d96ca165ed0c444974dba644b51e4386ad05dfb8feb1b47e9",
+      "expected": [
+        {
+          "quote": "昨日は旅程を調べなかった。",
+          "kind": "observation"
+        }
+      ]
+    },
+    {
+      "id": "inference-scope",
+      "content": "同僚は荷物を届けて帰ったのかもしれない。",
+      "sha256": "78ecf2c29367c7947e5dc985bee6f16efdba9a703f7286e403d64cbc94a076d0",
+      "expected": [
+        {
+          "quote": "同僚は荷物を届けて帰ったのかもしれない。",
+          "kind": "inference"
+        }
+      ]
+    },
+    {
+      "id": "negated-inference",
+      "content": "同僚が荷物を届けて帰ったとは思わない。",
+      "sha256": "96506b83d01f7c1b7f90ed6fa5413911e217b611284893fd596c20d13e4d15c2",
+      "expected": [
+        {
+          "quote": "同僚が荷物を届けて帰ったとは思わない。",
+          "kind": "inference"
+        }
+      ]
+    },
+    {
+      "id": "mixed-statements",
+      "content": "ベルを押したが、音は聞こえなかった。",
+      "sha256": "58e608d91958fe382f804b7d6879e543ae9508e0ae26b7bd559e20cbf0e9bb0c",
+      "expected": [
+        {
+          "quote": "ベルを押した",
+          "kind": "action"
+        },
+        {
+          "quote": "音は聞こえなかった。",
+          "kind": "observation"
+        }
+      ]
+    },
+    {
+      "id": "performed-and-wish",
+      "content": "昨日は旅程を調べた。明日は宿を予約したい。",
+      "sha256": "b8d262d81bbd728bd4da494c95315a919646cdad267339e546d33300e2bafbfb",
+      "expected": [
+        {
+          "quote": "昨日は旅程を調べた。",
+          "kind": "action"
+        },
+        {
+          "quote": "明日は宿を予約したい。",
+          "kind": "wish"
+        }
+      ]
+    },
+    {
+      "id": "short-action",
+      "content": "切符を買った。",
+      "sha256": "fba9fc5287c6f36d7f629afc0edba61d08440562f5e762df06c5936b1588b656",
+      "expected": [
+        {
+          "quote": "切符を買った。",
+          "kind": "action"
+        }
+      ]
+    }
+  ]
+}

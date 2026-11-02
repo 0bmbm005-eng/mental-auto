@@ -1,0 +1,15 @@
+{
+  "id": "nonperformance-1",
+  "series": "additional",
+  "inputId": "nonperformance",
+  "run": 1,
+  "started": "2026-11-02T13:12:52.707Z",
+  "finished": "2026-11-02T13:12:54.515Z",
+  "elapsedMs": 1807.6387499999983,
+  "httpStatus": 200,
+  "machineSuccess": true,
+  "error": null,
+  "stop": false,
+  "calls": 1,
+  "modelDigest": "bdbd181c33f2ed1b31c972991882db3cf4d192569092138a7d29e973cd9debe8"
+}

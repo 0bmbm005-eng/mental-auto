@@ -1,0 +1,15 @@
+{
+  "id": "C-2026-10-03-2",
+  "series": "existing",
+  "inputId": "C-2026-10-03",
+  "run": 2,
+  "started": "2026-11-02T13:12:13.960Z",
+  "finished": "2026-11-02T13:12:15.387Z",
+  "elapsedMs": 1427.436625000002,
+  "httpStatus": 200,
+  "machineSuccess": true,
+  "error": null,
+  "stop": false,
+  "calls": 1,
+  "modelDigest": "bdbd181c33f2ed1b31c972991882db3cf4d192569092138a7d29e973cd9debe8"
+}

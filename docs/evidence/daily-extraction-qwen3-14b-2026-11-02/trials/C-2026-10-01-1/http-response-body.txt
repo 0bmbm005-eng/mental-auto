@@ -1,0 +1,1 @@
+{"model":"qwen3:14b-q4_K_M","created_at":"2026-11-02T13:12:04.196366Z","message":{"role":"assistant","content":"[{\"quote\":\"昼にパンを食べた。\",\"kind\":\"action\"}]"},"done":true,"done_reason":"stop","total_duration":1721109167,"load_duration":416792,"prompt_eval_count":694,"prompt_eval_cached_count":670,"prompt_eval_duration":294802000,"eval_count":17,"eval_duration":1423103000}

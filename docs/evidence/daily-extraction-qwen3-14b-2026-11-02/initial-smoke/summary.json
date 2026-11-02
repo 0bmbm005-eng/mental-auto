@@ -1,0 +1,78 @@
+{
+  "model": {
+    "name": "qwen3:14b-q4_K_M",
+    "model": "qwen3:14b-q4_K_M",
+    "modified_at": "2026-11-02T22:07:12.058006283+09:00",
+    "size": 9276198565,
+    "digest": "bdbd181c33f2ed1b31c972991882db3cf4d192569092138a7d29e973cd9debe8",
+    "details": {
+      "parent_model": "",
+      "format": "gguf",
+      "family": "qwen3",
+      "families": [
+        "qwen3"
+      ],
+      "parameter_size": "14.8B",
+      "quantization_level": "Q4_K_M",
+      "context_length": 40960,
+      "embedding_length": 5120,
+      "runner": "ggml"
+    },
+    "capabilities": [
+      "completion",
+      "tools",
+      "thinking"
+    ]
+  },
+  "defaultParameters": "top_k                          20\ntop_p                          0.95\nrepeat_penalty                 1\nstop                           \"<|im_start|>\"\nstop                           \"<|im_end|>\"\ntemperature                    0.6",
+  "requestSettings": {
+    "temperature": 0,
+    "think": false,
+    "stream": false,
+    "seed": "unspecified",
+    "sanitize": false
+  },
+  "trial": {
+    "id": "D-2026-10-03-1",
+    "modelDigest": "bdbd181c33f2ed1b31c972991882db3cf4d192569092138a7d29e973cd9debe8",
+    "started": "2026-11-02T13:07:25.088Z",
+    "finished": "2026-11-02T13:07:35.487Z",
+    "elapsedMs": 10346.17975,
+    "httpStatus": 200,
+    "calls": 1,
+    "machineSuccess": true,
+    "error": null,
+    "smokeTest": true,
+    "eligibleForLaterComparison": true
+  },
+  "modelOutput": [
+    {
+      "quote": "原因を全部洗い出して、納得するまで考えたい。",
+      "kind": "wish"
+    }
+  ],
+  "memory": {
+    "sampleCount": 12,
+    "intervalSeconds": 1,
+    "allSampledSwapUsedZero": true,
+    "runnerPeakObservedRssKiB": 14459280,
+    "ollamaReportedSizeBytes": 13806914763,
+    "ollamaReportedSizeVramBytes": 13806914763,
+    "effectiveContextLength": 32768,
+    "caveat": "Sampled values, not exact peak or OS total memory; unified memory figures are not additive."
+  },
+  "readbackVerified": true,
+  "worktreeStatusUnchanged": true,
+  "pull": {
+    "command": "ollama pull qwen3:14b-q4_K_M",
+    "exitCode": 0,
+    "sha256VerificationSucceeded": true
+  },
+  "contentAssessment": {
+    "provisional": true,
+    "D1003ScopePreserved": true,
+    "actionPresent": false,
+    "qualitySuperiorityEstablished": false,
+    "eligibleAsD1003Repeat1ForLaterFixedComparison": true
+  }
+}

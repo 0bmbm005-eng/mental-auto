@@ -1,0 +1,1 @@
+{"model":"qwen3:14b-q4_K_M","created_at":"2026-11-02T13:12:46.36937Z","message":{"role":"assistant","content":"[{\"quote\":\"旅程を調べて、宿を予約したい。\",\"kind\":\"wish\"}]"},"done":true,"done_reason":"stop","total_duration":1950694083,"load_duration":789291,"prompt_eval_count":684,"prompt_eval_cached_count":683,"prompt_eval_duration":88996000,"eval_count":22,"eval_duration":1857179000}

@@ -1,0 +1,8 @@
+{
+  "url": "http://127.0.0.1:11434/api/chat",
+  "method": "POST",
+  "headers": {
+    "content-type": "application/json"
+  },
+  "sha256": "7e9e4f37dc234bbe3f44445c55497e4441be138058d7e5a5b20836f824e6c5e2"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "short-action-1",
+  "series": "additional",
+  "inputId": "short-action",
+  "run": 1,
+  "started": "2026-11-02T13:13:26.857Z",
+  "finished": "2026-11-02T13:13:28.499Z",
+  "elapsedMs": 1641.4788750000007,
+  "httpStatus": 200,
+  "machineSuccess": true,
+  "error": null,
+  "stop": false,
+  "calls": 1,
+  "modelDigest": "bdbd181c33f2ed1b31c972991882db3cf4d192569092138a7d29e973cd9debe8"
+}

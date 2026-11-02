@@ -1,0 +1,653 @@
+{
+  "evaluator": "Codex",
+  "provisional": true,
+  "expectationsChanged": false,
+  "series": {
+    "existing": {
+      "trials": 36,
+      "machineSuccess": 36,
+      "machineFailure": 0,
+      "contentMeetsCriteria": 30,
+      "contentProblems": 6
+    },
+    "additional": {
+      "trials": 27,
+      "machineSuccess": 27,
+      "machineFailure": 0,
+      "contentMeetsCriteria": 12,
+      "contentProblems": 15
+    }
+  },
+  "trials": [
+    {
+      "trialId": "A-2026-10-01-1",
+      "series": "existing",
+      "inputId": "A-2026-10-01",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "行動・観察・推測を分け、否定と推測表現を保持。末尾の接続助詞・句点差は意味を損なわない。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "A-2026-10-01-2",
+      "series": "existing",
+      "inputId": "A-2026-10-01",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "行動・観察・推測を分け、否定と推測表現を保持。末尾の接続助詞・句点差は意味を損なわない。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "A-2026-10-01-3",
+      "series": "existing",
+      "inputId": "A-2026-10-01",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "行動・観察・推測を分け、否定と推測表現を保持。末尾の接続助詞・句点差は意味を損なわない。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "A-2026-10-02-1",
+      "series": "existing",
+      "inputId": "A-2026-10-02",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "本人が受けた出来事をobservationとして全文保持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "A-2026-10-02-2",
+      "series": "existing",
+      "inputId": "A-2026-10-02",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "本人が受けた出来事をobservationとして全文保持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "A-2026-10-02-3",
+      "series": "existing",
+      "inputId": "A-2026-10-02",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "本人が受けた出来事をobservationとして全文保持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "A-2026-10-03-1",
+      "series": "existing",
+      "inputId": "A-2026-10-03",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "自己評価全文をselfEvaluationとして保持。前回との違いは句点の復帰のみ。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "A-2026-10-03-2",
+      "series": "existing",
+      "inputId": "A-2026-10-03",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "自己評価全文をselfEvaluationとして保持。前回との違いは句点の復帰のみ。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "A-2026-10-03-3",
+      "series": "existing",
+      "inputId": "A-2026-10-03",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "自己評価全文をselfEvaluationとして保持。前回との違いは句点の復帰のみ。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "B-2026-10-01-1",
+      "series": "existing",
+      "inputId": "B-2026-10-01",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "散歩・夕方、読書の内容をactionとして維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "B-2026-10-01-2",
+      "series": "existing",
+      "inputId": "B-2026-10-01",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "散歩・夕方、読書の内容をactionとして維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "B-2026-10-01-3",
+      "series": "existing",
+      "inputId": "B-2026-10-01",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "散歩・夕方、読書の内容をactionとして維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "B-2026-10-02-1",
+      "series": "existing",
+      "inputId": "B-2026-10-02",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "散歩・夕方、読書の内容をactionとして維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "B-2026-10-02-2",
+      "series": "existing",
+      "inputId": "B-2026-10-02",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "散歩・夕方、読書の内容をactionとして維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "B-2026-10-02-3",
+      "series": "existing",
+      "inputId": "B-2026-10-02",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "散歩・夕方、読書の内容をactionとして維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "B-2026-10-03-1",
+      "series": "existing",
+      "inputId": "B-2026-10-03",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "散歩・夕方、読書の内容をactionとして維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "B-2026-10-03-2",
+      "series": "existing",
+      "inputId": "B-2026-10-03",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "散歩・夕方、読書の内容をactionとして維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "B-2026-10-03-3",
+      "series": "existing",
+      "inputId": "B-2026-10-03",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "散歩・夕方、読書の内容をactionとして維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "C-2026-10-01-1",
+      "series": "existing",
+      "inputId": "C-2026-10-01",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "対象・時間・行動の記述を維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "C-2026-10-01-2",
+      "series": "existing",
+      "inputId": "C-2026-10-01",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "対象・時間・行動の記述を維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "C-2026-10-01-3",
+      "series": "existing",
+      "inputId": "C-2026-10-01",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "対象・時間・行動の記述を維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "C-2026-10-02-1",
+      "series": "existing",
+      "inputId": "C-2026-10-02",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "対象・時間・行動の記述を維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "C-2026-10-02-2",
+      "series": "existing",
+      "inputId": "C-2026-10-02",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "対象・時間・行動の記述を維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "C-2026-10-02-3",
+      "series": "existing",
+      "inputId": "C-2026-10-02",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "対象・時間・行動の記述を維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "C-2026-10-03-1",
+      "series": "existing",
+      "inputId": "C-2026-10-03",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "対象・時間・行動の記述を維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "C-2026-10-03-2",
+      "series": "existing",
+      "inputId": "C-2026-10-03",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "対象・時間・行動の記述を維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "C-2026-10-03-3",
+      "series": "existing",
+      "inputId": "C-2026-10-03",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "対象・時間・行動の記述を維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "D-2026-10-01-1",
+      "series": "existing",
+      "inputId": "D-2026-10-01",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "対象・時間・行動の記述を維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "D-2026-10-01-2",
+      "series": "existing",
+      "inputId": "D-2026-10-01",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "対象・時間・行動の記述を維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "D-2026-10-01-3",
+      "series": "existing",
+      "inputId": "D-2026-10-01",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "対象・時間・行動の記述を維持。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "D-2026-10-02-1",
+      "series": "existing",
+      "inputId": "D-2026-10-02",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "対象「失敗の理由を」と時間「夜遅くまで」をobservationへ切り離している。独立した記述ではなく、対象・時間・述語の関係を失う。時間句のkindが前回actionから変わっても分断は未解決。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "D-2026-10-02-2",
+      "series": "existing",
+      "inputId": "D-2026-10-02",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "対象「失敗の理由を」と時間「夜遅くまで」をobservationへ切り離している。独立した記述ではなく、対象・時間・述語の関係を失う。時間句のkindが前回actionから変わっても分断は未解決。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "D-2026-10-02-3",
+      "series": "existing",
+      "inputId": "D-2026-10-02",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "対象「失敗の理由を」と時間「夜遅くまで」をobservationへ切り離している。独立した記述ではなく、対象・時間・述語の関係を失う。時間句のkindが前回actionから変わっても分断は未解決。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "D-2026-10-03-1",
+      "series": "existing",
+      "inputId": "D-2026-10-03",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "「原因を全部洗い出して」をaction、「納得するまで考えたい」をwishへ分割。全文wishという基準に反し、希望の前半を実行済み行動にしている。前回と同じ問題。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "D-2026-10-03-2",
+      "series": "existing",
+      "inputId": "D-2026-10-03",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "「原因を全部洗い出して」をaction、「納得するまで考えたい」をwishへ分割。全文wishという基準に反し、希望の前半を実行済み行動にしている。前回と同じ問題。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "D-2026-10-03-3",
+      "series": "existing",
+      "inputId": "D-2026-10-03",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "「原因を全部洗い出して」をaction、「納得するまで考えたい」をwishへ分割。全文wishという基準に反し、希望の前半を実行済み行動にしている。前回と同じ問題。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-thought-action-2026-11-02-1",
+      "series": "additional",
+      "inputId": "thought-action",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "「昨夜」だけをobservationへ分割。残りには対象・一時間・行動があるが、時点を行動から切り離している。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-thought-action-2026-11-02-2",
+      "series": "additional",
+      "inputId": "thought-action",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "「昨夜」だけをobservationへ分割。残りには対象・一時間・行動があるが、時点を行動から切り離している。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-thought-action-2026-11-02-3",
+      "series": "additional",
+      "inputId": "thought-action",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "「昨夜」だけをobservationへ分割。残りには対象・一時間・行動があるが、時点を行動から切り離している。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-wish-scope-2026-11-02-1",
+      "series": "additional",
+      "inputId": "wish-scope",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "「旅程を調べて」をactionへ分割し、希望の範囲を失っている。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-wish-scope-2026-11-02-2",
+      "series": "additional",
+      "inputId": "wish-scope",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "「旅程を調べて」をactionへ分割し、希望の範囲を失っている。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-wish-scope-2026-11-02-3",
+      "series": "additional",
+      "inputId": "wish-scope",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "「旅程を調べて」をactionへ分割し、希望の範囲を失っている。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-plan-2026-11-02-1",
+      "series": "additional",
+      "inputId": "plan",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "「明日の朝」だけをobservationにし、予定の時点を予定内容から切り離している。予定をwishにする点は合っている。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-plan-2026-11-02-2",
+      "series": "additional",
+      "inputId": "plan",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "「明日の朝」だけをobservationにし、予定の時点を予定内容から切り離している。予定をwishにする点は合っている。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-plan-2026-11-02-3",
+      "series": "additional",
+      "inputId": "plan",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "「明日の朝」だけをobservationにし、予定の時点を予定内容から切り離している。予定をwishにする点は合っている。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-nonperformance-2026-11-02-1",
+      "series": "additional",
+      "inputId": "nonperformance",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "否定表現とobservationは保持するが、「昨日は」だけを別要素にする。全文observationという固定期待値と述語・時間の保持基準に反する。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-nonperformance-2026-11-02-2",
+      "series": "additional",
+      "inputId": "nonperformance",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "否定表現とobservationは保持するが、「昨日は」だけを別要素にする。全文observationという固定期待値と述語・時間の保持基準に反する。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-nonperformance-2026-11-02-3",
+      "series": "additional",
+      "inputId": "nonperformance",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "否定表現とobservationは保持するが、「昨日は」だけを別要素にする。全文observationという固定期待値と述語・時間の保持基準に反する。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-inference-scope-2026-11-02-1",
+      "series": "additional",
+      "inputId": "inference-scope",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "全文の意味範囲をinferenceで保持。句点の除外のみ。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-inference-scope-2026-11-02-2",
+      "series": "additional",
+      "inputId": "inference-scope",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "全文の意味範囲をinferenceで保持。句点の除外のみ。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-inference-scope-2026-11-02-3",
+      "series": "additional",
+      "inputId": "inference-scope",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "全文の意味範囲をinferenceで保持。句点の除外のみ。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-negated-inference-2026-11-02-1",
+      "series": "additional",
+      "inputId": "negated-inference",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "「同僚が荷物を届けて帰った」と「とは思わない」を別のobservationにする。推測・否定の範囲を失い、前半を観察された出来事のように扱う。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-negated-inference-2026-11-02-2",
+      "series": "additional",
+      "inputId": "negated-inference",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "「同僚が荷物を届けて帰った」と「とは思わない」を別のobservationにする。推測・否定の範囲を失い、前半を観察された出来事のように扱う。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-negated-inference-2026-11-02-3",
+      "series": "additional",
+      "inputId": "negated-inference",
+      "machineSuccess": true,
+      "contentVerdict": "problem",
+      "reason": "「同僚が荷物を届けて帰った」と「とは思わない」を別のobservationにする。推測・否定の範囲を失い、前半を観察された出来事のように扱う。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-mixed-statements-2026-11-02-1",
+      "series": "additional",
+      "inputId": "mixed-statements",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "独立した行動・知覚を分割。接続助詞の残存と句点の除外を許容する。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-mixed-statements-2026-11-02-2",
+      "series": "additional",
+      "inputId": "mixed-statements",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "独立した行動・知覚を分割。接続助詞の残存と句点の除外を許容する。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-mixed-statements-2026-11-02-3",
+      "series": "additional",
+      "inputId": "mixed-statements",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "独立した行動・知覚を分割。接続助詞の残存と句点の除外を許容する。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-performed-and-wish-2026-11-02-1",
+      "series": "additional",
+      "inputId": "performed-and-wish",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "昨日の実行済み行動と明日の希望を時点とともに分ける。句点の除外のみ。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-performed-and-wish-2026-11-02-2",
+      "series": "additional",
+      "inputId": "performed-and-wish",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "昨日の実行済み行動と明日の希望を時点とともに分ける。句点の除外のみ。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-performed-and-wish-2026-11-02-3",
+      "series": "additional",
+      "inputId": "performed-and-wish",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "昨日の実行済み行動と明日の希望を時点とともに分ける。句点の除外のみ。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-short-action-2026-11-02-1",
+      "series": "additional",
+      "inputId": "short-action",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "短い行動をactionとして抽出。句点の除外のみ。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-short-action-2026-11-02-2",
+      "series": "additional",
+      "inputId": "short-action",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "短い行動をactionとして抽出。句点の除外のみ。",
+      "evaluator": "Codex",
+      "provisional": true
+    },
+    {
+      "trialId": "extra-short-action-2026-11-02-3",
+      "series": "additional",
+      "inputId": "short-action",
+      "machineSuccess": true,
+      "contentVerdict": "meets-criteria",
+      "reason": "短い行動をactionとして抽出。句点の除外のみ。",
+      "evaluator": "Codex",
+      "provisional": true
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "commit": "e5b7aa9a4f9adb306efa93e836e5a8f601ca39b2",
+  "status": "## main...origin/main\n M README.md\n M dist/index.js\n M docs/design.md\n M docs/tasks.md\n M src/index.ts\n M test/index.test.ts\n?? docs/daily-extraction-recheck-2026-11-02.md\n?? docs/daily-extraction-results-2026-11-02.md\n?? docs/evidence/\n?? test/fixtures/",
+  "node": "v25.8.2",
+  "platform": "darwin",
+  "arch": "arm64",
+  "version": {
+    "version": "0.40.13"
+  },
+  "tags": {
+    "models": [
+      {
+        "name": "qwen3.5:9b",
+        "model": "qwen3.5:9b",
+        "modified_at": "2026-10-09T22:27:16.531683779+09:00",
+        "size": 6603314868,
+        "digest": "c97eb11d70b1acdc88af01eef566c1fe4f7fbe93eb1afc06871132f293ff425a",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen35",
+          "families": [
+            "qwen35",
+            "clip"
+          ],
+          "parameter_size": "9.7B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 262144,
+          "embedding_length": 4096,
+          "runner": "llamacpp"
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "tools",
+          "thinking"
+        ]
+      }
+    ]
+  }
+}

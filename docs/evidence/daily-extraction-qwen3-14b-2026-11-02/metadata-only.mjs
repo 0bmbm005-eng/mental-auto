@@ -1,0 +1,2 @@
+import {writeFile} from 'node:fs/promises';
+const r=await fetch('http://127.0.0.1:11434/api/show',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'qwen3.5:9b'})});if(!r.ok)throw Error(String(r.status));const data=await r.json();await writeFile('/private/tmp/mental-auto-qwen3-compare.zmbgyfyp/baseline-show-current.json',JSON.stringify(data,null,2)+'\n',{flag:'wx'});console.log(data.parameters);

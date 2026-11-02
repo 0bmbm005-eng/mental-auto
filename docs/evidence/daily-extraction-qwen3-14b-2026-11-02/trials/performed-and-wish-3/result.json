@@ -1,0 +1,15 @@
+{
+  "id": "performed-and-wish-3",
+  "series": "additional",
+  "inputId": "performed-and-wish",
+  "run": 3,
+  "started": "2026-11-02T13:13:24.102Z",
+  "finished": "2026-11-02T13:13:26.852Z",
+  "elapsedMs": 2749.947417000003,
+  "httpStatus": 200,
+  "machineSuccess": true,
+  "error": null,
+  "stop": false,
+  "calls": 1,
+  "modelDigest": "bdbd181c33f2ed1b31c972991882db3cf4d192569092138a7d29e973cd9debe8"
+}

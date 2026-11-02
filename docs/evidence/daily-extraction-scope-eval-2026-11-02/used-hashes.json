@@ -1,0 +1,21 @@
+{
+  "AGENTS.md": "67c863d15ac7e31bc05b35717dea64bc527e033f9c46f2767e27aa2934fa47b4",
+  "README.md": "edd45d27b9b557604ce0c4e96ce58a679c2c729b337e518a796489404b05cd25",
+  "src/index.ts": "8c09563f7ff06dcfa3c65a9a898b74094a4bf5ef7a8e9bb530754e33ad89948a",
+  "src/safe-share.ts": "f50e6774c902c7b6acc148fe60c551ec3b4a1d2a78d7796b086bee130042f09b",
+  "src/doctor.ts": "09e0b620ac9030576d55126346f961ef64c2f86b1c230180d6ba138ad6381f57",
+  "dist/index.js": "ce7aa1363e64d113ff16d6ef9b0600f026809fee7f4f766d79b1dedc087f8a1a",
+  "dist/safe-share.js": "995b30444f9bf8efccb96187ad27087e6e0265325a619cc63f4624f383d862ac",
+  "dist/doctor.js": "c7cbb31fc096ed758f38b37e87f1961135e801a7bbf8e876c9473e8899bb546b",
+  "test/index.test.ts": "0cae4dc177d1461fb5df146e12ed4deb1029bc32a28e6fa1ef3b65c0f72f4904",
+  "test/fixtures/daily-extraction-scope-expectations.json": "a5e329fcd8d7a0dba90e2632dbc9d9a4ae4d52af298e380c57bc45d7a4c04897",
+  "docs/design.md": "ccbefbade053a6169bf3eb7bdf37d38608765e25bcb13693ce29e001f8a9a16d",
+  "docs/tasks.md": "917252ec164ea621b01c2a423f816f33d335d3f765f227b4bfeb2d3920de29b2",
+  "docs/advice-quality-check.md": "a570f395981f92933d7c3eb1be2d8dfc3a029e4f9d6789b32c07e9fd5689d7f6",
+  "tsconfig.json": "42267162455ec7e72c7a884472bb60f6511111f7257914cf9fd454560a00b18e",
+  "package.json": "5f6fbf73db22ef279d21852ac512922aaf7cbb45691bcc3eaa96cfd7cf159495",
+  "package-lock.json": "83200cfbefdd536024096bce8bac88da9c644ecbe7e2434b9b332f75c5c4c9ff",
+  "external-build/index.js": "ce7aa1363e64d113ff16d6ef9b0600f026809fee7f4f766d79b1dedc087f8a1a",
+  "external-build/safe-share.js": "995b30444f9bf8efccb96187ad27087e6e0265325a619cc63f4624f383d862ac",
+  "external-build/doctor.js": "c7cbb31fc096ed758f38b37e87f1961135e801a7bbf8e876c9473e8899bb546b"
+}

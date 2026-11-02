@@ -1,0 +1,10 @@
+{
+  "status": 200,
+  "statusText": "OK",
+  "headers": {
+    "content-length": "391",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 02 Nov 2026 13:12:12 GMT"
+  },
+  "sha256": "1d55d7d6fceef554a4c207d4db8dc64ff7818464f41d860f37d457ce126b71e3"
+}

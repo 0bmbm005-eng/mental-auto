@@ -1,0 +1,1 @@
+{"model":"qwen3:14b-q4_K_M","created_at":"2026-11-02T13:12:15.383157Z","message":{"role":"assistant","content":"[{\"quote\":\"本を借りた。\",\"kind\":\"action\"}]"},"done":true,"done_reason":"stop","total_duration":1421173708,"load_duration":654500,"prompt_eval_count":693,"prompt_eval_cached_count":692,"prompt_eval_duration":90694000,"eval_count":16,"eval_duration":1326571000}

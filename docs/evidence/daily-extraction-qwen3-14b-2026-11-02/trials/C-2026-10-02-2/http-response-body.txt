@@ -1,0 +1,1 @@
+{"model":"qwen3:14b-q4_K_M","created_at":"2026-11-02T13:12:10.690743Z","message":{"role":"assistant","content":"[{\"quote\":\"電車で移動した。\",\"kind\":\"action\"}]"},"done":true,"done_reason":"stop","total_duration":1603695250,"load_duration":724500,"prompt_eval_count":695,"prompt_eval_cached_count":694,"prompt_eval_duration":89840000,"eval_count":18,"eval_duration":1509642000}

@@ -1,0 +1,20 @@
+{
+  "AGENTS.md": "67c863d15ac7e31bc05b35717dea64bc527e033f9c46f2767e27aa2934fa47b4",
+  "README.md": "054119598f62d2f91fc4cfffd8777fbdbfbc1c17ad7abe523c814b2ebd747709",
+  "src/index.ts": "693f2c135777c62738a2bd6369841a0368609b07b5d7da26ff4b6ffde711ce42",
+  "src/safe-share.ts": "f50e6774c902c7b6acc148fe60c551ec3b4a1d2a78d7796b086bee130042f09b",
+  "src/doctor.ts": "09e0b620ac9030576d55126346f961ef64c2f86b1c230180d6ba138ad6381f57",
+  "dist/index.js": "3105b4fd3097432b2afb833eea5d0d9b1d55f694087326a23ee64054ed8af1c4",
+  "dist/safe-share.js": "995b30444f9bf8efccb96187ad27087e6e0265325a619cc63f4624f383d862ac",
+  "dist/doctor.js": "c7cbb31fc096ed758f38b37e87f1961135e801a7bbf8e876c9473e8899bb546b",
+  "test/index.test.ts": "c25954343c8c273a72e1a94bd02508bbad57596b5462305729759c245cf8ba8a",
+  "docs/design.md": "cb2566bcbae75c99aa464b8a5e6ffc7962c4017f6652074333bc63854eff3ab6",
+  "docs/tasks.md": "fe4d13f917763a32e0ee54d898901afa1cd92d31d034d5ff3789d73766d63d91",
+  "docs/advice-quality-check.md": "a570f395981f92933d7c3eb1be2d8dfc3a029e4f9d6789b32c07e9fd5689d7f6",
+  "tsconfig.json": "42267162455ec7e72c7a884472bb60f6511111f7257914cf9fd454560a00b18e",
+  "package.json": "5f6fbf73db22ef279d21852ac512922aaf7cbb45691bcc3eaa96cfd7cf159495",
+  "package-lock.json": "83200cfbefdd536024096bce8bac88da9c644ecbe7e2434b9b332f75c5c4c9ff",
+  "external-build/index.js": "3105b4fd3097432b2afb833eea5d0d9b1d55f694087326a23ee64054ed8af1c4",
+  "external-build/safe-share.js": "995b30444f9bf8efccb96187ad27087e6e0265325a619cc63f4624f383d862ac",
+  "external-build/doctor.js": "c7cbb31fc096ed758f38b37e87f1961135e801a7bbf8e876c9473e8899bb546b"
+}

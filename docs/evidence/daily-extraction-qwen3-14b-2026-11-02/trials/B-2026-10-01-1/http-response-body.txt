@@ -1,0 +1,1 @@
+{"model":"qwen3:14b-q4_K_M","created_at":"2026-11-02T13:11:50.073146Z","message":{"role":"assistant","content":"[{\"quote\":\"夕方に散歩した。\",\"kind\":\"action\"}]"},"done":true,"done_reason":"stop","total_duration":1737099500,"load_duration":783917,"prompt_eval_count":694,"prompt_eval_cached_count":670,"prompt_eval_duration":294053000,"eval_count":17,"eval_duration":1438371000}

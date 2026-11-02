@@ -1,0 +1,15 @@
+{
+  "historical-runner.mjs": "c606bab567d642c7dde17ee5edd34fc6364e2ee66412f2af4a17230f9e976af7",
+  "records.json": "ea0b093dd9ea182a9f182472f562c3706e37ab6d001df0fa3926dd209115edbb",
+  "snapshot/dist/doctor.js": "c7cbb31fc096ed758f38b37e87f1961135e801a7bbf8e876c9473e8899bb546b",
+  "snapshot/dist/index.js": "3105b4fd3097432b2afb833eea5d0d9b1d55f694087326a23ee64054ed8af1c4",
+  "snapshot/dist/safe-share.js": "995b30444f9bf8efccb96187ad27087e6e0265325a619cc63f4624f383d862ac",
+  "snapshot/package.json": "5f6fbf73db22ef279d21852ac512922aaf7cbb45691bcc3eaa96cfd7cf159495",
+  "snapshot/src/doctor.ts": "09e0b620ac9030576d55126346f961ef64c2f86b1c230180d6ba138ad6381f57",
+  "snapshot/src/index.ts": "693f2c135777c62738a2bd6369841a0368609b07b5d7da26ff4b6ffde711ce42",
+  "snapshot/src/safe-share.ts": "f50e6774c902c7b6acc148fe60c551ec3b4a1d2a78d7796b086bee130042f09b",
+  "snapshot/tsconfig.json": "42267162455ec7e72c7a884472bb60f6511111f7257914cf9fd454560a00b18e",
+  "status-before.txt": "6cd19211d2f635b20166ea65eeb71889d34ed5a8b14fc5900e8ae55dc2ef55fc",
+  "used-hashes.json": "27c3c374c3c1b3e22cde7422f3c1c8a225c3e909526a94a180ac1e54620ec1ec",
+  "worktree.diff": "d52fa72d8d62e9d1d9e4a35fef4b6214480acd9ebef6a46f906173e500d69c03"
+}

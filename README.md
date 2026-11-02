@@ -461,7 +461,7 @@ AI入力の `sanitized: true` は、この限定的なマスク処理の適用�
 
 `--sanitize-advice` と後述の `--preview-advice` は、どちらも `--advice --advice-provider ollama` が必須です。`--output-dir` と併用できますが、`--safe-share`、`--stats`、`--monthly-summary`、`--weekly-summary`、`--import-mobile`、`--dry-run`、本文引数、`--memo`、`--date` との併用はエラーになります。`--help` / `-h` は表示できます。既存の `--safe-share` は別経路で、従来どおり整形と長文省略も行います。
 
-日付別のOllama抽出リクエスト・応答処理と、根拠の引用・構造を検証する内部処理は実装済みですが、CLIには未接続です。現在のCLIのOllama応答にこの引用検証は適用されず、新しい内部処理の実生成評価・意味分類の正しさ・生成品質の改善は未検証です。詳細は [設計文書](docs/design.md#日付別根拠データの内部検証cli未接続)を参照してください。
+日付別のOllama抽出リクエスト・応答処理と、根拠の引用・構造を検証する内部処理は実装済みですが、CLIには未接続です。現在のCLIのOllama応答にこの引用検証は適用されません。[日次抽出の実生成検証](docs/daily-extraction-results-2026-11-02.md)では36件が構造・引用検証に合格しましたが、分類混在・情報の脱落・希望の行動化が見つかりました。[修正後の再評価](docs/daily-extraction-recheck-2026-11-02.md)では固定入力のA・Bに改善が見られましたが、Dの希望の行動化が残り、新たな誤分割も発生しました。その後の[分類・引用単位整理後の63試行](docs/daily-extraction-scope-eval-2026-11-02.md)でもDの問題が残り、追加9入力にも範囲・分類の問題が見つかりました。追加入力は設計時に参照済みで、未知入力への有効性は未確認です。[14Bとの比較](docs/daily-extraction-qwen3-14b-comparison-2026-11-02.md)では引用範囲の改善と新たな誤分類があり、14Bは採用未確定の比較候補です。日次抽出は引き続きCLI未接続で、未知入力と複数日の一般化は未検証です。詳細は [設計文書](docs/design.md#日付別根拠データの内部検証cli未接続)を参照してください。
 
 生成結果はJSON形式で標準出力（stdout）に表示します。主な出力項目は次のとおりです。
 

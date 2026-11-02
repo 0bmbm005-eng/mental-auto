@@ -1,0 +1,8 @@
+{
+  "firstPreparationStoppedBeforeNetwork": "overly broad assertion included documentation hashes; source, inputs and expectations unchanged",
+  "documentationChangedSinceBaseline": [
+    "README.md",
+    "docs/design.md",
+    "docs/tasks.md"
+  ]
+}

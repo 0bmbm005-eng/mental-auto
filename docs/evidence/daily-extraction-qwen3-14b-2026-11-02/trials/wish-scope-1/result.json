@@ -1,0 +1,15 @@
+{
+  "id": "wish-scope-1",
+  "series": "additional",
+  "inputId": "wish-scope",
+  "run": 1,
+  "started": "2026-11-02T13:12:40.283Z",
+  "finished": "2026-11-02T13:12:42.435Z",
+  "elapsedMs": 2151.943665999992,
+  "httpStatus": 200,
+  "machineSuccess": true,
+  "error": null,
+  "stop": false,
+  "calls": 1,
+  "modelDigest": "bdbd181c33f2ed1b31c972991882db3cf4d192569092138a7d29e973cd9debe8"
+}

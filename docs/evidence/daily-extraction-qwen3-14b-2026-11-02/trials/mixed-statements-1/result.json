@@ -1,0 +1,15 @@
+{
+  "id": "mixed-statements-1",
+  "series": "additional",
+  "inputId": "mixed-statements",
+  "run": 1,
+  "started": "2026-11-02T13:13:11.708Z",
+  "finished": "2026-11-02T13:13:14.048Z",
+  "elapsedMs": 2339.7895419999986,
+  "httpStatus": 200,
+  "machineSuccess": true,
+  "error": null,
+  "stop": false,
+  "calls": 1,
+  "modelDigest": "bdbd181c33f2ed1b31c972991882db3cf4d192569092138a7d29e973cd9debe8"
+}

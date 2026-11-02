@@ -1,0 +1,621 @@
+{
+  "series": {
+    "existing": {
+      "distinctInputs": 12,
+      "trials": 36,
+      "machineSuccess": 36,
+      "machineFailure": 0,
+      "contentMeetsCriteria": 30,
+      "contentProblemTrials": 6,
+      "contentProblemDistinctInputs": 2,
+      "rawIdenticalThreeRunGroups": 12
+    },
+    "additional": {
+      "distinctInputs": 9,
+      "trials": 27,
+      "machineSuccess": 27,
+      "machineFailure": 0,
+      "contentMeetsCriteria": 24,
+      "contentProblemTrials": 3,
+      "contentProblemDistinctInputs": 1,
+      "rawIdenticalThreeRunGroups": 9
+    }
+  },
+  "groups": [
+    {
+      "inputId": "A-2026-10-01",
+      "series": "existing",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": false,
+      "currentProblem": true,
+      "change": "regressed",
+      "previousRepresentative": [
+        {
+          "quote": "同僚に挨拶したが",
+          "kind": "action"
+        },
+        {
+          "quote": "返事は聞こえなかった",
+          "kind": "observation"
+        },
+        {
+          "quote": "嫌われた気がする",
+          "kind": "inference"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "同僚に挨拶したが、返事は聞こえなかった。",
+          "kind": "observation"
+        },
+        {
+          "quote": "嫌われた気がする。",
+          "kind": "inference"
+        }
+      ],
+      "reason": "挨拶した行動と返事が聞こえなかった観察を一つのobservationにまとめた。原文の情報と否定・推測は残るが、行動の分類が失われる。"
+    },
+    {
+      "inputId": "A-2026-10-02",
+      "series": "existing",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": false,
+      "currentProblem": false,
+      "change": "maintained",
+      "previousRepresentative": [
+        {
+          "quote": "同僚から挨拶された。",
+          "kind": "observation"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "同僚から挨拶された。",
+          "kind": "observation"
+        }
+      ],
+      "reason": "受けた出来事をobservationとして保持。"
+    },
+    {
+      "inputId": "A-2026-10-03",
+      "series": "existing",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": false,
+      "currentProblem": false,
+      "change": "maintained",
+      "previousRepresentative": [
+        {
+          "quote": "自分は会話が下手だと思った。",
+          "kind": "selfEvaluation"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "自分は会話が下手だと思った",
+          "kind": "selfEvaluation"
+        }
+      ],
+      "reason": "自己評価を保持。末尾句点の除外のみで意味は維持。"
+    },
+    {
+      "inputId": "B-2026-10-01",
+      "series": "existing",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": false,
+      "currentProblem": false,
+      "change": "maintained",
+      "previousRepresentative": [
+        {
+          "quote": "夕方に散歩した。",
+          "kind": "action"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "夕方に散歩した。",
+          "kind": "action"
+        }
+      ],
+      "reason": "時間・対象と実行済み行動をactionとして維持。"
+    },
+    {
+      "inputId": "B-2026-10-02",
+      "series": "existing",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": false,
+      "currentProblem": false,
+      "change": "maintained",
+      "previousRepresentative": [
+        {
+          "quote": "夕方に散歩した。",
+          "kind": "action"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "夕方に散歩した。",
+          "kind": "action"
+        }
+      ],
+      "reason": "時間・対象と実行済み行動をactionとして維持。"
+    },
+    {
+      "inputId": "B-2026-10-03",
+      "series": "existing",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": false,
+      "currentProblem": false,
+      "change": "maintained",
+      "previousRepresentative": [
+        {
+          "quote": "本を読んだ。",
+          "kind": "action"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "本を読んだ。",
+          "kind": "action"
+        }
+      ],
+      "reason": "時間・対象と実行済み行動をactionとして維持。"
+    },
+    {
+      "inputId": "C-2026-10-01",
+      "series": "existing",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": false,
+      "currentProblem": false,
+      "change": "maintained",
+      "previousRepresentative": [
+        {
+          "quote": "昼にパンを食べた。",
+          "kind": "action"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "昼にパンを食べた。",
+          "kind": "action"
+        }
+      ],
+      "reason": "時間・対象と実行済み行動をactionとして維持。"
+    },
+    {
+      "inputId": "C-2026-10-02",
+      "series": "existing",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": false,
+      "currentProblem": false,
+      "change": "maintained",
+      "previousRepresentative": [
+        {
+          "quote": "電車で移動した。",
+          "kind": "action"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "電車で移動した。",
+          "kind": "action"
+        }
+      ],
+      "reason": "時間・対象と実行済み行動をactionとして維持。"
+    },
+    {
+      "inputId": "C-2026-10-03",
+      "series": "existing",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": false,
+      "currentProblem": false,
+      "change": "maintained",
+      "previousRepresentative": [
+        {
+          "quote": "本を借りた。",
+          "kind": "action"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "本を借りた。",
+          "kind": "action"
+        }
+      ],
+      "reason": "時間・対象と実行済み行動をactionとして維持。"
+    },
+    {
+      "inputId": "D-2026-10-01",
+      "series": "existing",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": false,
+      "currentProblem": true,
+      "change": "regressed",
+      "previousRepresentative": [
+        {
+          "quote": "会議の一言を何度も思い返した。",
+          "kind": "action"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "会議の一言を何度も思い返した。",
+          "kind": "observation"
+        }
+      ],
+      "reason": "全文の引用範囲は保持したが、本人が何度も思い返した思考行動をobservationとした。actionの定義に反する。"
+    },
+    {
+      "inputId": "D-2026-10-02",
+      "series": "existing",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": true,
+      "currentProblem": false,
+      "change": "improved",
+      "previousRepresentative": [
+        {
+          "quote": "失敗の理由を",
+          "kind": "observation"
+        },
+        {
+          "quote": "夜遅くまで",
+          "kind": "observation"
+        },
+        {
+          "quote": "考えた。",
+          "kind": "action"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "失敗の理由を夜遅くまで考えた。",
+          "kind": "action"
+        }
+      ],
+      "reason": "対象・時間・程度・述語を一緒に引用しaction。以前の分断を解消。"
+    },
+    {
+      "inputId": "D-2026-10-03",
+      "series": "existing",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": true,
+      "currentProblem": false,
+      "change": "improved",
+      "previousRepresentative": [
+        {
+          "quote": "原因を全部洗い出して",
+          "kind": "action"
+        },
+        {
+          "quote": "納得するまで考えたい",
+          "kind": "wish"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "原因を全部洗い出して、納得するまで考えたい。",
+          "kind": "wish"
+        }
+      ],
+      "reason": "全文wish。希望の対象を実行済みactionへ切り出さない。"
+    },
+    {
+      "inputId": "thought-action",
+      "series": "additional",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": true,
+      "currentProblem": false,
+      "change": "improved",
+      "previousRepresentative": [
+        {
+          "quote": "昨夜",
+          "kind": "observation"
+        },
+        {
+          "quote": "旅程を一時間かけて調べた",
+          "kind": "action"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "昨夜、旅程を一時間かけて調べた。",
+          "kind": "action"
+        }
+      ],
+      "reason": "昨夜・対象・一時間・実行済み行動を全文actionとして保持。"
+    },
+    {
+      "inputId": "wish-scope",
+      "series": "additional",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": true,
+      "currentProblem": false,
+      "change": "improved",
+      "previousRepresentative": [
+        {
+          "quote": "旅程を調べて",
+          "kind": "action"
+        },
+        {
+          "quote": "宿を予約したい",
+          "kind": "wish"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "旅程を調べて、宿を予約したい。",
+          "kind": "wish"
+        }
+      ],
+      "reason": "希望の範囲全体をwishとして保持。"
+    },
+    {
+      "inputId": "plan",
+      "series": "additional",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": true,
+      "currentProblem": false,
+      "change": "improved",
+      "previousRepresentative": [
+        {
+          "quote": "明日の朝",
+          "kind": "observation"
+        },
+        {
+          "quote": "旅程を調べる予定だ",
+          "kind": "wish"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "明日の朝、旅程を調べる予定だ。",
+          "kind": "wish"
+        }
+      ],
+      "reason": "明日の朝を含む予定全文をwishとして保持。"
+    },
+    {
+      "inputId": "nonperformance",
+      "series": "additional",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": true,
+      "currentProblem": false,
+      "change": "improved",
+      "previousRepresentative": [
+        {
+          "quote": "昨日は",
+          "kind": "observation"
+        },
+        {
+          "quote": "旅程を調べなかった。",
+          "kind": "observation"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "昨日は旅程を調べなかった。",
+          "kind": "observation"
+        }
+      ],
+      "reason": "昨日は・否定・述語を全文observationとして保持。"
+    },
+    {
+      "inputId": "inference-scope",
+      "series": "additional",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": false,
+      "currentProblem": false,
+      "change": "maintained",
+      "previousRepresentative": [
+        {
+          "quote": "同僚は荷物を届けて帰ったのかもしれない",
+          "kind": "inference"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "同僚は荷物を届けて帰ったのかもしれない。",
+          "kind": "inference"
+        }
+      ],
+      "reason": "推測がかかる出来事全体をinferenceとして保持。"
+    },
+    {
+      "inputId": "negated-inference",
+      "series": "additional",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": true,
+      "currentProblem": false,
+      "change": "improved",
+      "previousRepresentative": [
+        {
+          "quote": "同僚が荷物を届けて帰った",
+          "kind": "observation"
+        },
+        {
+          "quote": "とは思わない",
+          "kind": "observation"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "同僚が荷物を届けて帰ったとは思わない。",
+          "kind": "inference"
+        }
+      ],
+      "reason": "否定された推測の範囲を全文inferenceとして保持。"
+    },
+    {
+      "inputId": "mixed-statements",
+      "series": "additional",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": false,
+      "currentProblem": true,
+      "change": "regressed",
+      "previousRepresentative": [
+        {
+          "quote": "ベルを押したが",
+          "kind": "action"
+        },
+        {
+          "quote": "音は聞こえなかった",
+          "kind": "observation"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "ベルを押したが、音は聞こえなかった。",
+          "kind": "observation"
+        }
+      ],
+      "reason": "ベルを押した行動と音が聞こえなかった観察を一つのobservationにまとめた。否定は残るが行動の分類が失われる。"
+    },
+    {
+      "inputId": "performed-and-wish",
+      "series": "additional",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": false,
+      "currentProblem": false,
+      "change": "maintained",
+      "previousRepresentative": [
+        {
+          "quote": "昨日は旅程を調べた",
+          "kind": "action"
+        },
+        {
+          "quote": "明日は宿を予約したい",
+          "kind": "wish"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "昨日は旅程を調べた",
+          "kind": "action"
+        },
+        {
+          "quote": "明日は宿を予約したい",
+          "kind": "wish"
+        }
+      ],
+      "reason": "昨日の実行済み行動と明日の希望を分離。句点の除外のみ。"
+    },
+    {
+      "inputId": "short-action",
+      "series": "additional",
+      "rawUnique": 1,
+      "parsedUnique": 1,
+      "semanticUniqueProvisional": 1,
+      "previousProblem": false,
+      "currentProblem": false,
+      "change": "maintained",
+      "previousRepresentative": [
+        {
+          "quote": "切符を買った",
+          "kind": "action"
+        }
+      ],
+      "representative": [
+        {
+          "quote": "切符を買った。",
+          "kind": "action"
+        }
+      ],
+      "reason": "短い実行済み行動をactionとして保持。"
+    }
+  ],
+  "timing63": {
+    "sumSeconds": 135.39308358499994,
+    "medianSeconds": 1.956299125000005,
+    "minSeconds": 1.4210044580000103,
+    "maxSeconds": 10.34617975
+  },
+  "timingNew62": {
+    "sumSeconds": 125.04690383499995,
+    "medianSeconds": 1.9204196040000023,
+    "minSeconds": 1.4210044580000103,
+    "maxSeconds": 4.362842208
+  },
+  "baselineTiming63": {
+    "sumSeconds": 158.3299547499999,
+    "medianSeconds": 1.912133209000007,
+    "minSeconds": 0.9943575839999831,
+    "maxSeconds": 6.810121792
+  },
+  "memoryNew62": {
+    "sampleCount": 127,
+    "swapUsedZeroAtAllSamples": true,
+    "runnerMaxObservedRssKiB": 14462576
+  },
+  "memoryInitialSmoke": {
+    "sampleCount": 12,
+    "swapUsedZeroAtAllSamples": true,
+    "runnerMaxObservedRssKiB": 14459280
+  },
+  "effectiveModelPs": {
+    "models": [
+      {
+        "name": "qwen3:14b-q4_K_M",
+        "model": "qwen3:14b-q4_K_M",
+        "size": 13806914763,
+        "digest": "bdbd181c33f2ed1b31c972991882db3cf4d192569092138a7d29e973cd9debe8",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3",
+          "families": [
+            "qwen3"
+          ],
+          "parameter_size": "14.8B",
+          "quantization_level": "Q4_K_M"
+        },
+        "expires_at": "2026-11-02T22:18:31.349086+09:00",
+        "size_vram": 13806914763,
+        "context_length": 32768,
+        "runner": "llamacpp"
+      }
+    ]
+  },
+  "distinctImproved": 7,
+  "distinctRegressed": 3,
+  "distinctMaintained": 11,
+  "provisionalContentAssessment": true
+}

@@ -1,0 +1,13 @@
+{
+  "id": "D-2026-10-03-1",
+  "modelDigest": "bdbd181c33f2ed1b31c972991882db3cf4d192569092138a7d29e973cd9debe8",
+  "started": "2026-11-02T13:07:25.088Z",
+  "finished": "2026-11-02T13:07:35.487Z",
+  "elapsedMs": 10346.17975,
+  "httpStatus": 200,
+  "calls": 1,
+  "machineSuccess": true,
+  "error": null,
+  "smokeTest": true,
+  "eligibleForLaterComparison": true
+}
