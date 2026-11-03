@@ -1,0 +1,7 @@
+{
+  "preInferenceStop": "Old inputId values overlap between prior21 and new10; initial preflight uniqueness assertion failed before any API call. Record IDs now include source series; contents and expectations unchanged.",
+  "firstTrial": "Readback, outer/inner JSON, provider validation confirmed before continue marker; counted as 1 of 165.",
+  "comparison": "withoutExamples uses the immediately preceding decision-order prompt; withExamples uses fixed three-example prompt. Wire request changes only system content, in the evaluation harness; application implementation unchanged.",
+  "freeze": "new12-expectations.json saved before inference; protocol.json and its hashes saved before first chat request; hashes checked before every trial and at end.",
+  "scope": "12 new inputs created after prompt freeze, 31 regression inputs previously design-reviewed. No claim of effectiveness on all unseen inputs."
+}

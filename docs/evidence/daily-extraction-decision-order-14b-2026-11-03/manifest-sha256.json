@@ -1,0 +1,19 @@
+{
+  "analyze.py": "31b4704615dae23660d02aa64246ff25d0680b7ea20aa6f8fc430057947fa42c",
+  "build/doctor.js": "c7cbb31fc096ed758f38b37e87f1961135e801a7bbf8e876c9473e8899bb546b",
+  "build/index.js": "1dddc5100b7ae00baa3018c908a238589f88ebad559c563985cc14145c146d3d",
+  "build/package.json": "1239d4d885dcad42201a27ed9324f8f0f760b78700d8db9ced39a511cffe7eae",
+  "build/safe-share.js": "995b30444f9bf8efccb96187ad27087e6e0265325a619cc63f4624f383d862ac",
+  "completion.json": "4cb9786e6b1e16d5312997bf60cfd733b5a41918e1c8a64f288aa8584a81a729",
+  "content-evaluation.json": "c2d9d719a817a54b2f845e65cc2273c5dfcf173fac9f1efee59a1eab0af0af04",
+  "final-environment.json": "e36a769768d5c92f0d49f748a182a18df1bafd0b3f789ecf2464942e7ae38ea9",
+  "first-trial-check.json": "fe743bd745e291c23db49fed427b0e0606cc848e614b2bf47cfa05e5c5f403fa",
+  "memory-samples.json": "00772003508c8a5e02321405a136b88c2bc91b07f13f82249ef3c5c663719643",
+  "preparation-note.json": "df2ddbcedf063fcf06a02de9b5be61c9384496fb486361b57fcf86604e0ff6e9",
+  "protocol.json": "323dd53b7cf9e3d157d35db0d4599b5d9091f5fd05fc0e185c93a8773c5dd637",
+  "readback-verification.json": "52ccf3f1325561fc688185c68970a48079da89d526a0c29c693ddb6c05f1ca69",
+  "run.mjs": "99b56ba7af580bed2f10ec17fd13fc108a72f014bfae51cfac5900fe78715532",
+  "source-snapshot.tar.gz": "f391afdc2abdadd9e0d0ea81848fec87514bb68db5bb64036e006405f3dc2b61",
+  "trials.jsonl": "09da9663fa13d4597a7fe73cb766331b1ded427e3c7cdeeadd71305415900985",
+  "verify.mjs": "0d9f57e91ad3558b9e8b79f38699bed4199b9bf4bc78c56f35ccd28f15a3e868"
+}

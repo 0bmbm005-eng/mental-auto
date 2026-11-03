@@ -1,0 +1,20 @@
+{
+  "README.md": "01a86a8bd965ab5f02dcd7637d64738bb81fc8d276537a95852e3cc5d905de84",
+  "analyze.py": "f1bfb6197b2e87831c22c18c8ba9e1278a37218f81f15c88ffb36cfb5ac50787",
+  "build/doctor.js": "c7cbb31fc096ed758f38b37e87f1961135e801a7bbf8e876c9473e8899bb546b",
+  "build/index.js": "55067690ccf95251fac11355ced222e0a638769c0c1c99a10550fd61e13ae4e9",
+  "build/package.json": "1239d4d885dcad42201a27ed9324f8f0f760b78700d8db9ced39a511cffe7eae",
+  "build/safe-share.js": "995b30444f9bf8efccb96187ad27087e6e0265325a619cc63f4624f383d862ac",
+  "completion.json": "ec5faaf78018443922027a4a5d503817311a75c2f070a84dc1a2fb3f4ec06e4f",
+  "content-evaluation.json": "2206159db51878e8c9d60666eb3000a0d48f385eb095e9c842b10d1c1ee4cd59",
+  "final-environment.json": "f926a0df75fe2c1c6f6d2cb81f77c095f98cf8a2eec382af55a7fea1164057a1",
+  "first-trial-check.json": "2e90d30275a6767395969521b104deca8d7824cb48ef7da80dc6943a4d1c6011",
+  "new12-expectations.json": "258112f9a8ffda656284110fc736932ae5a7d4b4b25ff00c3b7ce8eb4a013164",
+  "preparation-note.json": "f2df668ce459e8b9d530fe79f839c7116f6dfa33ced57c5ae33b7391834a8b70",
+  "protocol.json": "ee6b2df36371bf28be5214581232a6880ada62e778caa33f0697cf701a2d55ad",
+  "readback-verification.json": "f23dcc990226fee32dd1e69cb0e0e86e6ef53baf8e261175ed4d11a886afc363",
+  "run.mjs": "ff2f82ff9a3a09f23d61843c80607aaa97973897a1a6e61ff6170c65a0b941c4",
+  "source-snapshot.tar.gz": "f6d3c38db0b9e4e9b868c090912b70db5c057aead8277ff96afe31545ef5bc3a",
+  "trials.jsonl": "4fd6f82bed17e59fbc33b45c2d5fca62b17f501ce9f2cd648f05365f1675b0e5",
+  "verify.mjs": "0f8f0584f076ad41bd08d65e500e0a5c587dcc831076bb20c83daf1f6d5e4fdb"
+}

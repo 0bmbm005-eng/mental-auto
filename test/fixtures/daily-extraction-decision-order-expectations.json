@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "status": "expectations-only; no Ollama evaluation performed",
+  "frozenDateJst": "2026-11-03",
+  "purpose": "Design-reviewed fictional inputs fixed before evaluation; these are not unseen holdout inputs. Local validation does not demonstrate model quality.",
+  "contentPolicy": "content is the complete input, without heading or trailing newline; sha256 hashes its UTF-8 bytes.",
+  "quotePolicy": "Expected quotes define semantic scope. Punctuation or trailing connectors may differ only if meaning and scope are preserved; all returned quotes must be exact nonempty substrings.",
+  "evaluationCriteria": [
+    "kindと希望・意図・予定・否定・推測の作用範囲を保持する。",
+    "独立した記述を分け、対象・時間・程度・述語の欠落や分断を不合格とする。",
+    "入力順で全記述を保持し、記載のない情報の追加や取りこぼしを不合格とする。",
+    "出力確認後に期待値を変更した場合は別版の評価として扱う。"
+  ],
+  "cases": [
+    {
+      "id": "reception-mixed",
+      "content": "受付の人に声をかけたが、返答は聞き取れなかった。迷惑だったのかもしれない。",
+      "sha256": "458a4d8f78135f3f24a2b7e5403bdb8cd7e6ffa1e62b6a39bcb40cf0f45b799f",
+      "expected": [
+        {
+          "quote": "受付の人に声をかけた",
+          "kind": "action"
+        },
+        {
+          "quote": "返答は聞き取れなかった。",
+          "kind": "observation"
+        },
+        {
+          "quote": "迷惑だったのかもしれない。",
+          "kind": "inference"
+        }
+      ]
+    },
+    {
+      "id": "reflection-action",
+      "content": "昨夜、面談での発言を三十分ほど振り返った。",
+      "sha256": "77e56af792106b2fba10c6188d61c9a2ec7076d889d5f85664da8c54beb75e84",
+      "expected": [
+        {
+          "quote": "昨夜、面談での発言を三十分ほど振り返った。",
+          "kind": "action"
+        }
+      ]
+    },
+    {
+      "id": "switch-mixed",
+      "content": "スイッチを入れたが、ランプは点灯しなかった。",
+      "sha256": "c9e28913aae188806a84d08225341bdac471d8c82af6209cd000767dd4024297",
+      "expected": [
+        {
+          "quote": "スイッチを入れた",
+          "kind": "action"
+        },
+        {
+          "quote": "ランプは点灯しなかった。",
+          "kind": "observation"
+        }
+      ]
+    },
+    {
+      "id": "wish-scope",
+      "content": "資料を読み直して、質問を整理したい。",
+      "sha256": "f6f566b049639902003ecc159c917d2a2d4f0ebb6f324550e479efe7d05ca51d",
+      "expected": [
+        {
+          "quote": "資料を読み直して、質問を整理したい。",
+          "kind": "wish"
+        }
+      ]
+    },
+    {
+      "id": "plan",
+      "content": "明日の昼、資料を読み直す予定だ。",
+      "sha256": "8a17cce06316924c22501b735afaf04a7cb91a576445b30f93c01736ccc6d596",
+      "expected": [
+        {
+          "quote": "明日の昼、資料を読み直す予定だ。",
+          "kind": "wish"
+        }
+      ]
+    },
+    {
+      "id": "nonperformance",
+      "content": "昨夜は面談での発言を振り返らなかった。",
+      "sha256": "7d86e6de20e8860486ac9549a4e2afc9e366660eac23f2176039c9cb8ed302ee",
+      "expected": [
+        {
+          "quote": "昨夜は面談での発言を振り返らなかった。",
+          "kind": "observation"
+        }
+      ]
+    },
+    {
+      "id": "inference-scope",
+      "content": "担当者が資料を読んで修正したのかもしれない。",
+      "sha256": "bbfb333ef964b51caa0b4401366553bcbb9506d4d199eaa1d840d50b05f89d8c",
+      "expected": [
+        {
+          "quote": "担当者が資料を読んで修正したのかもしれない。",
+          "kind": "inference"
+        }
+      ]
+    },
+    {
+      "id": "negated-inference",
+      "content": "担当者が資料を読んで修正したとは思わない。",
+      "sha256": "f6bbba0918fd8030acfd5cab8a16e9275cee79b861b14f62f0553e8a02562cdb",
+      "expected": [
+        {
+          "quote": "担当者が資料を読んで修正したとは思わない。",
+          "kind": "inference"
+        }
+      ]
+    },
+    {
+      "id": "performed-and-wish",
+      "content": "昨夜は資料を読み直した。明日は質問を整理したい。",
+      "sha256": "43c4e952621560f2f21ef6db2637240f1b9d6fbe15468e8fde38f47cddfdcbb4",
+      "expected": [
+        {
+          "quote": "昨夜は資料を読み直した。",
+          "kind": "action"
+        },
+        {
+          "quote": "明日は質問を整理したい。",
+          "kind": "wish"
+        }
+      ]
+    },
+    {
+      "id": "self-evaluation",
+      "content": "自分は説明が苦手だと思った。",
+      "sha256": "570da1ceebc58b0dd66eb55945f9caa7ea6b9f041e7f55ba4fc2bac60972228f",
+      "expected": [
+        {
+          "quote": "自分は説明が苦手だと思った。",
+          "kind": "selfEvaluation"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3432 @@
+{
+  "assessment": "Codex暫定内容評価。機械検証とは別で、人間の確定評価ではない。期待値は変更しない。",
+  "plannedTrials": 165,
+  "completedTrials": 165,
+  "distinctInputs": 43,
+  "inputVariantGroups": 55,
+  "machineSuccess": 165,
+  "groups": [
+    {
+      "series": "regression31",
+      "inputId": "prior21/A-2026-10-01",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/A-2026-10-01/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "同僚に挨拶した",
+              "kind": "action"
+            },
+            {
+              "quote": "返事は聞こえなかった。",
+              "kind": "observation"
+            },
+            {
+              "quote": "嫌われた気がする。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/A-2026-10-01/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "同僚に挨拶した",
+              "kind": "action"
+            },
+            {
+              "quote": "返事は聞こえなかった。",
+              "kind": "observation"
+            },
+            {
+              "quote": "嫌われた気がする。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/A-2026-10-01/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "同僚に挨拶した",
+              "kind": "action"
+            },
+            {
+              "quote": "返事は聞こえなかった。",
+              "kind": "observation"
+            },
+            {
+              "quote": "嫌われた気がする。",
+              "kind": "inference"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 22040.741749999997,
+        "medianMs": 4151.642457999998,
+        "minMs": 4145.141291999997,
+        "maxMs": 13743.958
+      },
+      "previousPass": false,
+      "previousRepresentative": [
+        {
+          "quote": "同僚に挨拶したが、返事は聞こえなかった。",
+          "kind": "observation"
+        },
+        {
+          "quote": "嫌われた気がする。",
+          "kind": "inference"
+        }
+      ],
+      "byteEqualToPrevious": false
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/A-2026-10-02",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/A-2026-10-02/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "同僚から挨拶された。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/A-2026-10-02/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "同僚から挨拶された。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/A-2026-10-02/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "同僚から挨拶された。",
+              "kind": "observation"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 5110.163376000004,
+        "medianMs": 1649.2624589999978,
+        "minMs": 1621.581459000001,
+        "maxMs": 1839.3194580000054
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "同僚から挨拶された。",
+          "kind": "observation"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/A-2026-10-03",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/A-2026-10-03/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "自分は会話が下手だと思った。",
+              "kind": "selfEvaluation"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/A-2026-10-03/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "自分は会話が下手だと思った。",
+              "kind": "selfEvaluation"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/A-2026-10-03/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "自分は会話が下手だと思った。",
+              "kind": "selfEvaluation"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 5908.822500000002,
+        "medianMs": 1919.043749999997,
+        "minMs": 1885.6078750000015,
+        "maxMs": 2104.1708750000034
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "自分は会話が下手だと思った",
+          "kind": "selfEvaluation"
+        }
+      ],
+      "byteEqualToPrevious": false
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/B-2026-10-01",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/B-2026-10-01/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "夕方に散歩した。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/B-2026-10-01/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "夕方に散歩した。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/B-2026-10-01/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "夕方に散歩した。",
+              "kind": "action"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 4815.543415999993,
+        "medianMs": 1533.9725410000028,
+        "minMs": 1531.6376249999958,
+        "maxMs": 1749.9332499999946
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "夕方に散歩した。",
+          "kind": "action"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/B-2026-10-02",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/B-2026-10-02/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "夕方に散歩した。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/B-2026-10-02/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "夕方に散歩した。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/B-2026-10-02/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "夕方に散歩した。",
+              "kind": "action"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 4819.634542,
+        "medianMs": 1539.7996249999997,
+        "minMs": 1537.0500829999946,
+        "maxMs": 1742.7848340000055
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "夕方に散歩した。",
+          "kind": "action"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/B-2026-10-03",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/B-2026-10-03/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "本を読んだ。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/B-2026-10-03/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "本を読んだ。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/B-2026-10-03/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "本を読んだ。",
+              "kind": "action"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 4521.218665999993,
+        "medianMs": 1435.801916999997,
+        "minMs": 1434.8322909999988,
+        "maxMs": 1650.5844579999975
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "本を読んだ。",
+          "kind": "action"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/C-2026-10-01",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/C-2026-10-01/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昼にパンを食べた。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/C-2026-10-01/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昼にパンを食べた。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/C-2026-10-01/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昼にパンを食べた。",
+              "kind": "action"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 4793.152000000002,
+        "medianMs": 1527.6192080000037,
+        "minMs": 1523.3033339999965,
+        "maxMs": 1742.2294580000016
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "昼にパンを食べた。",
+          "kind": "action"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/C-2026-10-02",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/C-2026-10-02/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "電車で移動した。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/C-2026-10-02/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "電車で移動した。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/C-2026-10-02/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "電車で移動した。",
+              "kind": "action"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 5073.654167000008,
+        "medianMs": 1630.859500000006,
+        "minMs": 1612.3004999999976,
+        "maxMs": 1830.4941670000044
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "電車で移動した。",
+          "kind": "action"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/C-2026-10-03",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/C-2026-10-03/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "本を借りた。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/C-2026-10-03/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "本を借りた。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/C-2026-10-03/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "本を借りた。",
+              "kind": "action"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 4560.7146670000075,
+        "medianMs": 1462.0647920000047,
+        "minMs": 1448.8055840000015,
+        "maxMs": 1649.8442910000012
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "本を借りた。",
+          "kind": "action"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/D-2026-10-01",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/D-2026-10-01/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "会議の一言を何度も思い返した。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/D-2026-10-01/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "会議の一言を何度も思い返した。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/D-2026-10-01/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "会議の一言を何度も思い返した。",
+              "kind": "action"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 5880.262082000016,
+        "medianMs": 1906.8879580000066,
+        "minMs": 1876.588791000002,
+        "maxMs": 2096.785333000007
+      },
+      "previousPass": false,
+      "previousRepresentative": [
+        {
+          "quote": "会議の一言を何度も思い返した。",
+          "kind": "observation"
+        }
+      ],
+      "byteEqualToPrevious": false
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/D-2026-10-02",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/D-2026-10-02/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "失敗の理由を夜遅くまで考えた。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/D-2026-10-02/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "失敗の理由を夜遅くまで考えた。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/D-2026-10-02/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "失敗の理由を夜遅くまで考えた。",
+              "kind": "action"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 6672.244500000015,
+        "medianMs": 2159.958666999999,
+        "minMs": 2145.3700420000096,
+        "maxMs": 2366.9157910000067
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "失敗の理由を夜遅くまで考えた。",
+          "kind": "action"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/D-2026-10-03",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/D-2026-10-03/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "原因を全部洗い出して、納得するまで考えたい。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/D-2026-10-03/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "原因を全部洗い出して、納得するまで考えたい。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/D-2026-10-03/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "原因を全部洗い出して、納得するまで考えたい。",
+              "kind": "wish"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 6928.805416999996,
+        "medianMs": 2244.2452499999927,
+        "minMs": 2229.901084000012,
+        "maxMs": 2454.6590829999914
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "原因を全部洗い出して、納得するまで考えたい。",
+          "kind": "wish"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/thought-action",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/thought-action/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨夜、旅程を一時間かけて調べた。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/thought-action/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨夜、旅程を一時間かけて調べた。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/thought-action/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨夜、旅程を一時間かけて調べた。",
+              "kind": "action"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 6117.341042999993,
+        "medianMs": 1978.7512920000008,
+        "minMs": 1964.901417000001,
+        "maxMs": 2173.6883339999913
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "昨夜、旅程を一時間かけて調べた。",
+          "kind": "action"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/wish-scope",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/wish-scope/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "旅程を調べて、宿を予約したい。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/wish-scope/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "旅程を調べて、宿を予約したい。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/wish-scope/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "旅程を調べて、宿を予約したい。",
+              "kind": "wish"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 6133.50729199998,
+        "medianMs": 1983.1794999999984,
+        "minMs": 1961.9566249999916,
+        "maxMs": 2188.3711669999902
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "旅程を調べて、宿を予約したい。",
+          "kind": "wish"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/plan",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/plan/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "明日の朝、旅程を調べる予定だ。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/plan/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "明日の朝、旅程を調べる予定だ。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/plan/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "明日の朝、旅程を調べる予定だ。",
+              "kind": "wish"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 6387.866542999996,
+        "medianMs": 2066.7675000000017,
+        "minMs": 2059.7364589999925,
+        "maxMs": 2261.3625840000022
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "明日の朝、旅程を調べる予定だ。",
+          "kind": "wish"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/nonperformance",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/nonperformance/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨日は旅程を調べなかった。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/nonperformance/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨日は旅程を調べなかった。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/nonperformance/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨日は旅程を調べなかった。",
+              "kind": "observation"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 5059.274166000003,
+        "medianMs": 1622.4064999999973,
+        "minMs": 1609.4427080000023,
+        "maxMs": 1827.4249580000032
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "昨日は旅程を調べなかった。",
+          "kind": "observation"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/inference-scope",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/inference-scope/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "同僚は荷物を届けて帰ったのかもしれない。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/inference-scope/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "同僚は荷物を届けて帰ったのかもしれない。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/inference-scope/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "同僚は荷物を届けて帰ったのかもしれない。",
+              "kind": "inference"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 6962.385416999998,
+        "medianMs": 2257.718166999999,
+        "minMs": 2246.4755830000067,
+        "maxMs": 2458.191666999992
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "同僚は荷物を届けて帰ったのかもしれない",
+          "kind": "inference"
+        }
+      ],
+      "byteEqualToPrevious": false
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/negated-inference",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/negated-inference/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "同僚が荷物を届けて帰ったとは思わない。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/negated-inference/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "同僚が荷物を届けて帰ったとは思わない。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/negated-inference/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "同僚が荷物を届けて帰ったとは思わない。",
+              "kind": "inference"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 7187.930458000003,
+        "medianMs": 2331.4658329999947,
+        "minMs": 2322.668208000003,
+        "maxMs": 2533.796417000005
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "同僚が荷物を届けて帰ったとは思わない。",
+          "kind": "inference"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/mixed-statements",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/mixed-statements/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "ベルを押した",
+              "kind": "action"
+            },
+            {
+              "quote": "音は聞こえなかった。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/mixed-statements/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "ベルを押した",
+              "kind": "action"
+            },
+            {
+              "quote": "音は聞こえなかった。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/mixed-statements/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "ベルを押した",
+              "kind": "action"
+            },
+            {
+              "quote": "音は聞こえなかった。",
+              "kind": "observation"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 8016.060874999996,
+        "medianMs": 2611.1844170000113,
+        "minMs": 2593.3410829999775,
+        "maxMs": 2811.5353750000068
+      },
+      "previousPass": false,
+      "previousRepresentative": [
+        {
+          "quote": "ベルを押したが、音は聞こえなかった。",
+          "kind": "observation"
+        }
+      ],
+      "byteEqualToPrevious": false
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/performed-and-wish",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/performed-and-wish/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨日は旅程を調べた。",
+              "kind": "action"
+            },
+            {
+              "quote": "明日は宿を予約したい。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/performed-and-wish/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨日は旅程を調べた。",
+              "kind": "action"
+            },
+            {
+              "quote": "明日は宿を予約したい。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/performed-and-wish/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨日は旅程を調べた。",
+              "kind": "action"
+            },
+            {
+              "quote": "明日は宿を予約したい。",
+              "kind": "wish"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 9075.020749999996,
+        "medianMs": 2957.9649999999965,
+        "minMs": 2951.808250000002,
+        "maxMs": 3165.2474999999977
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "昨日は旅程を調べた",
+          "kind": "action"
+        },
+        {
+          "quote": "明日は宿を予約したい",
+          "kind": "wish"
+        }
+      ],
+      "byteEqualToPrevious": false
+    },
+    {
+      "series": "regression31",
+      "inputId": "prior21/short-action",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/prior21/short-action/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "切符を買った。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/short-action/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "切符を買った。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/prior21/short-action/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "切符を買った。",
+              "kind": "action"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 4530.353501000063,
+        "medianMs": 1448.835458000016,
+        "minMs": 1429.7907090000226,
+        "maxMs": 1651.7273340000247
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "切符を買った。",
+          "kind": "action"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "new10/reception-mixed",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/new10/reception-mixed/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "受付の人に声をかけた",
+              "kind": "action"
+            },
+            {
+              "quote": "返答は聞き取れなかった。",
+              "kind": "observation"
+            },
+            {
+              "quote": "迷惑だったのかもしれない。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/reception-mixed/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "受付の人に声をかけた",
+              "kind": "action"
+            },
+            {
+              "quote": "返答は聞き取れなかった。",
+              "kind": "observation"
+            },
+            {
+              "quote": "迷惑だったのかもしれない。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/reception-mixed/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "受付の人に声をかけた",
+              "kind": "action"
+            },
+            {
+              "quote": "返答は聞き取れなかった。",
+              "kind": "observation"
+            },
+            {
+              "quote": "迷惑だったのかもしれない。",
+              "kind": "inference"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 13053.554709000018,
+        "medianMs": 4199.419209000014,
+        "minMs": 4196.8550410000025,
+        "maxMs": 4657.280459000001
+      },
+      "previousPass": false,
+      "previousRepresentative": [
+        {
+          "quote": "受付の人に声をかけたが、返答は聞き取れなかった。",
+          "kind": "observation"
+        },
+        {
+          "quote": "迷惑だったのかもしれない。",
+          "kind": "inference"
+        }
+      ],
+      "byteEqualToPrevious": false
+    },
+    {
+      "series": "regression31",
+      "inputId": "new10/reflection-action",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/new10/reflection-action/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨夜、面談での発言を三十分ほど振り返った。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/reflection-action/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨夜、面談での発言を三十分ほど振り返った。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/reflection-action/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨夜、面談での発言を三十分ほど振り返った。",
+              "kind": "action"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 7738.002207999991,
+        "medianMs": 2516.1111669999955,
+        "minMs": 2498.841665999993,
+        "maxMs": 2723.0493750000023
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "昨夜、面談での発言を三十分ほど振り返った。",
+          "kind": "action"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "new10/switch-mixed",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/new10/switch-mixed/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "スイッチを入れた",
+              "kind": "action"
+            },
+            {
+              "quote": "ランプは点灯しなかった。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/switch-mixed/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "スイッチを入れた",
+              "kind": "action"
+            },
+            {
+              "quote": "ランプは点灯しなかった。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/switch-mixed/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "スイッチを入れた",
+              "kind": "action"
+            },
+            {
+              "quote": "ランプは点灯しなかった。",
+              "kind": "observation"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 8543.728459999984,
+        "medianMs": 2791.426916999975,
+        "minMs": 2762.793834000011,
+        "maxMs": 2989.5077089999977
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "スイッチを入れた",
+          "kind": "action"
+        },
+        {
+          "quote": "ランプは点灯しなかった",
+          "kind": "observation"
+        }
+      ],
+      "byteEqualToPrevious": false
+    },
+    {
+      "series": "regression31",
+      "inputId": "new10/wish-scope",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/new10/wish-scope/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "資料を読み直して、質問を整理したい。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/wish-scope/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "資料を読み直して、質問を整理したい。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/wish-scope/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "資料を読み直して、質問を整理したい。",
+              "kind": "wish"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 6370.233625999972,
+        "medianMs": 2059.4684169999964,
+        "minMs": 2049.4814590000024,
+        "maxMs": 2261.283749999973
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "資料を読み直して、質問を整理したい。",
+          "kind": "wish"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "new10/plan",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/new10/plan/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "明日の昼、資料を読み直す予定だ。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/plan/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "明日の昼、資料を読み直す予定だ。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/plan/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "明日の昼、資料を読み直す予定だ。",
+              "kind": "wish"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 6665.477667999978,
+        "medianMs": 2154.4296669999894,
+        "minMs": 2139.577833999996,
+        "maxMs": 2371.470166999992
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "明日の昼、資料を読み直す予定だ。",
+          "kind": "wish"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "new10/nonperformance",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/new10/nonperformance/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨夜は面談での発言を振り返らなかった。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/nonperformance/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨夜は面談での発言を振り返らなかった。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/nonperformance/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨夜は面談での発言を振り返らなかった。",
+              "kind": "observation"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 7214.551917000004,
+        "medianMs": 2327.2624589999905,
+        "minMs": 2325.3406670000113,
+        "maxMs": 2561.9487910000025
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "昨夜は面談での発言を振り返らなかった。",
+          "kind": "observation"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "new10/inference-scope",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/new10/inference-scope/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "担当者が資料を読んで修正したのかもしれない。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/inference-scope/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "担当者が資料を読んで修正したのかもしれない。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/inference-scope/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "担当者が資料を読んで修正したのかもしれない。",
+              "kind": "inference"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 6147.394916999998,
+        "medianMs": 1997.1691249999858,
+        "minMs": 1963.9923750000016,
+        "maxMs": 2186.2334170000104
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "担当者が資料を読んで修正したのかもしれない",
+          "kind": "inference"
+        }
+      ],
+      "byteEqualToPrevious": false
+    },
+    {
+      "series": "regression31",
+      "inputId": "new10/negated-inference",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/new10/negated-inference/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "担当者が資料を読んで修正したとは思わない。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/negated-inference/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "担当者が資料を読んで修正したとは思わない。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/negated-inference/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "担当者が資料を読んで修正したとは思わない。",
+              "kind": "inference"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 6397.162374999985,
+        "medianMs": 2066.191999999981,
+        "minMs": 2058.530832999997,
+        "maxMs": 2272.4395420000073
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "担当者が資料を読んで修正したとは思わない。",
+          "kind": "inference"
+        }
+      ],
+      "byteEqualToPrevious": true
+    },
+    {
+      "series": "regression31",
+      "inputId": "new10/performed-and-wish",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/new10/performed-and-wish/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨夜は資料を読み直した。",
+              "kind": "action"
+            },
+            {
+              "quote": "明日は質問を整理したい。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/performed-and-wish/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨夜は資料を読み直した。",
+              "kind": "action"
+            },
+            {
+              "quote": "明日は質問を整理したい。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/performed-and-wish/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨夜は資料を読み直した。",
+              "kind": "action"
+            },
+            {
+              "quote": "明日は質問を整理したい。",
+              "kind": "wish"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 9607.966208999977,
+        "medianMs": 3133.156166999979,
+        "minMs": 3128.848667000013,
+        "maxMs": 3345.9613749999844
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "昨夜は資料を読み直した",
+          "kind": "action"
+        },
+        {
+          "quote": "明日は質問を整理したい",
+          "kind": "wish"
+        }
+      ],
+      "byteEqualToPrevious": false
+    },
+    {
+      "series": "regression31",
+      "inputId": "new10/self-evaluation",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "regression31/withExamples/new10/self-evaluation/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "自分は説明が苦手だと思った。",
+              "kind": "selfEvaluation"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/self-evaluation/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "自分は説明が苦手だと思った。",
+              "kind": "selfEvaluation"
+            }
+          ]
+        },
+        {
+          "id": "regression31/withExamples/new10/self-evaluation/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "自分は説明が苦手だと思った。",
+              "kind": "selfEvaluation"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 6389.297541999986,
+        "medianMs": 2066.0912089999765,
+        "minMs": 2056.465583000012,
+        "maxMs": 2266.740749999997
+      },
+      "previousPass": true,
+      "previousRepresentative": [
+        {
+          "quote": "自分は説明が苦手だと思った",
+          "kind": "selfEvaluation"
+        }
+      ],
+      "byteEqualToPrevious": false
+    },
+    {
+      "series": "new12",
+      "inputId": "mixed-state",
+      "variant": "withoutExamples",
+      "runs": [
+        {
+          "id": "new12/withoutExamples/mixed-state/1",
+          "run": 1,
+          "status": "problem",
+          "reason": "実行済み身体行動と知覚・状態を一括observationとし、行動の分類と独立記述の分離を失う。原文情報自体は保持。",
+          "output": [
+            {
+              "quote": "鍋を火から下ろしたものの、焦げたにおいは残っていた。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/mixed-state/2",
+          "run": 2,
+          "status": "problem",
+          "reason": "実行済み身体行動と知覚・状態を一括observationとし、行動の分類と独立記述の分離を失う。原文情報自体は保持。",
+          "output": [
+            {
+              "quote": "鍋を火から下ろしたものの、焦げたにおいは残っていた。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/mixed-state/3",
+          "run": 3,
+          "status": "problem",
+          "reason": "実行済み身体行動と知覚・状態を一括observationとし、行動の分類と独立記述の分離を失う。原文情報自体は保持。",
+          "output": [
+            {
+              "quote": "鍋を火から下ろしたものの、焦げたにおいは残っていた。",
+              "kind": "observation"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 8232.236040999996,
+        "medianMs": 2588.6076659999962,
+        "minMs": 2582.9146670000046,
+        "maxMs": 3060.7137079999957
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "mixed-state",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "new12/withExamples/mixed-state/1",
+          "run": 1,
+          "status": "problem",
+          "reason": "実行済み身体行動と知覚・状態を一括observationとし、行動の分類と独立記述の分離を失う。原文情報自体は保持。",
+          "output": [
+            {
+              "quote": "鍋を火から下ろしたものの、焦げたにおいは残っていた。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/mixed-state/2",
+          "run": 2,
+          "status": "problem",
+          "reason": "実行済み身体行動と知覚・状態を一括observationとし、行動の分類と独立記述の分離を失う。原文情報自体は保持。",
+          "output": [
+            {
+              "quote": "鍋を火から下ろしたものの、焦げたにおいは残っていた。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/mixed-state/3",
+          "run": 3,
+          "status": "problem",
+          "reason": "実行済み身体行動と知覚・状態を一括observationとし、行動の分類と独立記述の分離を失う。原文情報自体は保持。",
+          "output": [
+            {
+              "quote": "鍋を火から下ろしたものの、焦げたにおいは残っていた。",
+              "kind": "observation"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 9943.186459999997,
+        "medianMs": 2641.410542000027,
+        "minMs": 2593.5400839999784,
+        "maxMs": 4708.235833999992
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "event-before-action",
+      "variant": "withoutExamples",
+      "runs": [
+        {
+          "id": "new12/withoutExamples/event-before-action/1",
+          "run": 1,
+          "status": "problem",
+          "reason": "先行する警告表示の出来事と本人の保存行動を一括actionとし、出来事のobservation分類と分離を失う。因果接続があっても固定期待値では独立記述を分ける。",
+          "output": [
+            {
+              "quote": "画面に警告が表示されたので、編集中の文書を保存した。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/event-before-action/2",
+          "run": 2,
+          "status": "problem",
+          "reason": "先行する警告表示の出来事と本人の保存行動を一括actionとし、出来事のobservation分類と分離を失う。因果接続があっても固定期待値では独立記述を分ける。",
+          "output": [
+            {
+              "quote": "画面に警告が表示されたので、編集中の文書を保存した。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/event-before-action/3",
+          "run": 3,
+          "status": "problem",
+          "reason": "先行する警告表示の出来事と本人の保存行動を一括actionとし、出来事のobservation分類と分離を失う。因果接続があっても固定期待値では独立記述を分ける。",
+          "output": [
+            {
+              "quote": "画面に警告が表示されたので、編集中の文書を保存した。",
+              "kind": "action"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 7984.945831999998,
+        "medianMs": 2519.4198329999927,
+        "minMs": 2500.9487910000025,
+        "maxMs": 2964.5772080000024
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "event-before-action",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "new12/withExamples/event-before-action/1",
+          "run": 1,
+          "status": "problem",
+          "reason": "先行する警告表示の出来事と本人の保存行動を一括actionとし、出来事のobservation分類と分離を失う。因果接続があっても固定期待値では独立記述を分ける。",
+          "output": [
+            {
+              "quote": "画面に警告が表示されたので、編集中の文書を保存した。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/event-before-action/2",
+          "run": 2,
+          "status": "problem",
+          "reason": "先行する警告表示の出来事と本人の保存行動を一括actionとし、出来事のobservation分類と分離を失う。因果接続があっても固定期待値では独立記述を分ける。",
+          "output": [
+            {
+              "quote": "画面に警告が表示されたので、編集中の文書を保存した。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/event-before-action/3",
+          "run": 3,
+          "status": "problem",
+          "reason": "先行する警告表示の出来事と本人の保存行動を一括actionとし、出来事のobservation分類と分離を失う。因果接続があっても固定期待値では独立記述を分ける。",
+          "output": [
+            {
+              "quote": "画面に警告が表示されたので、編集中の文書を保存した。",
+              "kind": "action"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 9685.357833000046,
+        "medianMs": 2519.6081670000276,
+        "minMs": 2506.8959160000086,
+        "maxMs": 4658.853750000009
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "deliberate-comparison",
+      "variant": "withoutExamples",
+      "runs": [
+        {
+          "id": "new12/withoutExamples/deliberate-comparison/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "帰宅後、二つの通勤経路の利点と欠点を頭の中で比べた。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/deliberate-comparison/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "帰宅後、二つの通勤経路の利点と欠点を頭の中で比べた。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/deliberate-comparison/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "帰宅後、二つの通勤経路の利点と欠点を頭の中で比べた。",
+              "kind": "action"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 9610.35629200004,
+        "medianMs": 3055.2972500000033,
+        "minMs": 3045.3620420000516,
+        "maxMs": 3509.6969999999856
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "deliberate-comparison",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "new12/withExamples/deliberate-comparison/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "帰宅後、二つの通勤経路の利点と欠点を頭の中で比べた。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/deliberate-comparison/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "帰宅後、二つの通勤経路の利点と欠点を頭の中で比べた。",
+              "kind": "action"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/deliberate-comparison/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "帰宅後、二つの通勤経路の利点と欠点を頭の中で比べた。",
+              "kind": "action"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 11335.21749999997,
+        "medianMs": 3063.3374159999657,
+        "minMs": 3055.618333999999,
+        "maxMs": 5216.261750000005
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "involuntary-recollection",
+      "variant": "withoutExamples",
+      "runs": [
+        {
+          "id": "new12/withoutExamples/involuntary-recollection/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "朝から、昨日の失言が繰り返し頭に浮かんだ。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/involuntary-recollection/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "朝から、昨日の失言が繰り返し頭に浮かんだ。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/involuntary-recollection/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "朝から、昨日の失言が繰り返し頭に浮かんだ。",
+              "kind": "observation"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 8549.034833999933,
+        "medianMs": 2699.95862499997,
+        "minMs": 2693.9950839999947,
+        "maxMs": 3155.081124999968
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "involuntary-recollection",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "new12/withExamples/involuntary-recollection/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "朝から、昨日の失言が繰り返し頭に浮かんだ。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/involuntary-recollection/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "朝から、昨日の失言が繰り返し頭に浮かんだ。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/involuntary-recollection/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "朝から、昨日の失言が繰り返し頭に浮かんだ。",
+              "kind": "observation"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 10342.102708999999,
+        "medianMs": 2738.964166999969,
+        "minMs": 2710.440292000014,
+        "maxMs": 4892.698250000016
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "multi-clause-wish",
+      "variant": "withoutExamples",
+      "runs": [
+        {
+          "id": "new12/withoutExamples/multi-clause-wish/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "休日には、古い写真を年代別に並べ、家族に渡すアルバムを作りたい",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/multi-clause-wish/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "休日には、古い写真を年代別に並べ、家族に渡すアルバムを作りたい",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/multi-clause-wish/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "休日には、古い写真を年代別に並べ、家族に渡すアルバムを作りたい",
+              "kind": "wish"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 9367.477207999968,
+        "medianMs": 2976.765625,
+        "minMs": 2956.7812079999712,
+        "maxMs": 3433.9303749999963
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "multi-clause-wish",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "new12/withExamples/multi-clause-wish/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "休日には、古い写真を年代別に並べ、家族に渡すアルバムを作りたい。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/multi-clause-wish/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "休日には、古い写真を年代別に並べ、家族に渡すアルバムを作りたい。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/multi-clause-wish/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "休日には、古い写真を年代別に並べ、家族に渡すアルバムを作りたい。",
+              "kind": "wish"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 11402.022416000022,
+        "medianMs": 3067.019666999986,
+        "minMs": 3064.2542910000193,
+        "maxMs": 5270.748458000016
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "completed-and-wish",
+      "variant": "withoutExamples",
+      "runs": [
+        {
+          "id": "new12/withoutExamples/completed-and-wish/1",
+          "run": 1,
+          "status": "problem",
+          "reason": "提出済み行動をobservationと誤分類し、複数節にかかる希望を分断。前半のwish引用だけでは希望表現まで保持できない。",
+          "output": [
+            {
+              "quote": "申込書はもう提出した",
+              "kind": "observation"
+            },
+            {
+              "quote": "面談までに経歴を整理して",
+              "kind": "wish"
+            },
+            {
+              "quote": "話す順序を決めたい",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/completed-and-wish/2",
+          "run": 2,
+          "status": "problem",
+          "reason": "提出済み行動をobservationと誤分類し、複数節にかかる希望を分断。前半のwish引用だけでは希望表現まで保持できない。",
+          "output": [
+            {
+              "quote": "申込書はもう提出した",
+              "kind": "observation"
+            },
+            {
+              "quote": "面談までに経歴を整理して",
+              "kind": "wish"
+            },
+            {
+              "quote": "話す順序を決めたい",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/completed-and-wish/3",
+          "run": 3,
+          "status": "problem",
+          "reason": "提出済み行動をobservationと誤分類し、複数節にかかる希望を分断。前半のwish引用だけでは希望表現まで保持できない。",
+          "output": [
+            {
+              "quote": "申込書はもう提出した",
+              "kind": "observation"
+            },
+            {
+              "quote": "面談までに経歴を整理して",
+              "kind": "wish"
+            },
+            {
+              "quote": "話す順序を決めたい",
+              "kind": "wish"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 13948.92749999999,
+        "medianMs": 4502.933124999981,
+        "minMs": 4482.933332999994,
+        "maxMs": 4963.061042000016
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "completed-and-wish",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "new12/withExamples/completed-and-wish/1",
+          "run": 1,
+          "status": "problem",
+          "reason": "希望の範囲は一つのwishに改善したが、提出済み行動のobservation誤分類は残る。入力全体としては未合格。",
+          "output": [
+            {
+              "quote": "申込書はもう提出した",
+              "kind": "observation"
+            },
+            {
+              "quote": "面談までに経歴を整理して、話す順序を決めたい",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/completed-and-wish/2",
+          "run": 2,
+          "status": "problem",
+          "reason": "希望の範囲は一つのwishに改善したが、提出済み行動のobservation誤分類は残る。入力全体としては未合格。",
+          "output": [
+            {
+              "quote": "申込書はもう提出した",
+              "kind": "observation"
+            },
+            {
+              "quote": "面談までに経歴を整理して、話す順序を決めたい",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/completed-and-wish/3",
+          "run": 3,
+          "status": "problem",
+          "reason": "希望の範囲は一つのwishに改善したが、提出済み行動のobservation誤分類は残る。入力全体としては未合格。",
+          "output": [
+            {
+              "quote": "申込書はもう提出した",
+              "kind": "observation"
+            },
+            {
+              "quote": "面談までに経歴を整理して、話す順序を決めたい",
+              "kind": "wish"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 14127.664374999993,
+        "medianMs": 3967.6596250000293,
+        "minMs": 3962.399374999979,
+        "maxMs": 6197.605374999985
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "multi-clause-intention",
+      "variant": "withoutExamples",
+      "runs": [
+        {
+          "id": "new12/withoutExamples/multi-clause-intention/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "来週からは、夕食後にスマートフォンを別室に置いて読書するつもりだ",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/multi-clause-intention/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "来週からは、夕食後にスマートフォンを別室に置いて読書するつもりだ",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/multi-clause-intention/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "来週からは、夕食後にスマートフォンを別室に置いて読書するつもりだ",
+              "kind": "wish"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 9119.46862400003,
+        "medianMs": 2875.707041000016,
+        "minMs": 2875.147042000026,
+        "maxMs": 3368.614540999988
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "multi-clause-intention",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "new12/withExamples/multi-clause-intention/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "来週からは、夕食後にスマートフォンを別室に置いて読書するつもりだ。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/multi-clause-intention/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "来週からは、夕食後にスマートフォンを別室に置いて読書するつもりだ。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/multi-clause-intention/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "来週からは、夕食後にスマートフォンを別室に置いて読書するつもりだ。",
+              "kind": "wish"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 11166.871499,
+        "medianMs": 2985.158415999962,
+        "minMs": 2975.706583000021,
+        "maxMs": 5206.006500000018
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "nonperformance-and-state",
+      "variant": "withoutExamples",
+      "runs": [
+        {
+          "id": "new12/withoutExamples/nonperformance-and-state/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "今日は運動をしなかった",
+              "kind": "observation"
+            },
+            {
+              "quote": "膝の痛みは続いている",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/nonperformance-and-state/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "今日は運動をしなかった",
+              "kind": "observation"
+            },
+            {
+              "quote": "膝の痛みは続いている",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/nonperformance-and-state/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "今日は運動をしなかった",
+              "kind": "observation"
+            },
+            {
+              "quote": "膝の痛みは続いている",
+              "kind": "observation"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 8310.563291999977,
+        "medianMs": 2614.2212500000023,
+        "minMs": 2597.8492079999996,
+        "maxMs": 3098.492833999975
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "nonperformance-and-state",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "new12/withExamples/nonperformance-and-state/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "今日は運動をしなかった。",
+              "kind": "observation"
+            },
+            {
+              "quote": "膝の痛みは続いている。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/nonperformance-and-state/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "今日は運動をしなかった。",
+              "kind": "observation"
+            },
+            {
+              "quote": "膝の痛みは続いている。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/nonperformance-and-state/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "今日は運動をしなかった。",
+              "kind": "observation"
+            },
+            {
+              "quote": "膝の痛みは続いている。",
+              "kind": "observation"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 10605.419209000014,
+        "medianMs": 2863.0715840000194,
+        "minMs": 2839.4457500000135,
+        "maxMs": 4902.901874999981
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "inferred-own-action",
+      "variant": "withoutExamples",
+      "runs": [
+        {
+          "id": "new12/withoutExamples/inferred-own-action/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨夜、返却箱に本を入れたはずだ。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/inferred-own-action/2",
+          "run": 2,
+          "status": "problem",
+          "reason": "はずだによる推測表現を引用に残しているが、inferenceではなくobservationと誤分類。1回目のみ期待どおり。",
+          "output": [
+            {
+              "quote": "昨夜、返却箱に本を入れたはずだ。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/inferred-own-action/3",
+          "run": 3,
+          "status": "problem",
+          "reason": "はずだによる推測表現を引用に残しているが、inferenceではなくobservationと誤分類。1回目のみ期待どおり。",
+          "output": [
+            {
+              "quote": "昨夜、返却箱に本を入れたはずだ。",
+              "kind": "observation"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": false,
+      "sameQuoteKindOrderAcross3": false,
+      "timing": {
+        "sumMs": 7157.646581999958,
+        "medianMs": 2197.292000000016,
+        "minMs": 2184.3815409999806,
+        "maxMs": 2775.973040999961
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "inferred-own-action",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "new12/withExamples/inferred-own-action/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨夜、返却箱に本を入れたはずだ。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/inferred-own-action/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨夜、返却箱に本を入れたはずだ。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/inferred-own-action/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "昨夜、返却箱に本を入れたはずだ。",
+              "kind": "inference"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 8756.129208000028,
+        "medianMs": 2273.862625000009,
+        "minMs": 2258.3640000000014,
+        "maxMs": 4223.902583000017
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "negated-inference",
+      "variant": "withoutExamples",
+      "runs": [
+        {
+          "id": "new12/withoutExamples/negated-inference/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "担当者がこちらの説明を誤解したとは考えていない。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/negated-inference/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "担当者がこちらの説明を誤解したとは考えていない。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/negated-inference/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "担当者がこちらの説明を誤解したとは考えていない。",
+              "kind": "inference"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 7816.688250000065,
+        "medianMs": 2449.904542000033,
+        "minMs": 2442.9267080000136,
+        "maxMs": 2923.857000000018
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "negated-inference",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "new12/withExamples/negated-inference/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "担当者がこちらの説明を誤解したとは考えていない。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/negated-inference/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "担当者がこちらの説明を誤解したとは考えていない。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/negated-inference/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "担当者がこちらの説明を誤解したとは考えていない。",
+              "kind": "inference"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 9568.658917000052,
+        "medianMs": 2447.08162500005,
+        "minMs": 2442.098500000022,
+        "maxMs": 4679.47879199998
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "self-evaluative-thought",
+      "variant": "withoutExamples",
+      "runs": [
+        {
+          "id": "new12/withoutExamples/self-evaluative-thought/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "自分は予定を詰め込みすぎる癖があると思った",
+              "kind": "selfEvaluation"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/self-evaluative-thought/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "自分は予定を詰め込みすぎる癖があると思った",
+              "kind": "selfEvaluation"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/self-evaluative-thought/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "自分は予定を詰め込みすぎる癖があると思った",
+              "kind": "selfEvaluation"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 7302.282583000022,
+        "medianMs": 2278.9754170000087,
+        "minMs": 2267.244040999969,
+        "maxMs": 2756.0631250000442
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "self-evaluative-thought",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "new12/withExamples/self-evaluative-thought/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "自分は予定を詰め込みすぎる癖があると思った。",
+              "kind": "selfEvaluation"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/self-evaluative-thought/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "自分は予定を詰め込みすぎる癖があると思った。",
+              "kind": "selfEvaluation"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/self-evaluative-thought/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "自分は予定を詰め込みすぎる癖があると思った。",
+              "kind": "selfEvaluation"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 9306.902334000042,
+        "medianMs": 2361.5680840000277,
+        "minMs": 2361.066208000004,
+        "maxMs": 4584.268042000011
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "evaluation-and-wish",
+      "variant": "withoutExamples",
+      "runs": [
+        {
+          "id": "new12/withoutExamples/evaluation-and-wish/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "手順を守った点は自分でもよかったと思う",
+              "kind": "selfEvaluation"
+            },
+            {
+              "quote": "次は途中で休憩を入れたい",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/evaluation-and-wish/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "手順を守った点は自分でもよかったと思う",
+              "kind": "selfEvaluation"
+            },
+            {
+              "quote": "次は途中で休憩を入れたい",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "new12/withoutExamples/evaluation-and-wish/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "手順を守った点は自分でもよかったと思う",
+              "kind": "selfEvaluation"
+            },
+            {
+              "quote": "次は途中で休憩を入れたい",
+              "kind": "wish"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 11055.13425100001,
+        "medianMs": 3625.166833999974,
+        "minMs": 3486.67425000004,
+        "maxMs": 3943.293166999996
+      }
+    },
+    {
+      "series": "new12",
+      "inputId": "evaluation-and-wish",
+      "variant": "withExamples",
+      "runs": [
+        {
+          "id": "new12/withExamples/evaluation-and-wish/1",
+          "run": 1,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "手順を守った点は自分でもよかったと思う",
+              "kind": "selfEvaluation"
+            },
+            {
+              "quote": "次は途中で休憩を入れたい",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/evaluation-and-wish/2",
+          "run": 2,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "手順を守った点は自分でもよかったと思う",
+              "kind": "selfEvaluation"
+            },
+            {
+              "quote": "次は途中で休憩を入れたい",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "id": "new12/withExamples/evaluation-and-wish/3",
+          "run": 3,
+          "status": "pass",
+          "reason": "固定期待値（旧12ログは既存設計基準）の分類・分割・意味範囲・情報を保持。句点・末尾接続表現などの許容差のみ。",
+          "output": [
+            {
+              "quote": "手順を守った点は自分でもよかったと思う",
+              "kind": "selfEvaluation"
+            },
+            {
+              "quote": "次は途中で休憩を入れたい",
+              "kind": "wish"
+            }
+          ]
+        }
+      ],
+      "sameModelContentAcross3": true,
+      "sameQuoteKindOrderAcross3": true,
+      "timing": {
+        "sumMs": 13201.300876000023,
+        "medianMs": 3664.313291999977,
+        "minMs": 3654.88629200001,
+        "maxMs": 5882.101292000036
+      }
+    }
+  ],
+  "seriesSummary": [
+    {
+      "series": "regression31",
+      "variant": "withExamples",
+      "distinctInputs": 31,
+      "trials": 93,
+      "machineSuccess": 93,
+      "contentPassTrials": 93,
+      "contentProblemTrials": 0,
+      "contentHeldTrials": 0,
+      "allThreePassInputs": 31,
+      "timing": {
+        "sumMs": 218722.06675899995,
+        "medianMs": 2104.1708750000034,
+        "minMs": 1429.7907090000226,
+        "maxMs": 13743.958
+      }
+    },
+    {
+      "series": "new12",
+      "variant": "withoutExamples",
+      "distinctInputs": 12,
+      "trials": 36,
+      "machineSuccess": 36,
+      "contentPassTrials": 25,
+      "contentProblemTrials": 11,
+      "contentHeldTrials": 0,
+      "allThreePassInputs": 8,
+      "timing": {
+        "sumMs": 108454.76128899999,
+        "medianMs": 2899.782020500017,
+        "minMs": 2184.3815409999806,
+        "maxMs": 4963.061042000016
+      }
+    },
+    {
+      "series": "new12",
+      "variant": "withExamples",
+      "distinctInputs": 12,
+      "trials": 36,
+      "machineSuccess": 36,
+      "contentPassTrials": 27,
+      "contentProblemTrials": 9,
+      "contentHeldTrials": 0,
+      "allThreePassInputs": 9,
+      "timing": {
+        "sumMs": 129440.83333600019,
+        "medianMs": 3063.7958534999925,
+        "minMs": 2258.3640000000014,
+        "maxMs": 6197.605374999985
+      }
+    }
+  ],
+  "timingAll165": {
+    "sumMs": 456617.6613840001,
+    "medianMs": 2498.841665999993,
+    "minMs": 1429.7907090000226,
+    "maxMs": 13743.958
+  },
+  "timingExcludingFirst": {
+    "sumMs": 442873.7033840001,
+    "medianMs": 2478.5166664999924,
+    "minMs": 1429.7907090000226,
+    "maxMs": 6197.605374999985
+  },
+  "new12Comparisons": [
+    {
+      "inputId": "mixed-state",
+      "comparison": "maintained",
+      "passBefore": false,
+      "passAfter": false,
+      "detail": "Input-level pass/fail unchanged.",
+      "modelContentByteEqual": true
+    },
+    {
+      "inputId": "event-before-action",
+      "comparison": "maintained",
+      "passBefore": false,
+      "passAfter": false,
+      "detail": "Input-level pass/fail unchanged.",
+      "modelContentByteEqual": true
+    },
+    {
+      "inputId": "deliberate-comparison",
+      "comparison": "maintained",
+      "passBefore": true,
+      "passAfter": true,
+      "detail": "Input-level pass/fail unchanged.",
+      "modelContentByteEqual": true
+    },
+    {
+      "inputId": "involuntary-recollection",
+      "comparison": "maintained",
+      "passBefore": true,
+      "passAfter": true,
+      "detail": "Input-level pass/fail unchanged.",
+      "modelContentByteEqual": true
+    },
+    {
+      "inputId": "multi-clause-wish",
+      "comparison": "maintained",
+      "passBefore": true,
+      "passAfter": true,
+      "detail": "Input-level pass/fail unchanged.",
+      "modelContentByteEqual": false
+    },
+    {
+      "inputId": "completed-and-wish",
+      "comparison": "partiallyImproved",
+      "passBefore": false,
+      "passAfter": false,
+      "detail": "Wish scope restored; completed action remains observation. Both variants still fail the whole-input criteria.",
+      "modelContentByteEqual": false
+    },
+    {
+      "inputId": "multi-clause-intention",
+      "comparison": "maintained",
+      "passBefore": true,
+      "passAfter": true,
+      "detail": "Input-level pass/fail unchanged.",
+      "modelContentByteEqual": false
+    },
+    {
+      "inputId": "nonperformance-and-state",
+      "comparison": "maintained",
+      "passBefore": true,
+      "passAfter": true,
+      "detail": "Input-level pass/fail unchanged.",
+      "modelContentByteEqual": false
+    },
+    {
+      "inputId": "inferred-own-action",
+      "comparison": "improved",
+      "passBefore": false,
+      "passAfter": true,
+      "detail": "All-three-pass criterion improved from 1/3 passing trials to 3/3; the whole-input result changed from fail to pass.",
+      "modelContentByteEqual": false
+    },
+    {
+      "inputId": "negated-inference",
+      "comparison": "maintained",
+      "passBefore": true,
+      "passAfter": true,
+      "detail": "Input-level pass/fail unchanged.",
+      "modelContentByteEqual": true
+    },
+    {
+      "inputId": "self-evaluative-thought",
+      "comparison": "maintained",
+      "passBefore": true,
+      "passAfter": true,
+      "detail": "Input-level pass/fail unchanged.",
+      "modelContentByteEqual": false
+    },
+    {
+      "inputId": "evaluation-and-wish",
+      "comparison": "maintained",
+      "passBefore": true,
+      "passAfter": true,
+      "detail": "Input-level pass/fail unchanged.",
+      "modelContentByteEqual": true
+    }
+  ],
+  "all55GroupsSameModelContentAcross3": false,
+  "all55GroupsSameQuoteKindOrderAcross3": false,
+  "heldInputs": [],
+  "regressionImprovedInputs": 4,
+  "regressionRegressedInputs": 0,
+  "regressionMaintainedInputs": 27
+}

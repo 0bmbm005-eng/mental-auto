@@ -1,0 +1,17 @@
+{
+  "attemptsBeforeInference": [
+    {
+      "result": "sandbox EPERM on local API; no inference"
+    },
+    {
+      "result": "api/show strict equality rejected parameter display ordering only; no inference"
+    }
+  ],
+  "normalization": "Compare sorted parameter lines and all other api/show fields unchanged; model digest, values, template and server version must match. No model setting modified.",
+  "externalBuildCommand": "./node_modules/.bin/tsc -p tsconfig.json --outDir /private/tmp/mental-auto-decision-eval-20261103/build",
+  "recording": "Request template stored once in protocol.json; combine system message and JSON.stringify({content: input.content}) to reconstruct each request. trials.jsonl stores actual request hash, raw HTTP response and validated evidence once per trial.",
+  "reproduction": "Set EVAL_BUILD to an external build directory and EVAL_OUT to a new empty output directory; run run.mjs from repository root. After inspecting first-trial-check.json and first saved trial, create EVAL_OUT/continue. Original baseline records must remain accessible.",
+  "newInputs": "Design-reviewed, not unseen holdout; no generalization claim.",
+  "memoryRetention": "Raw vm_stat and swap output retained; ps output reduced to Ollama-related process lines after capture to omit unrelated process inventory. Sampling interval about 1 second; initial verification gate included.",
+  "sourceArchive": "source-snapshot.tar.gz preserves original source bytes including existing trailing spaces; source/build hashes in protocol.json."
+}

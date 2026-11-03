@@ -1,0 +1,1132 @@
+{
+  "assessment": "Codex provisional semantic review, not human-confirmed; machine validation is separate. Existing12 uses established design criteria, not new expected arrays. Additional9 and new10 use fixed expectations.",
+  "series": {
+    "prior21": {
+      "distinctInputs": 21,
+      "trials": 63,
+      "machineSuccess": 63,
+      "machineFailure": 0,
+      "provisionalContentPassTrials": 54,
+      "provisionalContentProblemTrials": 9,
+      "provisionalContentProblemInputs": 3,
+      "timing": {
+        "sumMs": 140043.92641999995,
+        "medianMs": 1961.2955000000075,
+        "minMs": 1430.315625000003,
+        "maxMs": 16437.828042
+      }
+    },
+    "new10": {
+      "distinctInputs": 10,
+      "trials": 30,
+      "machineSuccess": 30,
+      "machineFailure": 0,
+      "provisionalContentPassTrials": 27,
+      "provisionalContentProblemTrials": 3,
+      "provisionalContentProblemInputs": 1,
+      "timing": {
+        "sumMs": 75382.34962499997,
+        "medianMs": 2317.926583499997,
+        "minMs": 1873.8160420000204,
+        "maxMs": 4237.97445899999
+      }
+    }
+  },
+  "distinctImproved": 0,
+  "distinctRegressed": 0,
+  "distinctMaintained": 21,
+  "all31GroupsByteIdenticalAcross3": true,
+  "timing93": {
+    "sumMs": 215426.27604499992,
+    "medianMs": 2091.3466669999907,
+    "minMs": 1430.315625000003,
+    "maxMs": 16437.828042
+  },
+  "timingWithoutFirst": {
+    "sumMs": 198988.4480029999,
+    "medianMs": 2086.187041499994,
+    "minMs": 1430.315625000003,
+    "maxMs": 4237.97445899999
+  },
+  "memory": {
+    "sampleCount": 227,
+    "swapParsedSamples": 227,
+    "maxSwapUsedMiB": 0.0,
+    "maxRunnerRss": {
+      "time": "2026-11-03T10:10:56.764Z",
+      "rssKiB": 14326880,
+      "command": "/Applications/Ollama.app/Contents/Resources/llama-server"
+    },
+    "maxOllamaProcessRss": {
+      "time": "2026-11-03T10:10:56.764Z",
+      "rssKiB": 14326880,
+      "command": "/Applications/Ollama.app/Contents/Resources/llama-server"
+    },
+    "samplingErrors": 0
+  },
+  "groups": [
+    {
+      "series": "prior21",
+      "inputId": "A-2026-10-01",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": false,
+      "reason": "挨拶の実行済み行動と返事の不知覚を一括observation。行動分類と分離を失う。推測・否定は保持。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "同僚に挨拶したが、返事は聞こえなかった。",
+          "kind": "observation"
+        },
+        {
+          "quote": "嫌われた気がする。",
+          "kind": "inference"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "同僚に挨拶したが、返事は聞こえなかった。",
+          "kind": "observation"
+        },
+        {
+          "quote": "嫌われた気がする。",
+          "kind": "inference"
+        }
+      ],
+      "trialIds": [
+        "prior21/A-2026-10-01-1",
+        "prior21/A-2026-10-01-2",
+        "prior21/A-2026-10-01-3"
+      ],
+      "timing": {
+        "sumMs": 23853.315875000004,
+        "medianMs": 3712.829708000001,
+        "minMs": 3702.6581250000017,
+        "maxMs": 16437.828042
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "A-2026-10-02",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "同僚から挨拶された。",
+          "kind": "observation"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "同僚から挨拶された。",
+          "kind": "observation"
+        }
+      ],
+      "trialIds": [
+        "prior21/A-2026-10-02-1",
+        "prior21/A-2026-10-02-2",
+        "prior21/A-2026-10-02-3"
+      ],
+      "timing": {
+        "sumMs": 5154.119333000002,
+        "medianMs": 1675.576000000001,
+        "minMs": 1624.8815830000021,
+        "maxMs": 1853.6617499999993
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "A-2026-10-03",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "自分は会話が下手だと思った",
+          "kind": "selfEvaluation"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "自分は会話が下手だと思った",
+          "kind": "selfEvaluation"
+        }
+      ],
+      "trialIds": [
+        "prior21/A-2026-10-03-1",
+        "prior21/A-2026-10-03-2",
+        "prior21/A-2026-10-03-3"
+      ],
+      "timing": {
+        "sumMs": 5823.214832999998,
+        "medianMs": 1878.5134169999947,
+        "minMs": 1826.5207910000026,
+        "maxMs": 2118.180625000001
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "B-2026-10-01",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "夕方に散歩した。",
+          "kind": "action"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "夕方に散歩した。",
+          "kind": "action"
+        }
+      ],
+      "trialIds": [
+        "prior21/B-2026-10-01-1",
+        "prior21/B-2026-10-01-2",
+        "prior21/B-2026-10-01-3"
+      ],
+      "timing": {
+        "sumMs": 4830.707749999994,
+        "medianMs": 1544.9570000000022,
+        "minMs": 1525.1152079999956,
+        "maxMs": 1760.6355419999963
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "B-2026-10-02",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "夕方に散歩した。",
+          "kind": "action"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "夕方に散歩した。",
+          "kind": "action"
+        }
+      ],
+      "trialIds": [
+        "prior21/B-2026-10-02-1",
+        "prior21/B-2026-10-02-2",
+        "prior21/B-2026-10-02-3"
+      ],
+      "timing": {
+        "sumMs": 4797.752,
+        "medianMs": 1537.884791999997,
+        "minMs": 1522.2115419999973,
+        "maxMs": 1737.655666000006
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "B-2026-10-03",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "本を読んだ。",
+          "kind": "action"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "本を読んだ。",
+          "kind": "action"
+        }
+      ],
+      "trialIds": [
+        "prior21/B-2026-10-03-1",
+        "prior21/B-2026-10-03-2",
+        "prior21/B-2026-10-03-3"
+      ],
+      "timing": {
+        "sumMs": 4524.307582999994,
+        "medianMs": 1436.0511249999981,
+        "minMs": 1433.7588329999999,
+        "maxMs": 1654.4976249999963
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "C-2026-10-01",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "昼にパンを食べた。",
+          "kind": "action"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "昼にパンを食べた。",
+          "kind": "action"
+        }
+      ],
+      "trialIds": [
+        "prior21/C-2026-10-01-1",
+        "prior21/C-2026-10-01-2",
+        "prior21/C-2026-10-01-3"
+      ],
+      "timing": {
+        "sumMs": 4776.709833000001,
+        "medianMs": 1521.3931660000017,
+        "minMs": 1520.7365839999984,
+        "maxMs": 1734.5800830000007
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "C-2026-10-02",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "電車で移動した。",
+          "kind": "action"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "電車で移動した。",
+          "kind": "action"
+        }
+      ],
+      "trialIds": [
+        "prior21/C-2026-10-02-1",
+        "prior21/C-2026-10-02-2",
+        "prior21/C-2026-10-02-3"
+      ],
+      "timing": {
+        "sumMs": 5038.438251000007,
+        "medianMs": 1613.7381670000032,
+        "minMs": 1607.5344170000026,
+        "maxMs": 1817.1656670000011
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "C-2026-10-03",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "本を借りた。",
+          "kind": "action"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "本を借りた。",
+          "kind": "action"
+        }
+      ],
+      "trialIds": [
+        "prior21/C-2026-10-03-1",
+        "prior21/C-2026-10-03-2",
+        "prior21/C-2026-10-03-3"
+      ],
+      "timing": {
+        "sumMs": 4549.53712600001,
+        "medianMs": 1478.4698340000032,
+        "minMs": 1430.315625000003,
+        "maxMs": 1640.751667000004
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "D-2026-10-01",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": false,
+      "reason": "対象・程度・述語の範囲は保持するが、実行済み思考行動をobservationと誤分類。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "会議の一言を何度も思い返した。",
+          "kind": "observation"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "会議の一言を何度も思い返した。",
+          "kind": "observation"
+        }
+      ],
+      "trialIds": [
+        "prior21/D-2026-10-01-1",
+        "prior21/D-2026-10-01-2",
+        "prior21/D-2026-10-01-3"
+      ],
+      "timing": {
+        "sumMs": 5857.560958999995,
+        "medianMs": 1885.8817920000001,
+        "minMs": 1880.332500000004,
+        "maxMs": 2091.3466669999907
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "D-2026-10-02",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "失敗の理由を夜遅くまで考えた。",
+          "kind": "action"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "失敗の理由を夜遅くまで考えた。",
+          "kind": "action"
+        }
+      ],
+      "trialIds": [
+        "prior21/D-2026-10-02-1",
+        "prior21/D-2026-10-02-2",
+        "prior21/D-2026-10-02-3"
+      ],
+      "timing": {
+        "sumMs": 6679.610291999998,
+        "medianMs": 2178.3693750000093,
+        "minMs": 2150.844916999995,
+        "maxMs": 2350.3959999999934
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "D-2026-10-03",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "原因を全部洗い出して、納得するまで考えたい。",
+          "kind": "wish"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "原因を全部洗い出して、納得するまで考えたい。",
+          "kind": "wish"
+        }
+      ],
+      "trialIds": [
+        "prior21/D-2026-10-03-1",
+        "prior21/D-2026-10-03-2",
+        "prior21/D-2026-10-03-3"
+      ],
+      "timing": {
+        "sumMs": 6925.643250999987,
+        "medianMs": 2248.620458999998,
+        "minMs": 2229.569791999995,
+        "maxMs": 2447.452999999994
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "thought-action",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "昨夜、旅程を一時間かけて調べた。",
+          "kind": "action"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "昨夜、旅程を一時間かけて調べた。",
+          "kind": "action"
+        }
+      ],
+      "trialIds": [
+        "prior21/thought-action-1",
+        "prior21/thought-action-2",
+        "prior21/thought-action-3"
+      ],
+      "timing": {
+        "sumMs": 6124.517749999999,
+        "medianMs": 1981.6274580000027,
+        "minMs": 1961.2955000000075,
+        "maxMs": 2181.594791999989
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "wish-scope",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "旅程を調べて、宿を予約したい。",
+          "kind": "wish"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "旅程を調べて、宿を予約したい。",
+          "kind": "wish"
+        }
+      ],
+      "trialIds": [
+        "prior21/wish-scope-1",
+        "prior21/wish-scope-2",
+        "prior21/wish-scope-3"
+      ],
+      "timing": {
+        "sumMs": 6120.804000000004,
+        "medianMs": 1976.3677920000046,
+        "minMs": 1966.969041999997,
+        "maxMs": 2177.467166000002
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "plan",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "明日の朝、旅程を調べる予定だ。",
+          "kind": "wish"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "明日の朝、旅程を調べる予定だ。",
+          "kind": "wish"
+        }
+      ],
+      "trialIds": [
+        "prior21/plan-1",
+        "prior21/plan-2",
+        "prior21/plan-3"
+      ],
+      "timing": {
+        "sumMs": 6400.679458000013,
+        "medianMs": 2060.761333000002,
+        "minMs": 2050.007625000013,
+        "maxMs": 2289.910499999998
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "nonperformance",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "昨日は旅程を調べなかった。",
+          "kind": "observation"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "昨日は旅程を調べなかった。",
+          "kind": "observation"
+        }
+      ],
+      "trialIds": [
+        "prior21/nonperformance-1",
+        "prior21/nonperformance-2",
+        "prior21/nonperformance-3"
+      ],
+      "timing": {
+        "sumMs": 5053.238209000003,
+        "medianMs": 1616.5017910000024,
+        "minMs": 1610.8915840000118,
+        "maxMs": 1825.8448339999886
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "inference-scope",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "同僚は荷物を届けて帰ったのかもしれない",
+          "kind": "inference"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "同僚は荷物を届けて帰ったのかもしれない。",
+          "kind": "inference"
+        }
+      ],
+      "trialIds": [
+        "prior21/inference-scope-1",
+        "prior21/inference-scope-2",
+        "prior21/inference-scope-3"
+      ],
+      "timing": {
+        "sumMs": 6654.5941670000175,
+        "medianMs": 2156.6295830000017,
+        "minMs": 2145.4973340000142,
+        "maxMs": 2352.4672500000015
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "negated-inference",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "同僚が荷物を届けて帰ったとは思わない。",
+          "kind": "inference"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "同僚が荷物を届けて帰ったとは思わない。",
+          "kind": "inference"
+        }
+      ],
+      "trialIds": [
+        "prior21/negated-inference-1",
+        "prior21/negated-inference-2",
+        "prior21/negated-inference-3"
+      ],
+      "timing": {
+        "sumMs": 7181.278498999993,
+        "medianMs": 2326.239499999996,
+        "minMs": 2317.4974159999983,
+        "maxMs": 2537.5415829999984
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "mixed-statements",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": false,
+      "reason": "ベル操作と音の不知覚を一括observation。行動分類と分離を失う。否定は保持。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "ベルを押したが、音は聞こえなかった。",
+          "kind": "observation"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "ベルを押したが、音は聞こえなかった。",
+          "kind": "observation"
+        }
+      ],
+      "trialIds": [
+        "prior21/mixed-statements-1",
+        "prior21/mixed-statements-2",
+        "prior21/mixed-statements-3"
+      ],
+      "timing": {
+        "sumMs": 6651.626291999972,
+        "medianMs": 2150.4616249999963,
+        "minMs": 2146.748499999987,
+        "maxMs": 2354.4161669999885
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "performed-and-wish",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "昨日は旅程を調べた",
+          "kind": "action"
+        },
+        {
+          "quote": "明日は宿を予約したい",
+          "kind": "wish"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "昨日は旅程を調べた",
+          "kind": "action"
+        },
+        {
+          "quote": "明日は宿を予約したい",
+          "kind": "wish"
+        }
+      ],
+      "trialIds": [
+        "prior21/performed-and-wish-1",
+        "prior21/performed-and-wish-2",
+        "prior21/performed-and-wish-3"
+      ],
+      "timing": {
+        "sumMs": 8513.81470799999,
+        "medianMs": 2772.078165999992,
+        "minMs": 2770.696041999996,
+        "maxMs": 2971.040500000003
+      }
+    },
+    {
+      "series": "prior21",
+      "inputId": "short-action",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": "maintained",
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "切符を買った。",
+          "kind": "action"
+        }
+      ],
+      "priorRepresentative": [
+        {
+          "quote": "切符を買った。",
+          "kind": "action"
+        }
+      ],
+      "trialIds": [
+        "prior21/short-action-1",
+        "prior21/short-action-2",
+        "prior21/short-action-3"
+      ],
+      "timing": {
+        "sumMs": 4532.456250999967,
+        "medianMs": 1451.5230839999858,
+        "minMs": 1433.005999999994,
+        "maxMs": 1647.927166999987
+      }
+    },
+    {
+      "series": "new10",
+      "inputId": "reception-mixed",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": false,
+      "reason": "声かけの実行済み行動と返答の不知覚を一括observation。推測・否定と原文情報は保持。",
+      "comparisonToPrior14b": null,
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "受付の人に声をかけたが、返答は聞き取れなかった。",
+          "kind": "observation"
+        },
+        {
+          "quote": "迷惑だったのかもしれない。",
+          "kind": "inference"
+        }
+      ],
+      "priorRepresentative": null,
+      "trialIds": [
+        "new10/reception-mixed-1",
+        "new10/reception-mixed-2",
+        "new10/reception-mixed-3"
+      ],
+      "timing": {
+        "sumMs": 11746.276208999974,
+        "medianMs": 3758.128333999979,
+        "minMs": 3750.173416000005,
+        "maxMs": 4237.97445899999
+      }
+    },
+    {
+      "series": "new10",
+      "inputId": "reflection-action",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": null,
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "昨夜、面談での発言を三十分ほど振り返った。",
+          "kind": "action"
+        }
+      ],
+      "priorRepresentative": null,
+      "trialIds": [
+        "new10/reflection-action-1",
+        "new10/reflection-action-2",
+        "new10/reflection-action-3"
+      ],
+      "timing": {
+        "sumMs": 7726.733082999999,
+        "medianMs": 2511.972833000007,
+        "minMs": 2497.491041000001,
+        "maxMs": 2717.269208999991
+      }
+    },
+    {
+      "series": "new10",
+      "inputId": "switch-mixed",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": null,
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "スイッチを入れた",
+          "kind": "action"
+        },
+        {
+          "quote": "ランプは点灯しなかった",
+          "kind": "observation"
+        }
+      ],
+      "priorRepresentative": null,
+      "trialIds": [
+        "new10/switch-mixed-1",
+        "new10/switch-mixed-2",
+        "new10/switch-mixed-3"
+      ],
+      "timing": {
+        "sumMs": 8263.665123999992,
+        "medianMs": 2695.026582999999,
+        "minMs": 2683.5073749999865,
+        "maxMs": 2885.1311660000065
+      }
+    },
+    {
+      "series": "new10",
+      "inputId": "wish-scope",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": null,
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "資料を読み直して、質問を整理したい。",
+          "kind": "wish"
+        }
+      ],
+      "priorRepresentative": null,
+      "trialIds": [
+        "new10/wish-scope-1",
+        "new10/wish-scope-2",
+        "new10/wish-scope-3"
+      ],
+      "timing": {
+        "sumMs": 6389.620875000022,
+        "medianMs": 2056.1411670000234,
+        "minMs": 2055.7820000000065,
+        "maxMs": 2277.6977079999924
+      }
+    },
+    {
+      "series": "new10",
+      "inputId": "plan",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": null,
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "明日の昼、資料を読み直す予定だ。",
+          "kind": "wish"
+        }
+      ],
+      "priorRepresentative": null,
+      "trialIds": [
+        "new10/plan-1",
+        "new10/plan-2",
+        "new10/plan-3"
+      ],
+      "timing": {
+        "sumMs": 6644.032376000017,
+        "medianMs": 2147.678209000005,
+        "minMs": 2140.5696250000037,
+        "maxMs": 2355.7845420000085
+      }
+    },
+    {
+      "series": "new10",
+      "inputId": "nonperformance",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": null,
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "昨夜は面談での発言を振り返らなかった。",
+          "kind": "observation"
+        }
+      ],
+      "priorRepresentative": null,
+      "trialIds": [
+        "new10/nonperformance-1",
+        "new10/nonperformance-2",
+        "new10/nonperformance-3"
+      ],
+      "timing": {
+        "sumMs": 7173.828083999979,
+        "medianMs": 2323.1304170000076,
+        "minMs": 2312.7227499999863,
+        "maxMs": 2537.974916999985
+      }
+    },
+    {
+      "series": "new10",
+      "inputId": "inference-scope",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": null,
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "担当者が資料を読んで修正したのかもしれない",
+          "kind": "inference"
+        }
+      ],
+      "priorRepresentative": null,
+      "trialIds": [
+        "new10/inference-scope-1",
+        "new10/inference-scope-2",
+        "new10/inference-scope-3"
+      ],
+      "timing": {
+        "sumMs": 5835.467375000007,
+        "medianMs": 1880.62391699999,
+        "minMs": 1873.8160420000204,
+        "maxMs": 2081.027415999997
+      }
+    },
+    {
+      "series": "new10",
+      "inputId": "negated-inference",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": null,
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "担当者が資料を読んで修正したとは思わない。",
+          "kind": "inference"
+        }
+      ],
+      "priorRepresentative": null,
+      "trialIds": [
+        "new10/negated-inference-1",
+        "new10/negated-inference-2",
+        "new10/negated-inference-3"
+      ],
+      "timing": {
+        "sumMs": 6393.539290999994,
+        "medianMs": 2062.622249999986,
+        "minMs": 2053.832208000007,
+        "maxMs": 2277.084833000001
+      }
+    },
+    {
+      "series": "new10",
+      "inputId": "performed-and-wish",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": null,
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "昨夜は資料を読み直した",
+          "kind": "action"
+        },
+        {
+          "quote": "明日は質問を整理したい",
+          "kind": "wish"
+        }
+      ],
+      "priorRepresentative": null,
+      "trialIds": [
+        "new10/performed-and-wish-1",
+        "new10/performed-and-wish-2",
+        "new10/performed-and-wish-3"
+      ],
+      "timing": {
+        "sumMs": 9048.931291999994,
+        "medianMs": 2950.2727920000034,
+        "minMs": 2946.319374999992,
+        "maxMs": 3152.3391249999986
+      }
+    },
+    {
+      "series": "new10",
+      "inputId": "self-evaluation",
+      "distinctInputs": 1,
+      "trials": 3,
+      "machineSuccess": 3,
+      "provisionalContentPass": true,
+      "reason": "分類・作用範囲・独立記述の分割・対象・時間・程度・述語を保持。句点の除外は意味範囲を損なわない場合に許容。",
+      "comparisonToPrior14b": null,
+      "modelContentByteIdenticalAcross3": true,
+      "quoteKindOrderIdenticalAcross3": true,
+      "representative": [
+        {
+          "quote": "自分は説明が苦手だと思った",
+          "kind": "selfEvaluation"
+        }
+      ],
+      "priorRepresentative": null,
+      "trialIds": [
+        "new10/self-evaluation-1",
+        "new10/self-evaluation-2",
+        "new10/self-evaluation-3"
+      ],
+      "timing": {
+        "sumMs": 6160.255915999995,
+        "medianMs": 2007.9302080000052,
+        "minMs": 1972.1536659999983,
+        "maxMs": 2180.172041999991
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "trials": 93,
+  "distinctInputs": 31,
+  "requestReconstruction": true,
+  "responseHashes": true,
+  "outerAndInnerJson": true,
+  "providerEvidenceRevalidated": true,
+  "inputHashes": true,
+  "uniqueSeriesAndTrialIds": true,
+  "exactlyThreeRunsPerInput": true
+}

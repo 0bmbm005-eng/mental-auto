@@ -1,0 +1,12 @@
+{
+  "trials": 165,
+  "distinctInputs": 43,
+  "inputVariantGroups": 55,
+  "machineSuccess": 165,
+  "machineFailure": 0,
+  "orderedJobsMatch": true,
+  "requestHashes": true,
+  "responseHashes": true,
+  "frozenExpectations": true,
+  "differenceOnlyThreeExamples": true
+}
