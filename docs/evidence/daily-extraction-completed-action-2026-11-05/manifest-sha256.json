@@ -1,0 +1,12 @@
+{
+  "build/index.js": "837dea765e3c7b63ecfcafe305aedb5a33431f998a2e188b6db6fabd8ea19b27",
+  "build/package.json": "1239d4d885dcad42201a27ed9324f8f0f760b78700d8db9ced39a511cffe7eae",
+  "build/safe-share.js": "995b30444f9bf8efccb96187ad27087e6e0265325a619cc63f4624f383d862ac",
+  "final-environment.json": "1c963fbc16bb7cb5fb6e7a389c152ec6d82eee2f23e8d7c6c0471c29d57cf6c5",
+  "protocol.json": "5ea30baa2691249c06fea26ceb58dd8e0915b98f3b62a5d6f422a5b3c74a6ced",
+  "run.mjs": "f694bc7d90726de8e27468e0ad0d33fb0f3a0ad52e5b7c11ad49636303b9abe1",
+  "source-index.ts.txt": "7f07a5a6d5999851cc4eb3ce9d77e354a5e7d09591b7e2fc768f616e3319b2c0",
+  "trials.jsonl": "aa59db08ea86d9d1b049f17b5483418e052fa5c1c2dbf8855cf9e1d2dd0ee6db",
+  "verification.json": "eaa105d414e8e94ca6df47bb5b082c82d37e9fd6a4428b925780772e28cb6bce",
+  "verify.mjs": "8f830a130371d7c07f6ba67c0dc43d101712ba9d97d9fc114340ecf73a6936b0"
+}

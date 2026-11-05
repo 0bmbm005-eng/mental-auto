@@ -222,12 +222,15 @@ describe("Ollama daily extraction", () => {
     }
   });
 
-  it("keeps the three proposed examples and frozen evaluation configuration without model evaluation", async () => {
+  it("adds only the completed-action clarification to the frozen prompt without model evaluation", async () => {
     const frozen = JSON.parse(await readFile(
       new URL("../docs/evidence/daily-extraction-three-examples-2026-11-03/frozen.json", import.meta.url), "utf8",
     ));
     const request = buildOllamaDailyExtractionRequest(log, frozen.model);
-    expect(request.messages[0].content).toBe(frozen.systemPrompt);
+    const clarification = "本人が実行した行動は、完了していてもactionです。完了した行動の報告を現在の状態としてobservationにせず、独立した後続の希望とは分けてください。希望・推測・否定の作用範囲内はこの扱いにしないでください。";
+    expect(request.messages[0].content).toBe(frozen.systemPrompt.replace(
+      "以下は分類と引用単位の例です。", `${clarification}\n以下は分類と引用単位の例です。`,
+    ));
     expect(request.format).toEqual(frozen.schema);
     expect({ stream: request.stream, think: request.think, options: request.options })
       .toEqual(frozen.generationSettings);

@@ -1,0 +1,360 @@
+{
+  "trials": 24,
+  "machineSuccess": 24,
+  "machineFailure": 0,
+  "groups": [
+    {
+      "inputId": "completed-and-wish",
+      "variant": "baseline",
+      "machinePass": 3,
+      "semanticPass": 0,
+      "runs": [
+        {
+          "run": 1,
+          "semanticPass": false,
+          "actual": [
+            {
+              "quote": "申込書はもう提出した",
+              "kind": "observation"
+            },
+            {
+              "quote": "面談までに経歴を整理して、話す順序を決めたい",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "semanticPass": false,
+          "actual": [
+            {
+              "quote": "申込書はもう提出した",
+              "kind": "observation"
+            },
+            {
+              "quote": "面談までに経歴を整理して、話す順序を決めたい",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "semanticPass": false,
+          "actual": [
+            {
+              "quote": "申込書はもう提出した",
+              "kind": "observation"
+            },
+            {
+              "quote": "面談までに経歴を整理して、話す順序を決めたい",
+              "kind": "wish"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "inputId": "completed-and-wish",
+      "variant": "revised",
+      "machinePass": 3,
+      "semanticPass": 3,
+      "runs": [
+        {
+          "run": 1,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "申込書はもう提出した",
+              "kind": "action"
+            },
+            {
+              "quote": "面談までに経歴を整理して、話す順序を決めたい",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "申込書はもう提出した",
+              "kind": "action"
+            },
+            {
+              "quote": "面談までに経歴を整理して、話す順序を決めたい",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "申込書はもう提出した",
+              "kind": "action"
+            },
+            {
+              "quote": "面談までに経歴を整理して、話す順序を決めたい",
+              "kind": "wish"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "inputId": "multi-clause-wish",
+      "variant": "baseline",
+      "machinePass": 3,
+      "semanticPass": 3,
+      "runs": [
+        {
+          "run": 1,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "休日には、古い写真を年代別に並べ、家族に渡すアルバムを作りたい。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "休日には、古い写真を年代別に並べ、家族に渡すアルバムを作りたい。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "休日には、古い写真を年代別に並べ、家族に渡すアルバムを作りたい。",
+              "kind": "wish"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "inputId": "multi-clause-wish",
+      "variant": "revised",
+      "machinePass": 3,
+      "semanticPass": 3,
+      "runs": [
+        {
+          "run": 1,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "休日には、古い写真を年代別に並べ、家族に渡すアルバムを作りたい。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "休日には、古い写真を年代別に並べ、家族に渡すアルバムを作りたい。",
+              "kind": "wish"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "休日には、古い写真を年代別に並べ、家族に渡すアルバムを作りたい。",
+              "kind": "wish"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "inputId": "nonperformance-and-state",
+      "variant": "baseline",
+      "machinePass": 3,
+      "semanticPass": 3,
+      "runs": [
+        {
+          "run": 1,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "今日は運動をしなかった。",
+              "kind": "observation"
+            },
+            {
+              "quote": "膝の痛みは続いている。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "今日は運動をしなかった。",
+              "kind": "observation"
+            },
+            {
+              "quote": "膝の痛みは続いている。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "今日は運動をしなかった。",
+              "kind": "observation"
+            },
+            {
+              "quote": "膝の痛みは続いている。",
+              "kind": "observation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "inputId": "nonperformance-and-state",
+      "variant": "revised",
+      "machinePass": 3,
+      "semanticPass": 3,
+      "runs": [
+        {
+          "run": 1,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "今日は運動をしなかった。",
+              "kind": "observation"
+            },
+            {
+              "quote": "膝の痛みは続いている。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "今日は運動をしなかった。",
+              "kind": "observation"
+            },
+            {
+              "quote": "膝の痛みは続いている。",
+              "kind": "observation"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "今日は運動をしなかった。",
+              "kind": "observation"
+            },
+            {
+              "quote": "膝の痛みは続いている。",
+              "kind": "observation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "inputId": "inferred-own-action",
+      "variant": "baseline",
+      "machinePass": 3,
+      "semanticPass": 3,
+      "runs": [
+        {
+          "run": 1,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "昨夜、返却箱に本を入れたはずだ。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "昨夜、返却箱に本を入れたはずだ。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "昨夜、返却箱に本を入れたはずだ。",
+              "kind": "inference"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "inputId": "inferred-own-action",
+      "variant": "revised",
+      "machinePass": 3,
+      "semanticPass": 3,
+      "runs": [
+        {
+          "run": 1,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "昨夜、返却箱に本を入れたはずだ。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "昨夜、返却箱に本を入れたはずだ。",
+              "kind": "inference"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "semanticPass": true,
+          "actual": [
+            {
+              "quote": "昨夜、返却箱に本を入れたはずだ。",
+              "kind": "inference"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "semanticNote": "Fixed expected quote/kind/order with only pre-existing punctuation/connective tolerance; Codex provisional semantic review, not proof of generalization."
+}
