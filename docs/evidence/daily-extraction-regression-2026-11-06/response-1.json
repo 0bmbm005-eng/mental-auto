@@ -1,0 +1,1 @@
+{"model":"qwen3:14b-q4_K_M","created_at":"2026-11-06T10:14:17.19956Z","message":{"role":"assistant","content":"[{\"quote\":\"切符を買った。\",\"kind\":\"action\"}]"},"done":true,"done_reason":"stop","total_duration":16071301666,"load_duration":6053916666,"prompt_eval_count":1017,"prompt_eval_cached_count":0,"prompt_eval_duration":8652593000,"eval_count":16,"eval_duration":1341872000}

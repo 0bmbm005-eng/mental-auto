@@ -1,0 +1,79 @@
+{
+  "calls": 4,
+  "results": [
+    {
+      "inputId": "prior21/short-action",
+      "content": "切符を買った。",
+      "calls": 1,
+      "httpStatus": 200,
+      "machinePass": true,
+      "semanticPass": true,
+      "classification": "維持",
+      "validated": [
+        {
+          "id": "2026-11-02:1",
+          "date": "2026-11-02",
+          "quote": "切符を買った。",
+          "kind": "action"
+        }
+      ]
+    },
+    {
+      "inputId": "prior21/nonperformance",
+      "content": "昨日は旅程を調べなかった。",
+      "calls": 1,
+      "httpStatus": 200,
+      "machinePass": true,
+      "semanticPass": true,
+      "classification": "維持",
+      "validated": [
+        {
+          "id": "2026-11-02:1",
+          "date": "2026-11-02",
+          "quote": "昨日は旅程を調べなかった。",
+          "kind": "observation"
+        }
+      ]
+    },
+    {
+      "inputId": "prior21/mixed-statements",
+      "content": "ベルを押したが、音は聞こえなかった。",
+      "calls": 1,
+      "httpStatus": 200,
+      "machinePass": true,
+      "semanticPass": true,
+      "classification": "維持",
+      "validated": [
+        {
+          "id": "2026-11-02:1",
+          "date": "2026-11-02",
+          "quote": "ベルを押した",
+          "kind": "action"
+        },
+        {
+          "id": "2026-11-02:2",
+          "date": "2026-11-02",
+          "quote": "音は聞こえなかった。",
+          "kind": "observation"
+        }
+      ]
+    },
+    {
+      "inputId": "new10/self-evaluation",
+      "content": "自分は説明が苦手だと思った。",
+      "calls": 1,
+      "httpStatus": 200,
+      "machinePass": true,
+      "semanticPass": true,
+      "classification": "維持",
+      "validated": [
+        {
+          "id": "2026-11-03:1",
+          "date": "2026-11-03",
+          "quote": "自分は説明が苦手だと思った。",
+          "kind": "selfEvaluation"
+        }
+      ]
+    }
+  ]
+}

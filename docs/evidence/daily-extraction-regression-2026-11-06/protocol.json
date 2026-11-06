@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "derivedFromSanitizedSource": true,
+  "sourceProtocolSha256": "505107e0a14a196eb3a9bfb6b9aad5965d1c72d4d87ce9f5c219d2a9192aa802",
+  "removedFields": [
+    "environment.show.modelfile: local absolute path",
+    "unused environment.tags entries"
+  ],
+  "derivationNote": "Only verification-relevant fields retained; complete environment.show and environment.tags omitted.",
+  "model": "qwen3:14b-q4_K_M",
+  "think": false,
+  "temperature": 0,
+  "stream": false,
+  "executionCount": 4,
+  "runsPerInput": 1,
+  "ollamaVersion": "0.40.14",
+  "baselineOllamaVersion": "0.40.13",
+  "datePolicy": "Dates and IDs are assigned and checked locally; the model returns quote and kind only.",
+  "baselineVariant": "withExamples",
+  "excluded": [
+    "completed-and-wish",
+    "multi-clause-wish",
+    "nonperformance-and-state",
+    "inferred-own-action"
+  ],
+  "references": {
+    "baselineProtocol": "docs/evidence/daily-extraction-few-shot-eval-2026-11-03/protocol.json",
+    "baselineTrials": "docs/evidence/daily-extraction-few-shot-eval-2026-11-03/trials.jsonl",
+    "revisedProtocol": "docs/evidence/daily-extraction-completed-action-2026-11-05/protocol.json",
+    "validator": "docs/evidence/daily-extraction-completed-action-2026-11-05/build/index.js",
+    "validatorDependency": "docs/evidence/daily-extraction-completed-action-2026-11-05/build/safe-share.js"
+  },
+  "referenceSha256": {
+    "baselineProtocol": "ee6b2df36371bf28be5214581232a6880ada62e778caa33f0697cf701a2d55ad",
+    "baselineTrials": "4fd6f82bed17e59fbc33b45c2d5fca62b17f501ce9f2cd648f05365f1675b0e5",
+    "revisedProtocol": "5ea30baa2691249c06fea26ceb58dd8e0915b98f3b62a5d6f422a5b3c74a6ced",
+    "validator": "837dea765e3c7b63ecfcafe305aedb5a33431f998a2e188b6db6fabd8ea19b27",
+    "validatorDependency": "995b30444f9bf8efccb96187ad27087e6e0265325a619cc63f4624f383d862ac"
+  },
+  "inputs": [
+    {
+      "inputId": "prior21/short-action",
+      "date": "2026-11-02",
+      "content": "切符を買った。",
+      "sha256": "fba9fc5287c6f36d7f629afc0edba61d08440562f5e762df06c5936b1588b656",
+      "expected": [
+        {
+          "quote": "切符を買った。",
+          "kind": "action"
+        }
+      ],
+      "responseFile": "response-1.json",
+      "requestSha256": "552a0dc4d295e2933f39340ad660121c8b038a66f9a637b119284b606e8ed6fd"
+    },
+    {
+      "inputId": "prior21/nonperformance",
+      "date": "2026-11-02",
+      "content": "昨日は旅程を調べなかった。",
+      "sha256": "cbaaa87ebbf6be9d96ca165ed0c444974dba644b51e4386ad05dfb8feb1b47e9",
+      "expected": [
+        {
+          "quote": "昨日は旅程を調べなかった。",
+          "kind": "observation"
+        }
+      ],
+      "responseFile": "response-2.json",
+      "requestSha256": "f71b30cb62d3a5edceb3377f126a14530bbf4ff66b5c971c9a3ce9c250f76d64"
+    },
+    {
+      "inputId": "prior21/mixed-statements",
+      "date": "2026-11-02",
+      "content": "ベルを押したが、音は聞こえなかった。",
+      "sha256": "58e608d91958fe382f804b7d6879e543ae9508e0ae26b7bd559e20cbf0e9bb0c",
+      "expected": [
+        {
+          "quote": "ベルを押した",
+          "kind": "action"
+        },
+        {
+          "quote": "音は聞こえなかった。",
+          "kind": "observation"
+        }
+      ],
+      "responseFile": "response-3.json",
+      "requestSha256": "7ed93b5adf1c71f8d930a85f042431e3e19aeaef453b791127d1dbf0f55d0e9b"
+    },
+    {
+      "inputId": "new10/self-evaluation",
+      "date": "2026-11-03",
+      "content": "自分は説明が苦手だと思った。",
+      "sha256": "570da1ceebc58b0dd66eb55945f9caa7ea6b9f041e7f55ba4fc2bac60972228f",
+      "expected": [
+        {
+          "quote": "自分は説明が苦手だと思った。",
+          "kind": "selfEvaluation"
+        }
+      ],
+      "responseFile": "response-4.json",
+      "requestSha256": "801211d0464c50ef69ce231c5a06624b9848dc042a15ff9ed4b2759dae8d7ff8"
+    }
+  ]
+}
