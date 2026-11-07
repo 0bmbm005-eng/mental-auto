@@ -1,0 +1,93 @@
+[
+  {
+    "id": "mixed-state",
+    "current": {
+      "http200": 3,
+      "machinePass": 3,
+      "contentPass": 0
+    },
+    "candidate": {
+      "http200": 3,
+      "machinePass": 3,
+      "contentPass": 3
+    }
+  },
+  {
+    "id": "event-before-action",
+    "current": {
+      "http200": 3,
+      "machinePass": 3,
+      "contentPass": 0
+    },
+    "candidate": {
+      "http200": 3,
+      "machinePass": 3,
+      "contentPass": 3
+    }
+  },
+  {
+    "id": "mixed-statements",
+    "current": {
+      "http200": 3,
+      "machinePass": 3,
+      "contentPass": 3
+    },
+    "candidate": {
+      "http200": 3,
+      "machinePass": 3,
+      "contentPass": 3
+    }
+  },
+  {
+    "id": "multi-clause-wish",
+    "current": {
+      "http200": 3,
+      "machinePass": 3,
+      "contentPass": 3
+    },
+    "candidate": {
+      "http200": 3,
+      "machinePass": 3,
+      "contentPass": 3
+    }
+  },
+  {
+    "id": "nonperformance-and-state",
+    "current": {
+      "http200": 3,
+      "machinePass": 3,
+      "contentPass": 3
+    },
+    "candidate": {
+      "http200": 3,
+      "machinePass": 3,
+      "contentPass": 3
+    }
+  },
+  {
+    "id": "inferred-own-action",
+    "current": {
+      "http200": 3,
+      "machinePass": 3,
+      "contentPass": 3
+    },
+    "candidate": {
+      "http200": 3,
+      "machinePass": 3,
+      "contentPass": 3
+    }
+  },
+  {
+    "id": "completed-and-wish",
+    "current": {
+      "http200": 3,
+      "machinePass": 3,
+      "contentPass": 3
+    },
+    "candidate": {
+      "http200": 3,
+      "machinePass": 3,
+      "contentPass": 3
+    }
+  }
+]

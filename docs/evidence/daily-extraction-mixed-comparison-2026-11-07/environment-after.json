@@ -1,0 +1,14 @@
+{
+  "version": "0.40.15",
+  "model": "qwen3:14b-q4_K_M",
+  "digest": "bdbd181c33f2ed1b31c972991882db3cf4d192569092138a7d29e973cd9debe8",
+  "templateSha256": "ae370d884f108d16e7cc8fd5259ebc5773a0afa6e078b11f4ed7e39a27e0dfc4",
+  "defaultParameters": [
+    "repeat_penalty                 1",
+    "stop                           \"<|im_end|>\"",
+    "stop                           \"<|im_start|>\"",
+    "temperature                    0.6",
+    "top_k                          20",
+    "top_p                          0.95"
+  ]
+}

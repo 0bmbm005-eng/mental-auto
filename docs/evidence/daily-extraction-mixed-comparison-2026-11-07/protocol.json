@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "head": "0f0723ca9dea16e3f736f9e3ceef984638a57c65",
+  "branch": "main",
+  "endpoint": "http://127.0.0.1:11434/api/chat",
+  "fixedInputs": 7,
+  "runsPerVariant": 3,
+  "executionCount": 42,
+  "sanitize": false,
+  "generationSettings": {
+    "stream": false,
+    "think": false,
+    "options": {
+      "temperature": 0
+    }
+  },
+  "seedPolicy": "omitted",
+  "order": "input, paired repeat; alternate which variant runs first across input and repeat indices",
+  "references": {
+    "fixture": "docs/evidence/daily-extraction-few-shot-eval-2026-11-03/new12-expectations.json",
+    "scopeFixture": "test/fixtures/daily-extraction-scope-expectations.json",
+    "historicalProtocol": "docs/evidence/daily-extraction-few-shot-eval-2026-11-03/protocol.json",
+    "currentTemplate": "docs/evidence/daily-extraction-completed-action-2026-11-05/protocol.json",
+    "validator": "docs/evidence/daily-extraction-completed-action-2026-11-05/build/index.js",
+    "validatorDependency": "docs/evidence/daily-extraction-completed-action-2026-11-05/build/safe-share.js",
+    "baseline": "docs/evidence/daily-extraction-mixed-baseline-2026-11-07/protocol.json"
+  },
+  "referenceSha256": {
+    "fixture": "258112f9a8ffda656284110fc736932ae5a7d4b4b25ff00c3b7ce8eb4a013164",
+    "scopeFixture": "a5e329fcd8d7a0dba90e2632dbc9d9a4ae4d52af298e380c57bc45d7a4c04897",
+    "historicalProtocol": "ee6b2df36371bf28be5214581232a6880ada62e778caa33f0697cf701a2d55ad",
+    "currentTemplate": "5ea30baa2691249c06fea26ceb58dd8e0915b98f3b62a5d6f422a5b3c74a6ced",
+    "validator": "837dea765e3c7b63ecfcafe305aedb5a33431f998a2e188b6db6fabd8ea19b27",
+    "validatorDependency": "995b30444f9bf8efccb96187ad27087e6e0265325a619cc63f4624f383d862ac",
+    "baseline": "65d7bceb0844e017315d8dfd7a500c1eac8926efd517970ce2d8a003138ffce8"
+  }
+}
