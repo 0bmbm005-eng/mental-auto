@@ -1,0 +1,113 @@
+{
+  "calls": 6,
+  "results": [
+    {
+      "inputId": "mixed-state",
+      "run": 1,
+      "responseFile": "response-1.json",
+      "httpStatus": 200,
+      "machinePass": true,
+      "validated": [
+        {
+          "id": "2026-11-03:1",
+          "date": "2026-11-03",
+          "quote": "鍋を火から下ろしたものの、焦げたにおいは残っていた。",
+          "kind": "observation"
+        }
+      ],
+      "error": null,
+      "semanticPass": false,
+      "semanticReason": "independent-statements-merged"
+    },
+    {
+      "inputId": "mixed-state",
+      "run": 2,
+      "responseFile": "response-2.json",
+      "httpStatus": 200,
+      "machinePass": true,
+      "validated": [
+        {
+          "id": "2026-11-03:1",
+          "date": "2026-11-03",
+          "quote": "鍋を火から下ろしたものの、焦げたにおいは残っていた。",
+          "kind": "observation"
+        }
+      ],
+      "error": null,
+      "semanticPass": false,
+      "semanticReason": "independent-statements-merged"
+    },
+    {
+      "inputId": "mixed-state",
+      "run": 3,
+      "responseFile": "response-3.json",
+      "httpStatus": 200,
+      "machinePass": true,
+      "validated": [
+        {
+          "id": "2026-11-03:1",
+          "date": "2026-11-03",
+          "quote": "鍋を火から下ろしたものの、焦げたにおいは残っていた。",
+          "kind": "observation"
+        }
+      ],
+      "error": null,
+      "semanticPass": false,
+      "semanticReason": "independent-statements-merged"
+    },
+    {
+      "inputId": "event-before-action",
+      "run": 1,
+      "responseFile": "response-4.json",
+      "httpStatus": 200,
+      "machinePass": true,
+      "validated": [
+        {
+          "id": "2026-11-03:1",
+          "date": "2026-11-03",
+          "quote": "画面に警告が表示されたので、編集中の文書を保存した。",
+          "kind": "action"
+        }
+      ],
+      "error": null,
+      "semanticPass": false,
+      "semanticReason": "independent-statements-merged"
+    },
+    {
+      "inputId": "event-before-action",
+      "run": 2,
+      "responseFile": "response-5.json",
+      "httpStatus": 200,
+      "machinePass": true,
+      "validated": [
+        {
+          "id": "2026-11-03:1",
+          "date": "2026-11-03",
+          "quote": "画面に警告が表示されたので、編集中の文書を保存した。",
+          "kind": "action"
+        }
+      ],
+      "error": null,
+      "semanticPass": false,
+      "semanticReason": "independent-statements-merged"
+    },
+    {
+      "inputId": "event-before-action",
+      "run": 3,
+      "responseFile": "response-6.json",
+      "httpStatus": 200,
+      "machinePass": true,
+      "validated": [
+        {
+          "id": "2026-11-03:1",
+          "date": "2026-11-03",
+          "quote": "画面に警告が表示されたので、編集中の文書を保存した。",
+          "kind": "action"
+        }
+      ],
+      "error": null,
+      "semanticPass": false,
+      "semanticReason": "independent-statements-merged"
+    }
+  ]
+}
