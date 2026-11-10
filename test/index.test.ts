@@ -222,16 +222,24 @@ describe("Ollama daily extraction", () => {
     }
   });
 
-  it("adds only the extraction clarifications to the frozen prompt without model evaluation", async () => {
+  it("adds only the extraction clarifications and greenhouse example to the frozen prompt without model evaluation", async () => {
     const frozen = JSON.parse(await readFile(
       new URL("../docs/evidence/daily-extraction-three-examples-2026-11-03/frozen.json", import.meta.url), "utf8",
     ));
     const request = buildOllamaDailyExtractionRequest(log, frozen.model);
     const clarification = "本人が実行した行動は、完了していてもactionです。完了した行動の報告を現在の状態としてobservationにせず、独立した後続の希望とは分けてください。希望・推測・否定の作用範囲内はこの扱いにしないでください。";
     const mixedStatementClarification = "本人が実行した行動と、独立して記述された知覚・出来事・状態は、どちらが先でも、逆接や理由を表す接続でつながっていても、原文の順に別々に引用してください。ただし、希望・意図・予定・否定・推測が複数の節にかかる場合は、その作用範囲を保ってください。";
+    const greenhouse = {
+      content: "温室の扉に青い封印が貼られていたことから、正午の点検前に係員が扉を閉めたのかもしれない。",
+      expected: [
+        { quote: "温室の扉に青い封印が貼られていた", kind: "observation" },
+        { quote: "正午の点検前に係員が扉を閉めたのかもしれない。", kind: "inference" },
+      ],
+    };
     expect(request.messages[0].content).toBe(frozen.systemPrompt.replace(
       "以下は分類と引用単位の例です。", `${clarification}\n以下は分類と引用単位の例です。`,
-    ).replace("4. 引用範囲", `${mixedStatementClarification}\n4. 引用範囲`));
+    ).replace("4. 引用範囲", `${mixedStatementClarification}\n4. 引用範囲`) +
+      `\n例（観察を根拠にした推測）\n入力：${greenhouse.content}\n出力：${JSON.stringify(greenhouse.expected)}`);
     expect(request.format).toEqual(frozen.schema);
     expect({ stream: request.stream, think: request.think, options: request.options })
       .toEqual(frozen.generationSettings);
@@ -251,6 +259,7 @@ describe("Ollama daily extraction", () => {
       { content: "窓を開けて、部屋の空気を入れ替えたい。", expected: [
         { quote: "窓を開けて、部屋の空気を入れ替えたい。", kind: "wish" },
       ] },
+      greenhouse,
     ];
     for (const example of examples) {
       expect(request.messages[0].content).toContain(`入力：${example.content}\n出力：${JSON.stringify(example.expected)}`);

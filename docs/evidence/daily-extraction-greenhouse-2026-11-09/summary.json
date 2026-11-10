@@ -1,0 +1,425 @@
+{
+  "total": 66,
+  "grouped": [
+    {
+      "id": "recording-kotokara",
+      "suite": "recent",
+      "main": {
+        "separation": 0,
+        "temporal": 0,
+        "exact": 0,
+        "mechanical": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "録音の冒頭に私の口笛が入っていたことから、録音を始めた直後に私が口笛を吹いたのかもしれない。",
+              "kind": "inference"
+            }
+          ]
+        ]
+      },
+      "greenhouse": {
+        "separation": 3,
+        "temporal": 3,
+        "exact": 3,
+        "mechanical": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "録音の冒頭に私の口笛が入っていた",
+              "kind": "observation"
+            },
+            {
+              "quote": "録音を始めた直後に私が口笛を吹いたのかもしれない。",
+              "kind": "inference"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "id": "recording-node",
+      "suite": "recent",
+      "main": {
+        "separation": 0,
+        "temporal": 0,
+        "exact": 0,
+        "mechanical": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "録音の冒頭に私の口笛が入っていたので、録音を始めた直後に私が口笛を吹いたのかもしれない。",
+              "kind": "inference"
+            }
+          ]
+        ]
+      },
+      "greenhouse": {
+        "separation": 3,
+        "temporal": 3,
+        "exact": 3,
+        "mechanical": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "録音の冒頭に私の口笛が入っていた",
+              "kind": "observation"
+            },
+            {
+              "quote": "録音を始めた直後に私が口笛を吹いたのかもしれない。",
+              "kind": "inference"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "id": "garden-kotokara",
+      "suite": "recent",
+      "main": {
+        "separation": 0,
+        "temporal": 0,
+        "exact": 0,
+        "mechanical": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "今朝は花壇の支柱に私の名札が結び付けてあるのが見えたことから、昨夕にその支柱を立てたのは私だったのだろう。",
+              "kind": "inference"
+            }
+          ]
+        ]
+      },
+      "greenhouse": {
+        "separation": 3,
+        "temporal": 3,
+        "exact": 0,
+        "mechanical": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "今朝は花壇の支柱に私の名札が結び付けてあるのが見えた",
+              "kind": "observation"
+            },
+            {
+              "quote": "昨夕にその支柱を立てたのは私だったのだろう",
+              "kind": "inference"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "id": "glove-node",
+      "suite": "recent",
+      "main": {
+        "separation": 3,
+        "temporal": 3,
+        "exact": 0,
+        "mechanical": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "展示台の下に私の手袋が落ちていたので",
+              "kind": "observation"
+            },
+            {
+              "quote": "閉館の直前に私がそこを通ったのかもしれない",
+              "kind": "inference"
+            }
+          ]
+        ]
+      },
+      "greenhouse": {
+        "separation": 3,
+        "temporal": 3,
+        "exact": 3,
+        "mechanical": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "展示台の下に私の手袋が落ちていた",
+              "kind": "observation"
+            },
+            {
+              "quote": "閉館の直前に私がそこを通ったのかもしれない。",
+              "kind": "inference"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "id": "mixed-state",
+      "suite": "nov07",
+      "main": {
+        "contentPass": 3,
+        "mechanical": 3,
+        "exact": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "鍋を火から下ろした",
+              "kind": "action"
+            },
+            {
+              "quote": "焦げたにおいは残っていた。",
+              "kind": "observation"
+            }
+          ]
+        ]
+      },
+      "greenhouse": {
+        "contentPass": 3,
+        "mechanical": 3,
+        "exact": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "鍋を火から下ろした",
+              "kind": "action"
+            },
+            {
+              "quote": "焦げたにおいは残っていた。",
+              "kind": "observation"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "id": "event-before-action",
+      "suite": "nov07",
+      "main": {
+        "contentPass": 3,
+        "mechanical": 3,
+        "exact": 0,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "画面に警告が表示された",
+              "kind": "observation"
+            },
+            {
+              "quote": "編集中の文書を保存した",
+              "kind": "action"
+            }
+          ]
+        ]
+      },
+      "greenhouse": {
+        "contentPass": 3,
+        "mechanical": 3,
+        "exact": 0,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "画面に警告が表示された",
+              "kind": "observation"
+            },
+            {
+              "quote": "編集中の文書を保存した",
+              "kind": "action"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "id": "mixed-statements",
+      "suite": "nov07",
+      "main": {
+        "contentPass": 3,
+        "mechanical": 3,
+        "exact": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "ベルを押した",
+              "kind": "action"
+            },
+            {
+              "quote": "音は聞こえなかった。",
+              "kind": "observation"
+            }
+          ]
+        ]
+      },
+      "greenhouse": {
+        "contentPass": 3,
+        "mechanical": 3,
+        "exact": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "ベルを押した",
+              "kind": "action"
+            },
+            {
+              "quote": "音は聞こえなかった。",
+              "kind": "observation"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "id": "multi-clause-wish",
+      "suite": "nov07",
+      "main": {
+        "contentPass": 3,
+        "mechanical": 3,
+        "exact": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "休日には、古い写真を年代別に並べ、家族に渡すアルバムを作りたい。",
+              "kind": "wish"
+            }
+          ]
+        ]
+      },
+      "greenhouse": {
+        "contentPass": 3,
+        "mechanical": 3,
+        "exact": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "休日には、古い写真を年代別に並べ、家族に渡すアルバムを作りたい。",
+              "kind": "wish"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "id": "nonperformance-and-state",
+      "suite": "nov07",
+      "main": {
+        "contentPass": 3,
+        "mechanical": 3,
+        "exact": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "今日は運動をしなかった。",
+              "kind": "observation"
+            },
+            {
+              "quote": "膝の痛みは続いている。",
+              "kind": "observation"
+            }
+          ]
+        ]
+      },
+      "greenhouse": {
+        "contentPass": 3,
+        "mechanical": 3,
+        "exact": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "今日は運動をしなかった。",
+              "kind": "observation"
+            },
+            {
+              "quote": "膝の痛みは続いている。",
+              "kind": "observation"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "id": "inferred-own-action",
+      "suite": "nov07",
+      "main": {
+        "contentPass": 3,
+        "mechanical": 3,
+        "exact": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "昨夜、返却箱に本を入れたはずだ。",
+              "kind": "inference"
+            }
+          ]
+        ]
+      },
+      "greenhouse": {
+        "contentPass": 3,
+        "mechanical": 3,
+        "exact": 3,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "昨夜、返却箱に本を入れたはずだ。",
+              "kind": "inference"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "id": "completed-and-wish",
+      "suite": "nov07",
+      "main": {
+        "contentPass": 3,
+        "mechanical": 3,
+        "exact": 0,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "申込書はもう提出した",
+              "kind": "action"
+            },
+            {
+              "quote": "面談までに経歴を整理して、話す順序を決めたい",
+              "kind": "wish"
+            }
+          ]
+        ]
+      },
+      "greenhouse": {
+        "contentPass": 3,
+        "mechanical": 3,
+        "exact": 0,
+        "http200": 3,
+        "outputs": [
+          [
+            {
+              "quote": "申込書はもう提出した",
+              "kind": "action"
+            },
+            {
+              "quote": "面談までに経歴を整理して、話す順序を決めたい",
+              "kind": "wish"
+            }
+          ]
+        ]
+      }
+    }
+  ]
+}

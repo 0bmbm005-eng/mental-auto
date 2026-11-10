@@ -539,6 +539,8 @@ node dist/index.js --mirror-advice
 ```
 提出済み行動の誤分類については、内部抽出指示を最小修正して[対象1入力と関連3入力に絞った比較](docs/daily-extraction-completed-action-results-2026-11-05.md)を行っています。これは現在のCLI助言の変更や、他の混在文の改善確認ではありません。
 
+日別抽出の内部プロンプトには、観察と推測を分け、推測の時点を残す例も追加しています。[固定11入力・66試行の比較](docs/daily-extraction-greenhouse-results-2026-11-09.md)を参照してください。
+
 ## 典型的なエラー
 代表的なエラーの例です。
 
