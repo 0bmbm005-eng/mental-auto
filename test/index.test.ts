@@ -222,7 +222,7 @@ describe("Ollama daily extraction", () => {
     }
   });
 
-  it("adds only the extraction clarifications and greenhouse example to the frozen prompt without model evaluation", async () => {
+  it("adds only the extraction clarifications and greenhouse and workbench examples to the frozen prompt without model evaluation", async () => {
     const frozen = JSON.parse(await readFile(
       new URL("../docs/evidence/daily-extraction-three-examples-2026-11-03/frozen.json", import.meta.url), "utf8",
     ));
@@ -236,10 +236,18 @@ describe("Ollama daily extraction", () => {
         { quote: "正午の点検前に係員が扉を閉めたのかもしれない。", kind: "inference" },
       ],
     };
+    const workbench = {
+      content: "作業台に水滴が残っていて、片付けの直後に私が布で拭いた。",
+      expected: [
+        { quote: "作業台に水滴が残っていて", kind: "observation" },
+        { quote: "片付けの直後に私が布で拭いた。", kind: "action" },
+      ],
+    };
     expect(request.messages[0].content).toBe(frozen.systemPrompt.replace(
       "以下は分類と引用単位の例です。", `${clarification}\n以下は分類と引用単位の例です。`,
     ).replace("4. 引用範囲", `${mixedStatementClarification}\n4. 引用範囲`) +
-      `\n例（観察を根拠にした推測）\n入力：${greenhouse.content}\n出力：${JSON.stringify(greenhouse.expected)}`);
+      `\n例（観察を根拠にした推測）\n入力：${greenhouse.content}\n出力：${JSON.stringify(greenhouse.expected)}` +
+      `\n例（観察と実行済みの行動）\n入力：${workbench.content}\n出力：${JSON.stringify(workbench.expected)}`);
     expect(request.format).toEqual(frozen.schema);
     expect({ stream: request.stream, think: request.think, options: request.options })
       .toEqual(frozen.generationSettings);
@@ -260,6 +268,7 @@ describe("Ollama daily extraction", () => {
         { quote: "窓を開けて、部屋の空気を入れ替えたい。", kind: "wish" },
       ] },
       greenhouse,
+      workbench,
     ];
     for (const example of examples) {
       expect(request.messages[0].content).toContain(`入力：${example.content}\n出力：${JSON.stringify(example.expected)}`);

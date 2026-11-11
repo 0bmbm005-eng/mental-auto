@@ -219,6 +219,8 @@ Ollama応答は `parseAdviceOutput` でJSONの構造と型を確認した後、`
 
 日別抽出の指示末尾に、観察と推測を別々に引用し、推測の時点と文末を残す温室の例を追加しています。[固定11入力での比較](daily-extraction-greenhouse-results-2026-11-09.md)では観察と推測の分離が改善した一方、花壇の推測引用に末尾の句点欠落が残りました。
 
+温室の例の直後には、観察と実行済み行動を分け、行動の時点を残す作業台の例を置いています。[固定3入力の候補評価と固定11入力の回帰確認](daily-extraction-workbench-results-2026-11-11.md)では、候補評価で時間句の保持が改善し、回帰確認では引用と分類が全件一致しました。
+
 `createOllamaDailyExtractionProvider(model, endpoint?, fetchImpl?)` が返す内部関数は `(log, sanitize = false)` を受け取り、検証済みの `AdviceDailyEvidence[]` を返します。送信前に日付を検証して入力のコピーを作り、マスク指定時は `maskSensitiveText` を本文に適用します。このコピーをリクエスト構築と応答の引用照合に共用し、待機中に呼び出し元の入力が変更されても照合元・日付は変わりません。送信前検査にも同じリクエスト構築関数を使用できます。
 
 通信は既存助言生成と共通の `postOllamaChat` を使用します。既定接続先 `http://127.0.0.1:11434/api/chat`、POST・JSON、`temperature: 0`・`think: false`・`stream: false`、接続先とfetchの注入方法は維持します。既存実装には明示的な通信タイムアウトやローカル接続先の強制検証はなく、今回も追加・変更していません。テストの子プロセス用タイムアウトとは別です。

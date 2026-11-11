@@ -1,0 +1,9 @@
+{"id":1,"repeat":1,"separation":true,"temporal":true,"exact":false,"mechanical":true,"actual":[{"quote":"搬入口のランプが消えていた。","kind":"observation"},{"quote":"そのことから、昼休みの直前に私が電源を切ったのかもしれない。","kind":"inference"}]}
+{"id":1,"repeat":2,"separation":true,"temporal":true,"exact":false,"mechanical":true,"actual":[{"quote":"搬入口のランプが消えていた。","kind":"observation"},{"quote":"そのことから、昼休みの直前に私が電源を切ったのかもしれない。","kind":"inference"}]}
+{"id":1,"repeat":3,"separation":true,"temporal":true,"exact":false,"mechanical":true,"actual":[{"quote":"搬入口のランプが消えていた。","kind":"observation"},{"quote":"そのことから、昼休みの直前に私が電源を切ったのかもしれない。","kind":"inference"}]}
+{"id":2,"repeat":1,"separation":true,"temporal":false,"exact":false,"mechanical":true,"actual":[{"quote":"控室の窓が開いていた","kind":"observation"},{"quote":"私が開けたのだろう","kind":"inference"}]}
+{"id":2,"repeat":2,"separation":true,"temporal":false,"exact":false,"mechanical":true,"actual":[{"quote":"控室の窓が開いていた","kind":"observation"},{"quote":"私が開けたのだろう","kind":"inference"}]}
+{"id":2,"repeat":3,"separation":true,"temporal":false,"exact":false,"mechanical":true,"actual":[{"quote":"控室の窓が開いていた","kind":"observation"},{"quote":"私が開けたのだろう","kind":"inference"}]}
+{"id":3,"repeat":1,"separation":true,"temporal":false,"exact":false,"mechanical":true,"actual":[{"quote":"掲示板の時計が止まっていて","kind":"observation"},{"quote":"私が電池を交換した。","kind":"action"}]}
+{"id":3,"repeat":2,"separation":true,"temporal":false,"exact":false,"mechanical":true,"actual":[{"quote":"掲示板の時計が止まっていて","kind":"observation"},{"quote":"私が電池を交換した。","kind":"action"}]}
+{"id":3,"repeat":3,"separation":true,"temporal":false,"exact":false,"mechanical":true,"actual":[{"quote":"掲示板の時計が止まっていて","kind":"observation"},{"quote":"私が電池を交換した。","kind":"action"}]}

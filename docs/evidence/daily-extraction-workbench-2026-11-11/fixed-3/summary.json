@@ -1,0 +1,42 @@
+{
+  "current": {
+    "1": {
+      "separation": 3,
+      "temporal": 3,
+      "exact": 0,
+      "mechanical": 3
+    },
+    "2": {
+      "separation": 3,
+      "temporal": 0,
+      "exact": 0,
+      "mechanical": 3
+    },
+    "3": {
+      "separation": 3,
+      "temporal": 0,
+      "exact": 0,
+      "mechanical": 3
+    }
+  },
+  "candidate": {
+    "1": {
+      "separation": 3,
+      "temporal": 3,
+      "exact": 3,
+      "mechanical": 3
+    },
+    "2": {
+      "separation": 3,
+      "temporal": 3,
+      "exact": 0,
+      "mechanical": 3
+    },
+    "3": {
+      "separation": 3,
+      "temporal": 3,
+      "exact": 3,
+      "mechanical": 3
+    }
+  }
+}

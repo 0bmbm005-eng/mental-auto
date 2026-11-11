@@ -541,6 +541,8 @@ node dist/index.js --mirror-advice
 
 日別抽出の内部プロンプトには、観察と推測を分け、推測の時点を残す例も追加しています。[固定11入力・66試行の比較](docs/daily-extraction-greenhouse-results-2026-11-09.md)を参照してください。
 
+温室の例に続けて、観察と実行済み行動を分け、行動の時点を残す作業台の例も追加しています。[固定3入力の候補評価と固定11入力の回帰確認](docs/daily-extraction-workbench-results-2026-11-11.md)を参照してください。
+
 ## 典型的なエラー
 代表的なエラーの例です。
 

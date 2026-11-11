@@ -1,0 +1,171 @@
+{
+  "total": 66,
+  "summary": [
+    {
+      "id": "recording-kotokara",
+      "current": {
+        "content": 3,
+        "temporal": 3,
+        "exact": 3,
+        "mechanical": 3
+      },
+      "candidate": {
+        "content": 3,
+        "temporal": 3,
+        "exact": 3,
+        "mechanical": 3
+      }
+    },
+    {
+      "id": "recording-node",
+      "current": {
+        "content": 3,
+        "temporal": 3,
+        "exact": 3,
+        "mechanical": 3
+      },
+      "candidate": {
+        "content": 3,
+        "temporal": 3,
+        "exact": 3,
+        "mechanical": 3
+      }
+    },
+    {
+      "id": "garden-kotokara",
+      "current": {
+        "content": 3,
+        "temporal": 3,
+        "exact": 0,
+        "mechanical": 3
+      },
+      "candidate": {
+        "content": 3,
+        "temporal": 3,
+        "exact": 0,
+        "mechanical": 3
+      }
+    },
+    {
+      "id": "glove-node",
+      "current": {
+        "content": 3,
+        "temporal": 3,
+        "exact": 3,
+        "mechanical": 3
+      },
+      "candidate": {
+        "content": 3,
+        "temporal": 3,
+        "exact": 3,
+        "mechanical": 3
+      }
+    },
+    {
+      "id": "mixed-state",
+      "current": {
+        "content": 3,
+        "temporal": null,
+        "exact": 3,
+        "mechanical": 3
+      },
+      "candidate": {
+        "content": 3,
+        "temporal": null,
+        "exact": 3,
+        "mechanical": 3
+      }
+    },
+    {
+      "id": "event-before-action",
+      "current": {
+        "content": 3,
+        "temporal": null,
+        "exact": 0,
+        "mechanical": 3
+      },
+      "candidate": {
+        "content": 3,
+        "temporal": null,
+        "exact": 0,
+        "mechanical": 3
+      }
+    },
+    {
+      "id": "mixed-statements",
+      "current": {
+        "content": 3,
+        "temporal": null,
+        "exact": 3,
+        "mechanical": 3
+      },
+      "candidate": {
+        "content": 3,
+        "temporal": null,
+        "exact": 3,
+        "mechanical": 3
+      }
+    },
+    {
+      "id": "multi-clause-wish",
+      "current": {
+        "content": 3,
+        "temporal": null,
+        "exact": 3,
+        "mechanical": 3
+      },
+      "candidate": {
+        "content": 3,
+        "temporal": null,
+        "exact": 3,
+        "mechanical": 3
+      }
+    },
+    {
+      "id": "nonperformance-and-state",
+      "current": {
+        "content": 3,
+        "temporal": null,
+        "exact": 3,
+        "mechanical": 3
+      },
+      "candidate": {
+        "content": 3,
+        "temporal": null,
+        "exact": 3,
+        "mechanical": 3
+      }
+    },
+    {
+      "id": "inferred-own-action",
+      "current": {
+        "content": 3,
+        "temporal": null,
+        "exact": 3,
+        "mechanical": 3
+      },
+      "candidate": {
+        "content": 3,
+        "temporal": null,
+        "exact": 3,
+        "mechanical": 3
+      }
+    },
+    {
+      "id": "completed-and-wish",
+      "current": {
+        "content": 3,
+        "temporal": null,
+        "exact": 0,
+        "mechanical": 3
+      },
+      "candidate": {
+        "content": 3,
+        "temporal": null,
+        "exact": 0,
+        "mechanical": 3
+      }
+    }
+  ],
+  "regressions": []
+}
