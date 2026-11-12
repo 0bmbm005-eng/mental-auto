@@ -1,0 +1,42 @@
+{
+  "shelf-sonokotokara": {
+    "trials": 3,
+    "separation": 3,
+    "time": 3,
+    "exact": 0,
+    "mechanical": 3,
+    "mixed": 3
+  },
+  "wet-cup": {
+    "trials": 3,
+    "separation": 3,
+    "time": 3,
+    "exact": 0,
+    "mechanical": 3,
+    "mixed": 0
+  },
+  "umbrella-stand": {
+    "trials": 3,
+    "separation": 3,
+    "time": 3,
+    "exact": 3,
+    "mechanical": 3,
+    "mixed": 0
+  },
+  "shelf-sonotame": {
+    "trials": 3,
+    "separation": 3,
+    "time": 3,
+    "exact": 0,
+    "mechanical": 3,
+    "mixed": 3
+  },
+  "shelf-no-connective": {
+    "trials": 3,
+    "separation": 3,
+    "time": 3,
+    "exact": 3,
+    "mechanical": 3,
+    "mixed": 0
+  }
+}

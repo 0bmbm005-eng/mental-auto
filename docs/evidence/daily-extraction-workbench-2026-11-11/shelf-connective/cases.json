@@ -1,0 +1,87 @@
+[
+  {
+    "time": "朝の準備中に",
+    "content": "棚の扉が半開きだった。そのことから、朝の準備中に私が扉を開けたのかもしれない。",
+    "expected": [
+      {
+        "quote": "棚の扉が半開きだった。",
+        "kind": "observation"
+      },
+      {
+        "quote": "朝の準備中に私が扉を開けたのかもしれない。",
+        "kind": "inference"
+      }
+    ],
+    "id": "shelf-sonokotokara",
+    "connector": "そのことから、",
+    "date": "2026-10-02"
+  },
+  {
+    "time": "昼食の片付け中に",
+    "content": "流し台に濡れたコップが置いてあった。そのことから、昼食の片付け中に私がコップを洗ったのかもしれない。",
+    "expected": [
+      {
+        "quote": "流し台に濡れたコップが置いてあった。",
+        "kind": "observation"
+      },
+      {
+        "quote": "昼食の片付け中に私がコップを洗ったのかもしれない。",
+        "kind": "inference"
+      }
+    ],
+    "id": "wet-cup",
+    "connector": "そのことから、",
+    "date": "2026-10-02"
+  },
+  {
+    "time": "夕方の帰宅直後に",
+    "content": "玄関の傘立てに水がたまっていた。そのことから、夕方の帰宅直後に家族が濡れた傘を戻したのだろう。",
+    "expected": [
+      {
+        "quote": "玄関の傘立てに水がたまっていた。",
+        "kind": "observation"
+      },
+      {
+        "quote": "夕方の帰宅直後に家族が濡れた傘を戻したのだろう。",
+        "kind": "inference"
+      }
+    ],
+    "id": "umbrella-stand",
+    "connector": "そのことから、",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "shelf-sonotame",
+    "content": "棚の扉が半開きだった。そのため、朝の準備中に私が扉を開けたのかもしれない。",
+    "expected": [
+      {
+        "quote": "棚の扉が半開きだった。",
+        "kind": "observation"
+      },
+      {
+        "quote": "朝の準備中に私が扉を開けたのかもしれない。",
+        "kind": "inference"
+      }
+    ],
+    "connector": "そのため、",
+    "time": "朝の準備中に",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "shelf-no-connective",
+    "content": "棚の扉が半開きだった。朝の準備中に私が扉を開けたのかもしれない。",
+    "expected": [
+      {
+        "quote": "棚の扉が半開きだった。",
+        "kind": "observation"
+      },
+      {
+        "quote": "朝の準備中に私が扉を開けたのかもしれない。",
+        "kind": "inference"
+      }
+    ],
+    "connector": "",
+    "time": "朝の準備中に",
+    "date": "2026-10-02"
+  }
+]
