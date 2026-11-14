@@ -600,3 +600,21 @@ npm run check:generated
 ```
 
 他のソースを変更した場合は、そのファイルもステージしてください。手動確認の `npm run check:generated` もステージ済み内容を検査します。新規 clone やフックを無効化した環境では自動実行されないため、CI の生成差分検査も継続します。
+
+### repeatedPatterns の試験モード
+
+明示的に有効にする場合は、PATH 上の `python3` と、その Python に
+インストールされた Janome 0.5.0 が必要です。仮想環境を使う例:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install 'Janome==0.5.0'
+npm run build
+node dist/index.js --advice --advice-provider ollama --experimental-repeated-patterns
+```
+
+直近最大3件の日次ログを日ごとにOllamaへ追加送信し、`repeatedPatterns` だけを
+置き換えます。他の項目は通常の助言生成結果を使います。通常モードには
+PythonもJanomeも不要です。`--sanitize-advice` は追加送信にも適用されます。
+`--preview-advice` との併用はできません。

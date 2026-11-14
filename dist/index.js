@@ -3,6 +3,7 @@ import { constants } from "node:fs";
 import { createHash } from "node:crypto";
 import { basename, dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+import { createExperimentalPatterns } from "./experimental-patterns.js";
 import { maskSensitiveText, resolveSafeShareInput, sanitizeForSafeShare } from "./safe-share.js";
 const JST_TIME_ZONE = "Asia/Tokyo";
 const DEFAULT_LOG_DIR = "logs";
@@ -30,6 +31,9 @@ Options:
   --advice            Show the three most recent logs and reflection questions
   --advice-provider ollama
                       Generate AI reflections with local Ollama (requires --advice)
+  --experimental-repeated-patterns
+                      Try quote-based repeatedPatterns with --advice --advice-provider ollama
+                      Requires python3 and Janome 0.5.0; incompatible with --preview-advice
   --sanitize-advice   Mask email, key and path patterns before Ollama submission
                       Requires --advice --advice-provider ollama; allows --output-dir
                       Rejects other modes, memo arguments, --memo and --date
@@ -485,6 +489,7 @@ function parseArgs(args) {
     let adviceProvider = null;
     let sanitizeAdvice = false;
     let previewAdvice = false;
+    let experimentalPatterns = false;
     let sanitizeConflict = null;
     let memoSpecified = false;
     let safeShareInput = null;
@@ -504,6 +509,10 @@ function parseArgs(args) {
         }
         if (arg === "--sanitize-advice") {
             sanitizeAdvice = true;
+            continue;
+        }
+        if (arg === "--experimental-repeated-patterns") {
+            experimentalPatterns = true;
             continue;
         }
         if (arg === "--preview-advice") {
@@ -614,6 +623,15 @@ function parseArgs(args) {
             memoParts.push(arg);
         }
     }
+    if (experimentalPatterns && !help) {
+        const flag = "--experimental-repeated-patterns";
+        if (!advice || adviceProvider !== "ollama") {
+            throw new Error(`${flag} requires --advice --advice-provider ollama`);
+        }
+        const conflict = previewAdvice ? "--preview-advice" : sanitizeConflict;
+        if (conflict !== null)
+            throw new Error(`${flag} cannot be combined with ${conflict}`);
+    }
     if (sanitizeAdvice && !help) {
         if (!advice || adviceProvider !== "ollama") {
             throw new Error("--sanitize-advice requires --advice --advice-provider ollama");
@@ -646,6 +664,7 @@ function parseArgs(args) {
         adviceProvider,
         sanitizeAdvice,
         previewAdvice,
+        experimentalPatterns,
         safeShareInput,
         importMobilePath,
         dryRun,
@@ -1088,12 +1107,17 @@ export function createOllamaDailyExtractionProvider(model, endpoint = "http://12
         return buildAdviceDailyEvidence(prepared, extracted);
     };
 }
-export function createOllamaAdviceProvider(model, endpoint = "http://127.0.0.1:11434/api/chat", fetchImpl = fetch) {
+export function createOllamaAdviceProvider(model, endpoint = "http://127.0.0.1:11434/api/chat", fetchImpl = fetch, experimentalPatterns = false) {
     return async (input) => {
+        const extract = experimentalPatterns
+            ? await createExperimentalPatterns((request) => postOllamaChat(request, endpoint, fetchImpl))
+            : null;
         const content = await postOllamaChat(buildOllamaAdviceRequest(input, model), endpoint, fetchImpl);
         const output = parseAdviceOutput(content);
+        if (extract)
+            output.repeatedPatterns = await extract(input.logs, model);
         validateAdviceEvidenceDates(input, output);
-        return content;
+        return extract ? JSON.stringify(output) : content;
     };
 }
 // Keep transport behavior shared with the existing advice path, including injected fetch.
@@ -1243,7 +1267,9 @@ export async function runCli(args = process.argv.slice(2), dependencies = {}) {
                 advicePreviewContent = JSON.stringify(buildOllamaAdviceRequest(input, OLLAMA_ADVICE_MODEL), null, 2);
             }
             else {
-                adviceContent = await generateAdvice(input, dependencies.adviceProvider ?? createOllamaAdviceProvider(OLLAMA_ADVICE_MODEL));
+                adviceContent = await generateAdvice(input, parsed.experimentalPatterns
+                    ? createOllamaAdviceProvider(OLLAMA_ADVICE_MODEL, undefined, fetch, true)
+                    : dependencies.adviceProvider ?? createOllamaAdviceProvider(OLLAMA_ADVICE_MODEL));
             }
         }
         else {
