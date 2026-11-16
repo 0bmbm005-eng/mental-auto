@@ -12,4 +12,48 @@ Macの検証用worktreeでコミット `6d19c7f` とローカルOllamaの `qwen3
 
 「両日」は `evidenceDates` が `["2026-11-12","2026-11-13"]` だったことを示す。比較方式は5/5合格。Dが改善し、A・B・C・Eは現行方式と同じ結果だった。B・C・Eは両日とも対象と動作が抽出されていた。
 
-追加照合は計3回。前回のD・Eの比較で用いた場所と物を分けるプロンプトとJSONスキーマを、Macの実行記録からそのまま復元した。生成設定は `temperature: 0`、`think: false`、`stream: false`。実行は一時スクリプトで行った。プロンプト全文とスキーマの記録はMacからの取得待ち。次は実際に送った設定を保存してから、初見の匿名入力で比較する。
+追加照合は計3回。前回のD・Eの比較で用いた場所と物を分けるプロンプトとJSONスキーマを、Macの実行記録からそのまま復元した。生成設定は `temperature: 0`、`think: false`、`stream: false`。実行は一時スクリプトで行った。次は以下の設定を固定し、初見の匿名入力で比較する。
+
+## 追加照合のリクエスト
+
+Macの一時スクリプト `verify.sh` の53行目から取得した `POST /api/chat` の組み立て。
+
+```js
+{
+  model: "qwen3.5:9b",
+  think: false,
+  stream: false,
+  options: {
+    temperature: 0
+  },
+  format: {
+    "type": "object",
+    "properties": {
+      "decision": {
+        "type": "string",
+        "enum": ["同じ対象", "別の対象", "判定保留"]
+      }
+    },
+    "required": ["decision"],
+    "additionalProperties": false
+  },
+  messages: [
+    {
+      role: "system",
+      content: "二つの対象引用が同じ対象を指すか判定してください。それぞれの引用を、場所を表す語と物を表す語に分け、場所同士と物同士を個別に意味で比較してください。場所も物も同じ意味なら「同じ対象」、場所か物のどちらかが異なる意味なら「別の対象」、判断材料が足りなければ「判定保留」としてください。指定されたJSON形式だけで返してください。"
+    },
+    {
+      role: "user",
+      content: JSON.stringify([left.targetQuote, right.targetQuote])
+    }
+  ]
+}
+```
+
+実行記録の抽出結果から復元した `user.content`。
+
+```text
+C: ["台所の流し","浴室の鏡"]
+D: ["居間の机","リビングの机"]
+E: ["居間の机","寝室の机"]
+```
