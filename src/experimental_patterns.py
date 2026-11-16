@@ -5,6 +5,10 @@ import sys
 from importlib.metadata import version
 
 
+# Match only explicit equivalents of the full target, including its location.
+TARGET_EQUIVALENTS = {"キッチンのシンク": "台所の流し"}
+
+
 def correct_tail(target, action, tokenizer):
     tokens = list(tokenizer.tokenize(target))
     candidates = []
@@ -43,6 +47,7 @@ def repeated_patterns(days, tokenizer):
             if not target.strip() or target == action:
                 continue
             target = expand_left(target, content).strip()
+            target = TARGET_EQUIVALENTS.get(target, target)
             action = action.strip()
             groups.setdefault((target, action), set()).add(day["date"])
 
