@@ -48,7 +48,7 @@ mental-auto は、日々の短いメモを JST（日本標準時）基準の日�
 
 前提:
 
-- Node.js 20 以上を推奨
+- Node.js 22.12.0 以上（Vitest 5の実行要件）
 - npm
 
 ```bash
