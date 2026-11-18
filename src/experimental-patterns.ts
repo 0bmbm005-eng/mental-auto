@@ -22,10 +22,19 @@ const format = {
 
 const prompt = "引用に明記された実施済み行動を抽出してください。targetQuote には行動の対象を表す、原文と完全一致する連続した引用を入れてください。対象を特定する修飾語も引用に含め、動詞や行動の程度・方法・道具は含めないでください。action は動詞の辞書形で返してください。対象や行動が不明なら推測せず、その組は返さないでください。指定のJSON形式だけで返してください。";
 
+const decisions = ["同じ対象", "別の対象", "判定保留"] as const;
+const matchingFormat = {
+  type: "object",
+  properties: { decision: { type: "string", enum: decisions } },
+  required: ["decision"],
+  additionalProperties: false,
+} as const;
+const matchingPrompt = "二つの対象引用が同じ対象を指すか判定してください。それぞれの引用を、場所を表す語と物を表す語に分け、場所同士と物同士を個別に意味で比較してください。場所も物も同じ意味なら「同じ対象」、場所か物のどちらかが異なる意味なら「別の対象」、判断材料が足りなければ「判定保留」としてください。指定されたJSON形式だけで返してください。";
+
 export type PatternExtractionRequest = {
   model: string;
   messages: { role: "system" | "user"; content: string }[];
-  format: typeof format;
+  format: typeof format | typeof matchingFormat;
   think: false;
   stream: false;
   options: { temperature: 0 };
@@ -33,6 +42,7 @@ export type PatternExtractionRequest = {
 
 type Action = { targetQuote: string; action: string };
 type Pattern = { summary: string; evidenceDates: string[] };
+type Candidate = Pattern & { targets: [string, string] };
 
 function parseActions(content: string): Action[] {
   const value: unknown = JSON.parse(content);
@@ -71,6 +81,27 @@ export async function createExperimentalPatterns(
       });
       days.push({ date, content, actions: parseActions(response) });
     }
-    return JSON.parse(await runHelper([], JSON.stringify(days))) as Pattern[];
+    const { patterns, candidates } = JSON.parse(
+      await runHelper(["--semantic-candidates"], JSON.stringify(days)),
+    ) as { patterns: Pattern[]; candidates: Candidate[] };
+    for (const { targets, ...pattern } of candidates) {
+      try {
+        const content = await post({
+          model, think: false, stream: false, options: { temperature: 0 }, format: matchingFormat,
+          messages: [
+            { role: "system", content: matchingPrompt },
+            { role: "user", content: JSON.stringify(targets) },
+          ],
+        });
+        const result: unknown = JSON.parse(content);
+        if (typeof result === "object" && result !== null && Object.keys(result).length === 1 &&
+            "decision" in result && result.decision === "同じ対象") {
+          patterns.push(pattern);
+        }
+      } catch {
+        // Preserve deterministic results if the optional match cannot be evaluated.
+      }
+    }
+    return patterns;
   };
 }
