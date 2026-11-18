@@ -10,6 +10,22 @@ from importlib.metadata import version
 TARGET_EQUIVALENTS = {"キッチンのシンク": "台所の流し"}
 
 
+def normalize_action(action, tokenizer):
+    action = action.strip()
+    tokens = list(tokenizer.tokenize(action))
+    verbs = [i for i, token in enumerate(tokens) if token.part_of_speech.startswith("動詞,")]
+    if len(verbs) != 1 or "".join(token.surface for token in tokens) != action:
+        return action
+    index = verbs[0]
+    prefix, verb, suffix = tokens[:index], tokens[index], tokens[index + 1:]
+    if not all(token.part_of_speech.startswith("名詞,サ変接続,") for token in prefix):
+        return action
+    if not all(token.part_of_speech.startswith("助動詞,") and token.base_form == "た"
+               for token in suffix):
+        return action
+    return "".join(token.surface for token in prefix) + verb.base_form
+
+
 def correct_tail(target, action, tokenizer):
     tokens = list(tokenizer.tokenize(target))
     candidates = []
@@ -45,6 +61,7 @@ def repeated_patterns(days, tokenizer, include_candidates=False):
             target, action = pair["targetQuote"], pair["action"]
             if not target.strip() or not action.strip() or target == action or target not in content:
                 continue
+            action = normalize_action(action, tokenizer)
             target = correct_tail(target, action, tokenizer)
             if not target.strip() or target == action:
                 continue

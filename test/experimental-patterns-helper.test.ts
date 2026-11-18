@@ -61,3 +61,26 @@ print(json.dumps(module.repeated_patterns(days, Tokenizer(), True)))
       evidenceDates: ["2026-11-13", "2026-11-14"] },
   ]);
 });
+
+it("normalizes past verbs while preserving negation and compound expressions", () => {
+  const result = execFileSync("python3", ["-B", "-c", `
+import importlib.util, json
+from types import SimpleNamespace
+spec = importlib.util.spec_from_file_location("patterns", "src/experimental_patterns.py")
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+def token(surface, pos, base):
+    return SimpleNamespace(surface=surface, part_of_speech=pos, base_form=base)
+class Tokenizer:
+    def tokenize(self, value):
+        return {
+            "拭いた": [token("拭い", "動詞,自立", "拭く"), token("た", "助動詞,", "た")],
+            "拭く": [token("拭く", "動詞,自立", "拭く")],
+            "拭かない": [token("拭か", "動詞,自立", "拭く"), token("ない", "助動詞,", "ない")],
+            "掃除した": [token("掃除", "名詞,サ変接続,", "掃除"), token("し", "動詞,自立", "する"), token("た", "助動詞,", "た")],
+        }.get(value, [])
+print(json.dumps([module.normalize_action(value, Tokenizer())
+                  for value in ["拭いた", "拭く", "拭かない", "掃除した", "拭いていた"]]))
+`], { encoding: "utf8" });
+  expect(JSON.parse(result)).toEqual(["拭く", "拭く", "拭かない", "掃除する", "拭いていた"]);
+});
