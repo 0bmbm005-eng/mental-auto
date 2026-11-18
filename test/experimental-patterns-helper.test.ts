@@ -28,3 +28,35 @@ print(json.dumps(module.repeated_patterns(days, Tokenizer(), True)))
     }],
   });
 });
+
+it("keeps exact three-day evidence and creates only cross-day candidates", () => {
+  const result = execFileSync("python3", ["-B", "-c", `
+import importlib.util, json
+spec = importlib.util.spec_from_file_location("patterns", "src/experimental_patterns.py")
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+class Tokenizer:
+    def tokenize(self, value):
+        return []
+targets = [["窓", "居間の机"], ["窓", "リビングの机"], ["窓", "寝室の机"]]
+days = [
+    {"date": f"2026-11-{12+i}", "content": "。".join(t + "を拭いた" for t in day),
+     "actions": [{"targetQuote": t, "action": "拭く"} for t in day]}
+    for i, day in enumerate(targets)
+]
+print(json.dumps(module.repeated_patterns(days, Tokenizer(), True)))
+`], { encoding: "utf8" });
+  const output = JSON.parse(result);
+  expect(output.patterns).toEqual([{
+    summary: "窓を拭く",
+    evidenceDates: ["2026-11-12", "2026-11-13", "2026-11-14"],
+  }]);
+  expect(output.candidates).toEqual([
+    { targets: ["居間の机", "リビングの机"], summary: "居間の机を拭く",
+      evidenceDates: ["2026-11-12", "2026-11-13"] },
+    { targets: ["居間の机", "寝室の机"], summary: "居間の机を拭く",
+      evidenceDates: ["2026-11-12", "2026-11-14"] },
+    { targets: ["リビングの机", "寝室の机"], summary: "リビングの机を拭く",
+      evidenceDates: ["2026-11-13", "2026-11-14"] },
+  ]);
+});
