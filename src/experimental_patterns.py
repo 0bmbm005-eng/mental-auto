@@ -2,7 +2,28 @@
 import json
 import re
 import sys
+from itertools import combinations
 from importlib.metadata import version
+
+
+# Match only explicit equivalents of the full target, including its location.
+TARGET_EQUIVALENTS = {"キッチンのシンク": "台所の流し"}
+
+
+def normalize_action(action, tokenizer):
+    action = action.strip()
+    tokens = list(tokenizer.tokenize(action))
+    verbs = [i for i, token in enumerate(tokens) if token.part_of_speech.startswith("動詞,")]
+    if len(verbs) != 1 or "".join(token.surface for token in tokens) != action:
+        return action
+    index = verbs[0]
+    prefix, verb, suffix = tokens[:index], tokens[index], tokens[index + 1:]
+    if not all(token.part_of_speech.startswith("名詞,サ変接続,") for token in prefix):
+        return action
+    if not all(token.part_of_speech.startswith("助動詞,") and token.base_form == "た"
+               for token in suffix):
+        return action
+    return "".join(token.surface for token in prefix) + verb.base_form
 
 
 def correct_tail(target, action, tokenizer):
@@ -31,30 +52,55 @@ def expand_left(target, content):
     return target
 
 
-def repeated_patterns(days, tokenizer):
+def repeated_patterns(days, tokenizer, include_candidates=False):
     groups = {}
+    quotes = {}
     for day in days:
         content = day["content"]
         for pair in day["actions"]:
             target, action = pair["targetQuote"], pair["action"]
             if not target.strip() or not action.strip() or target == action or target not in content:
                 continue
+            action = normalize_action(action, tokenizer)
             target = correct_tail(target, action, tokenizer)
             if not target.strip() or target == action:
                 continue
             target = expand_left(target, content).strip()
-            action = action.strip()
-            groups.setdefault((target, action), set()).add(day["date"])
+            key = (TARGET_EQUIVALENTS.get(target, target), action.strip())
+            groups.setdefault(key, set()).add(day["date"])
+            quotes.setdefault(key, target)
 
     retained = {key: set(dates) for key, dates in groups.items() if len(dates) >= 2}
     for (target, action), dates in groups.items():
         other = groups.get((target + "の上", action), set())
         if any(left != right for left in dates for right in other):
             retained.setdefault((target, action), set()).update(dates | other)
-    return [
+    patterns = [
         {"summary": target + "を" + action, "evidenceDates": sorted(dates)}
         for (target, action), dates in sorted(retained.items())
     ]
+
+    if not include_candidates:
+        return patterns
+
+    candidates = []
+    for left, right in combinations(groups, 2):
+        _, action = left
+        _, right_action = right
+        if action != right_action:
+            continue
+        if left[0] + "の上" == right[0] or right[0] + "の上" == left[0]:
+            continue
+        dates = groups[left] | groups[right]
+        if len(dates) < 2:
+            continue
+        candidates.append({
+            "targets": [quotes[left], quotes[right]],
+            "summary": left[0] + "を" + action,
+            "otherSummary": right[0] + "を" + action,
+            "evidenceDates": sorted(dates),
+        })
+    return {"patterns": patterns, "candidates": candidates}
 
 
 def main():
@@ -65,7 +111,10 @@ def main():
     except ImportError:
         sys.exit("Experimental repeatedPatterns requires Janome 0.5.0 for python3 (python3 -m pip install Janome==0.5.0)")
     if sys.argv[1:] != ["--check"]:
-        print(json.dumps(repeated_patterns(json.load(sys.stdin), Tokenizer()), ensure_ascii=False))
+        result = repeated_patterns(
+            json.load(sys.stdin), Tokenizer(), sys.argv[1:] == ["--semantic-candidates"]
+        )
+        print(json.dumps(result, ensure_ascii=False))
 
 
 if __name__ == "__main__":
