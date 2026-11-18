@@ -23,7 +23,7 @@ print(json.dumps(module.repeated_patterns(days, Tokenizer(), True)))
     patterns: [],
     candidates: [{
       targets: ["玄関の靴箱", "勝手口の下駄箱"],
-      summary: "玄関の靴箱を拭く",
+      summary: "玄関の靴箱を拭く", otherSummary: "勝手口の下駄箱を拭く",
       evidenceDates: ["2026-11-12", "2026-11-13"],
     }],
   });
@@ -51,12 +51,13 @@ print(json.dumps(module.repeated_patterns(days, Tokenizer(), True)))
     summary: "窓を拭く",
     evidenceDates: ["2026-11-12", "2026-11-13", "2026-11-14"],
   }]);
-  expect(output.candidates).toEqual([
-    { targets: ["居間の机", "リビングの机"], summary: "居間の机を拭く",
+  expect(output.candidates).toHaveLength(6);
+  expect(output.candidates.filter((pair: { summary: string }) => pair.summary !== "窓を拭く")).toEqual([
+    { targets: ["居間の机", "リビングの机"], summary: "居間の机を拭く", otherSummary: "リビングの机を拭く",
       evidenceDates: ["2026-11-12", "2026-11-13"] },
-    { targets: ["居間の机", "寝室の机"], summary: "居間の机を拭く",
+    { targets: ["居間の机", "寝室の机"], summary: "居間の机を拭く", otherSummary: "寝室の机を拭く",
       evidenceDates: ["2026-11-12", "2026-11-14"] },
-    { targets: ["リビングの机", "寝室の机"], summary: "リビングの机を拭く",
+    { targets: ["リビングの机", "寝室の机"], summary: "リビングの机を拭く", otherSummary: "寝室の机を拭く",
       evidenceDates: ["2026-11-13", "2026-11-14"] },
   ]);
 });

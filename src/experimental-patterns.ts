@@ -42,7 +42,7 @@ export type PatternExtractionRequest = {
 
 type Action = { targetQuote: string; action: string };
 type Pattern = { summary: string; evidenceDates: string[] };
-type Candidate = Pattern & { targets: [string, string] };
+type Candidate = Pattern & { targets: [string, string]; otherSummary: string };
 
 function parseActions(content: string): Action[] {
   const value: unknown = JSON.parse(content);
@@ -84,7 +84,9 @@ export async function createExperimentalPatterns(
     const { patterns, candidates } = JSON.parse(
       await runHelper(["--semantic-candidates"], JSON.stringify(days)),
     ) as { patterns: Pattern[]; candidates: Candidate[] };
-    for (const { targets, ...pattern } of candidates) {
+    const accepted: Candidate[] = [];
+    for (const candidate of candidates) {
+      const { targets } = candidate;
       try {
         const content = await post({
           model, think: false, stream: false, options: { temperature: 0 }, format: matchingFormat,
@@ -96,12 +98,42 @@ export async function createExperimentalPatterns(
         const result: unknown = JSON.parse(content);
         if (typeof result === "object" && result !== null && Object.keys(result).length === 1 &&
             "decision" in result && result.decision === "同じ対象") {
-          patterns.push(pattern);
+          accepted.push(candidate);
         }
       } catch {
         // Preserve deterministic results if the optional match cannot be evaluated.
       }
     }
-    return patterns;
+    const groups = patterns.map(pattern => ({
+      members: new Set([pattern.summary]),
+      dates: new Set(pattern.evidenceDates),
+    }));
+    const matches = new Set(accepted.map(pair =>
+      JSON.stringify([pair.summary, pair.otherSummary].sort())));
+    for (const pair of accepted) {
+      let left = groups.find(group => group.members.has(pair.summary));
+      let right = groups.find(group => group.members.has(pair.otherSummary));
+      if (!left) {
+        left = { members: new Set([pair.summary]), dates: new Set<string>() };
+        groups.push(left);
+      }
+      if (!right) {
+        right = { members: new Set([pair.otherSummary]), dates: new Set<string>() };
+        groups.push(right);
+      }
+      const compatible = [...left.members].every(a => [...right.members].every(b =>
+        a === b || matches.has(JSON.stringify([a, b].sort()))));
+      if (!compatible) continue;
+      if (left !== right) {
+        for (const member of right.members) left.members.add(member);
+        for (const date of right.dates) left.dates.add(date);
+        groups.splice(groups.indexOf(right), 1);
+      }
+      for (const date of pair.evidenceDates) left.dates.add(date);
+    }
+    return groups.filter(group => group.dates.size >= 2).map(group => ({
+      summary: [...group.members][0],
+      evidenceDates: [...group.dates].sort(),
+    }));
   };
 }

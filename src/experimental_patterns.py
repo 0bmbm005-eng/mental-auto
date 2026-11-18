@@ -70,14 +70,17 @@ def repeated_patterns(days, tokenizer, include_candidates=False):
     for left, right in combinations(groups, 2):
         _, action = left
         _, right_action = right
-        if action != right_action or left in retained or right in retained:
+        if action != right_action:
+            continue
+        if left[0] + "の上" == right[0] or right[0] + "の上" == left[0]:
             continue
         dates = groups[left] | groups[right]
         if len(dates) < 2:
             continue
         candidates.append({
             "targets": [quotes[left], quotes[right]],
-            "summary": quotes[left] + "を" + action,
+            "summary": left[0] + "を" + action,
+            "otherSummary": right[0] + "を" + action,
             "evidenceDates": sorted(dates),
         })
     return {"patterns": patterns, "candidates": candidates}

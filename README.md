@@ -619,7 +619,7 @@ node dist/index.js --advice --advice-provider ollama --experimental-repeated-pat
 PythonもJanomeも不要です。`--sanitize-advice` は追加送信にも適用されます。
 `--preview-advice` との併用はできません。
 
-試験モードでは、同じ動作で既存照合が成立しなかった対象の組を、Ollamaへ追加送信します。
+試験モードでは、同じ動作で別日に現れた異なる対象の組を、Ollamaへ追加送信します。
 送信前に原文から対象の修飾語を補正し、「同じ対象」と判定された組を追加します。
 対象の組ごとにリクエストが増えるため、所要時間も増えます。
 追加照合の通信失敗・不正応答・判定保留の場合はその組を追加せず、他の結果を返します。
