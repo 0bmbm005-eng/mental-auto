@@ -1,4 +1,5 @@
 import { beforeEach, expect, it, vi } from "vitest";
+import { createOllamaAdviceProvider } from "../src/index.js";
 import { createExperimentalPatterns } from "../src/experimental-patterns.js";
 
 const helper = vi.hoisted(() => ({ output: "" }));
@@ -92,4 +93,37 @@ it.each([true, false])("merges aliases only with all pair matches confirmed (%s)
   expect(output).toEqual([{
     summary: names[0], evidenceDates: allMatch ? dates : dates.slice(0, 2),
   }]);
+});
+
+// This checks request wiring only; mocked responses do not establish generation quality.
+it("sends the negation instruction at the end of each daily extraction system prompt", async () => {
+  helper.output = JSON.stringify({ patterns: [], candidates: [] });
+  const logs = [
+    { date: dates[0], content: "階段の手すりを拭いた。" },
+    { date: dates[1], content: "階段の手すりは拭かなかった。" },
+    { date: dates[2], content: "階段の手すりは拭かなかった。洗面所の鏡を拭いた。" },
+  ];
+  const advice = {
+    schemaVersion: 1, recordedStatements: [], selfEvaluations: [], repeatedPatterns: [],
+    ruminationNotice: "", nextAction: "確認する。",
+  };
+  const fetchImpl = vi.fn<typeof fetch>().mockImplementation(async (_url, init) => {
+    const request = JSON.parse(String(init?.body));
+    const content = JSON.stringify("actions" in request.format.properties ? { actions: [] } : advice);
+    return new Response(JSON.stringify({ message: { content } }));
+  });
+  await createOllamaAdviceProvider("model", undefined, fetchImpl, true)({
+    schemaVersion: 1, sanitized: false, logs, logCount: logs.length, questions: [],
+  });
+  expect(fetchImpl).toHaveBeenCalledTimes(4);
+  const requests = fetchImpl.mock.calls.slice(1).map(([, init]) => JSON.parse(String(init?.body)));
+  expect(requests.map(request => request.messages[1])).toEqual(
+    logs.map(log => ({ role: "user", content: log.content })),
+  );
+  for (const request of requests) {
+    expect(request.messages[0].role).toBe("system");
+    expect(request.messages[0].content.endsWith(
+      "否定・未実施として記述された行動は抽出せず、実行済み行動だけをactionsに返してください。",
+    )).toBe(true);
+  }
 });
