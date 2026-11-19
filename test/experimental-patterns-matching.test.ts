@@ -1,9 +1,11 @@
+import { execFileSync } from "node:child_process";
 import { beforeEach, expect, it, vi } from "vitest";
 import { createOllamaAdviceProvider } from "../src/index.js";
 import { createExperimentalPatterns } from "../src/experimental-patterns.js";
 
 const helper = vi.hoisted(() => ({ output: "" }));
-vi.mock("node:child_process", () => ({
+vi.mock("node:child_process", async importOriginal => ({
+  ...await importOriginal<typeof import("node:child_process")>(),
   execFile: (_command: string, args: string[], _options: unknown,
     callback: (error: null, stdout: string, stderr: string) => void) => {
     queueMicrotask(() => callback(null, args.includes("--check") ? "" : helper.output, ""));
@@ -126,4 +128,64 @@ it("sends the negation instruction at the end of each daily extraction system pr
       "否定・未実施として記述された行動は抽出せず、実行済み行動だけをactionsに返してください。",
     )).toBe(true);
   }
+});
+
+// Use the real candidate builder with a minimal tokenizer; transport stays mocked.
+function candidatesFor(days: { date: string; content: string; actions: { targetQuote: string; action: string }[] }[]) {
+  return execFileSync("python3", ["-B", "-c", `
+import importlib.util, json, sys
+spec = importlib.util.spec_from_file_location("patterns", "src/experimental_patterns.py")
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+class Tokenizer:
+    def tokenize(self, value):
+        return []
+print(json.dumps(module.repeated_patterns(json.load(sys.stdin), Tokenizer(), True)))
+`], { input: JSON.stringify(days), encoding: "utf8" });
+}
+
+function day(index: number, target: string, content = target) {
+  return { date: dates[index], content, actions: [{ targetQuote: target, action: "拭く" }] };
+}
+
+it.each([false, true])("defers incomplete targets without calling Ollama matching (reverse=%s)", async reverse => {
+  const targets = ["物置の収納ケース", "ケース"];
+  if (reverse) targets.reverse();
+  helper.output = candidatesFor(targets.map((target, index) => day(index, target)));
+  expect(JSON.parse(helper.output)).toEqual({ patterns: [], candidates: [] });
+  const post = vi.fn(async () => '{"decision":"同じ対象"}');
+  const extract = await createExperimentalPatterns(post);
+  await expect(extract([], "model")).resolves.toEqual([]);
+  expect(post).not.toHaveBeenCalled();
+});
+
+it.each([
+  ["restored place", "物置のケース", "ケース", "物置のケースを拭いた。", "物置のケースを拭く"],
+  ["exact", "物置の収納ケース", "物置の収納ケース", "物置の収納ケース", "物置の収納ケースを拭く"],
+  ["registered equivalent", "台所の流し", "キッチンのシンク", "キッチンのシンク", "台所の流しを拭く"],
+  ["top surface", "棚", "棚の上", "棚の上", "棚を拭く"],
+])("preserves deterministic matching before deferral: %s", async (_label, left, right, content, summary) => {
+  helper.output = candidatesFor([day(0, left), day(1, right, content)]);
+  expect(JSON.parse(helper.output).candidates).toEqual([]);
+  const post = vi.fn(async () => '{"decision":"同じ対象"}');
+  const extract = await createExperimentalPatterns(post);
+  await expect(extract([], "model")).resolves.toEqual([{ summary, evidenceDates: dates.slice(0, 2) }]);
+  expect(post).not.toHaveBeenCalled();
+});
+
+it("does not merge across a deferred pair through another accepted target", async () => {
+  // A/C is deferred; A/B and B/C are accepted by the mock model.
+  helper.output = candidatesFor([
+    day(0, "物置の収納ケース"), day(1, "容器"), day(2, "ケース"),
+  ]);
+  const candidates = JSON.parse(helper.output).candidates;
+  expect(candidates.map((pair: { targets: string[] }) => pair.targets)).toEqual([
+    ["物置の収納ケース", "容器"], ["容器", "ケース"],
+  ]);
+  const post = vi.fn(async () => '{"decision":"同じ対象"}');
+  const extract = await createExperimentalPatterns(post);
+  await expect(extract([], "model")).resolves.toEqual([{
+    summary: "物置の収納ケースを拭く", evidenceDates: dates.slice(0, 2),
+  }]);
+  expect(post).toHaveBeenCalledTimes(2);
 });

@@ -84,3 +84,20 @@ print(json.dumps([module.normalize_action(value, Tokenizer())
 `], { encoding: "utf8" });
   expect(JSON.parse(result)).toEqual(["拭く", "拭く", "拭かない", "掃除する", "拭いていた"]);
 });
+
+it("classifies the eight fixed suffix pairs without making semantic decisions", () => {
+  const result = execFileSync("python3", ["-B", "-c", `
+import importlib.util, json
+spec = importlib.util.spec_from_file_location("patterns", "src/experimental_patterns.py")
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+pairs = [
+    ["物置の収納ケース", "ケース"], ["ケース", "物置の収納ケース"],
+    ["収納ケース", "ケース"], ["物置の収納ケース", "物置の収納ケース"],
+    ["居間の机", "リビングの机"], ["玄関の靴箱", "勝手口の下駄箱"],
+    ["棚", "棚の上"], ["玄関のごみ箱", "ごみ箱"],
+]
+print(json.dumps([module.lacks_target_information(*pair) for pair in pairs]))
+`], { encoding: "utf8" });
+  expect(JSON.parse(result)).toEqual([true, true, true, false, false, false, false, true]);
+});

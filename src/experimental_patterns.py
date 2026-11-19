@@ -52,6 +52,12 @@ def expand_left(target, content):
     return target
 
 
+def lacks_target_information(left, right):
+    """Defer strict suffix pairs after existing deterministic matching."""
+    short, long = sorted((left, right), key=len)
+    return bool(short) and len(short) < len(long) and long.endswith(short)
+
+
 def repeated_patterns(days, tokenizer, include_candidates=False):
     groups = {}
     quotes = {}
@@ -93,6 +99,10 @@ def repeated_patterns(days, tokenizer, include_candidates=False):
             continue
         dates = groups[left] | groups[right]
         if len(dates) < 2:
+            continue
+        # Exact targets and registered equivalents already share a group; the
+        # existing "の上" match above also takes precedence over this guard.
+        if lacks_target_information(quotes[left], quotes[right]):
             continue
         candidates.append({
             "targets": [quotes[left], quotes[right]],
